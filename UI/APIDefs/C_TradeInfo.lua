@@ -41,3 +41,15 @@ APIDefs["C_TradeInfo.SetTradeMoney"] = {
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
+
+APIDefs["C_TradeInfo.ShouldShowTradeOfferWarning"] = {
+    key = "C_TradeInfo.ShouldShowTradeOfferWarning",
+    name = "ShouldShowTradeOfferWarning",
+    category = "general",
+    subcategory = "c_tradeinfo",
+    func = _G["C_TradeInfo"] and _G["C_TradeInfo"]["ShouldShowTradeOfferWarning"],
+    funcPath = "C_TradeInfo.ShouldShowTradeOfferWarning",
+    params = {  },
+    returns = { { name = "shouldShow", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}

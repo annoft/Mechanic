@@ -25,9 +25,8 @@ APIDefs["C_LossOfControl.GetActiveLossOfControlDataByUnit"] = {
     funcPath = "C_LossOfControl.GetActiveLossOfControlDataByUnit",
     params = { { name = "unitToken", type = "UnitToken", default = "player" }, { name = "index", type = "luaIndex", default = nil } },
     returns = { { name = "event", type = "LossOfControlData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenLossOfControlInfoRestricted",
 }
 
 APIDefs["C_LossOfControl.GetActiveLossOfControlDataCount"] = {
@@ -51,6 +50,20 @@ APIDefs["C_LossOfControl.GetActiveLossOfControlDataCountByUnit"] = {
     funcPath = "C_LossOfControl.GetActiveLossOfControlDataCountByUnit",
     params = { { name = "unitToken", type = "UnitToken", default = "player" } },
     returns = { { name = "count", type = "number", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_LossOfControl.GetActiveLossOfControlDuration"] = {
+    key = "C_LossOfControl.GetActiveLossOfControlDuration",
+    name = "GetActiveLossOfControlDuration",
+    category = "combat_midnight",
+    subcategory = "c_lossofcontrol",
+    func = _G["C_LossOfControl"] and _G["C_LossOfControl"]["GetActiveLossOfControlDuration"],
+    funcPath = "C_LossOfControl.GetActiveLossOfControlDuration",
+    params = { { name = "unitToken", type = "UnitToken", default = "player" }, { name = "index", type = "luaIndex", default = nil } },
+    returns = { { name = "duration", type = "LuaDurationObject", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",

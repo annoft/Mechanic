@@ -2,6 +2,48 @@
 local _, ns = ...
 local APIDefs = ns.APIDefinitions
 
+APIDefs["C_CombatAudioAlert.AddToKnownTargetingList"] = {
+    key = "C_CombatAudioAlert.AddToKnownTargetingList",
+    name = "AddToKnownTargetingList",
+    category = "combat_midnight",
+    subcategory = "c_combataudioalert",
+    func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["AddToKnownTargetingList"],
+    funcPath = "C_CombatAudioAlert.AddToKnownTargetingList",
+    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    returns = { { name = "added", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_CombatAudioAlert.GetCategoryVoice"] = {
+    key = "C_CombatAudioAlert.GetCategoryVoice",
+    name = "GetCategoryVoice",
+    category = "combat_midnight",
+    subcategory = "c_combataudioalert",
+    func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["GetCategoryVoice"],
+    funcPath = "C_CombatAudioAlert.GetCategoryVoice",
+    params = { { name = "category", type = "CombatAudioAlertCategory", default = nil } },
+    returns = { { name = "voice", type = "number", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_CombatAudioAlert.GetCategoryVolume"] = {
+    key = "C_CombatAudioAlert.GetCategoryVolume",
+    name = "GetCategoryVolume",
+    category = "combat_midnight",
+    subcategory = "c_combataudioalert",
+    func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["GetCategoryVolume"],
+    funcPath = "C_CombatAudioAlert.GetCategoryVolume",
+    params = { { name = "category", type = "CombatAudioAlertCategory", default = nil } },
+    returns = { { name = "volume", type = "number", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_CombatAudioAlert.GetFormatSetting"] = {
     key = "C_CombatAudioAlert.GetFormatSetting",
     name = "GetFormatSetting",
@@ -11,20 +53,6 @@ APIDefs["C_CombatAudioAlert.GetFormatSetting"] = {
     funcPath = "C_CombatAudioAlert.GetFormatSetting",
     params = { { name = "unit", type = "CombatAudioAlertUnit", default = nil }, { name = "alertType", type = "CombatAudioAlertType", default = nil } },
     returns = { { name = "formatVal", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
-}
-
-APIDefs["C_CombatAudioAlert.GetResourceSettingForCurrentSpec"] = {
-    key = "C_CombatAudioAlert.GetResourceSettingForCurrentSpec",
-    name = "GetResourceSettingForCurrentSpec",
-    category = "combat_midnight",
-    subcategory = "c_combataudioalert",
-    func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["GetResourceSettingForCurrentSpec"],
-    funcPath = "C_CombatAudioAlert.GetResourceSettingForCurrentSpec",
-    params = { { name = "setting", type = "CombatAudioAlertResourceSetting", default = nil } },
-    returns = { { name = "value", type = "number", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -42,16 +70,18 @@ APIDefs["C_CombatAudioAlert.GetSpeakerSpeed"] = {
     midnightImpact = "NORMAL",
 }
 
-APIDefs["C_CombatAudioAlert.GetSpeakerVolume"] = {
-    key = "C_CombatAudioAlert.GetSpeakerVolume",
-    name = "GetSpeakerVolume",
-    category = "general",
+APIDefs["C_CombatAudioAlert.GetSpecSetting"] = {
+    key = "C_CombatAudioAlert.GetSpecSetting",
+    name = "GetSpecSetting",
+    category = "combat_midnight",
     subcategory = "c_combataudioalert",
-    func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["GetSpeakerVolume"],
-    funcPath = "C_CombatAudioAlert.GetSpeakerVolume",
-    params = {  },
-    returns = { { name = "volume", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["GetSpecSetting"],
+    funcPath = "C_CombatAudioAlert.GetSpecSetting",
+    params = { { name = "setting", type = "CombatAudioAlertSpecSetting", default = nil } },
+    returns = { { name = "value", type = "number", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["C_CombatAudioAlert.GetThrottle"] = {
@@ -80,6 +110,48 @@ APIDefs["C_CombatAudioAlert.IsEnabled"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["C_CombatAudioAlert.RemoveFromKnownTargetingList"] = {
+    key = "C_CombatAudioAlert.RemoveFromKnownTargetingList",
+    name = "RemoveFromKnownTargetingList",
+    category = "combat_midnight",
+    subcategory = "c_combataudioalert",
+    func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["RemoveFromKnownTargetingList"],
+    funcPath = "C_CombatAudioAlert.RemoveFromKnownTargetingList",
+    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    returns = { { name = "removed", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_CombatAudioAlert.SetCategoryVoice"] = {
+    key = "C_CombatAudioAlert.SetCategoryVoice",
+    name = "SetCategoryVoice",
+    category = "combat_midnight",
+    subcategory = "c_combataudioalert",
+    func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["SetCategoryVoice"],
+    funcPath = "C_CombatAudioAlert.SetCategoryVoice",
+    params = { { name = "category", type = "CombatAudioAlertCategory", default = nil }, { name = "newVal", type = "number", default = nil } },
+    returns = { { name = "success", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_CombatAudioAlert.SetCategoryVolume"] = {
+    key = "C_CombatAudioAlert.SetCategoryVolume",
+    name = "SetCategoryVolume",
+    category = "combat_midnight",
+    subcategory = "c_combataudioalert",
+    func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["SetCategoryVolume"],
+    funcPath = "C_CombatAudioAlert.SetCategoryVolume",
+    params = { { name = "category", type = "CombatAudioAlertCategory", default = nil }, { name = "newVal", type = "number", default = nil } },
+    returns = { { name = "success", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_CombatAudioAlert.SetFormatSetting"] = {
     key = "C_CombatAudioAlert.SetFormatSetting",
     name = "SetFormatSetting",
@@ -88,21 +160,7 @@ APIDefs["C_CombatAudioAlert.SetFormatSetting"] = {
     func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["SetFormatSetting"],
     funcPath = "C_CombatAudioAlert.SetFormatSetting",
     params = { { name = "unit", type = "CombatAudioAlertUnit", default = nil }, { name = "alertType", type = "CombatAudioAlertType", default = nil }, { name = "newVal", type = "number", default = nil } },
-    returns = {  },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
-}
-
-APIDefs["C_CombatAudioAlert.SetResourceSettingForCurrentSpec"] = {
-    key = "C_CombatAudioAlert.SetResourceSettingForCurrentSpec",
-    name = "SetResourceSettingForCurrentSpec",
-    category = "combat_midnight",
-    subcategory = "c_combataudioalert",
-    func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["SetResourceSettingForCurrentSpec"],
-    funcPath = "C_CombatAudioAlert.SetResourceSettingForCurrentSpec",
-    params = { { name = "setting", type = "CombatAudioAlertResourceSetting", default = nil }, { name = "newVal", type = "number", default = nil } },
-    returns = {  },
+    returns = { { name = "success", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -116,21 +174,21 @@ APIDefs["C_CombatAudioAlert.SetSpeakerSpeed"] = {
     func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["SetSpeakerSpeed"],
     funcPath = "C_CombatAudioAlert.SetSpeakerSpeed",
     params = { { name = "newVal", type = "number", default = nil } },
-    returns = {  },
+    returns = { { name = "success", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
-APIDefs["C_CombatAudioAlert.SetSpeakerVolume"] = {
-    key = "C_CombatAudioAlert.SetSpeakerVolume",
-    name = "SetSpeakerVolume",
+APIDefs["C_CombatAudioAlert.SetSpecSetting"] = {
+    key = "C_CombatAudioAlert.SetSpecSetting",
+    name = "SetSpecSetting",
     category = "combat_midnight",
     subcategory = "c_combataudioalert",
-    func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["SetSpeakerVolume"],
-    funcPath = "C_CombatAudioAlert.SetSpeakerVolume",
-    params = { { name = "newVal", type = "number", default = nil } },
-    returns = {  },
+    func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["SetSpecSetting"],
+    funcPath = "C_CombatAudioAlert.SetSpecSetting",
+    params = { { name = "setting", type = "CombatAudioAlertSpecSetting", default = nil }, { name = "newVal", type = "number", default = nil } },
+    returns = { { name = "success", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -144,7 +202,7 @@ APIDefs["C_CombatAudioAlert.SetThrottle"] = {
     func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["SetThrottle"],
     funcPath = "C_CombatAudioAlert.SetThrottle",
     params = { { name = "throttleType", type = "CombatAudioAlertThrottle", default = nil }, { name = "newVal", type = "number", default = nil } },
-    returns = {  },
+    returns = { { name = "success", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -157,7 +215,7 @@ APIDefs["C_CombatAudioAlert.SpeakText"] = {
     subcategory = "c_combataudioalert",
     func = _G["C_CombatAudioAlert"] and _G["C_CombatAudioAlert"]["SpeakText"],
     funcPath = "C_CombatAudioAlert.SpeakText",
-    params = { { name = "text", type = "string", default = nil } },
+    params = { { name = "text", type = "string", default = nil }, { name = "category", type = "CombatAudioAlertCategory", default = nil }, { name = "allowOverlap", type = "bool", default = true } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,

@@ -23,9 +23,8 @@ APIDefs["C_DamageMeter.GetCombatSessionFromID"] = {
     funcPath = "C_DamageMeter.GetCombatSessionFromID",
     params = { { name = "sessionID", type = "number", default = nil }, { name = "type", type = "DamageMeterType", default = nil } },
     returns = { { name = "session", type = "DamageMeterCombatSession", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenInCombat",
 }
 
 APIDefs["C_DamageMeter.GetCombatSessionFromType"] = {
@@ -37,9 +36,8 @@ APIDefs["C_DamageMeter.GetCombatSessionFromType"] = {
     funcPath = "C_DamageMeter.GetCombatSessionFromType",
     params = { { name = "sessionType", type = "DamageMeterSessionType", default = nil }, { name = "type", type = "DamageMeterType", default = nil } },
     returns = { { name = "session", type = "DamageMeterCombatSession", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenInCombat",
 }
 
 APIDefs["C_DamageMeter.GetCombatSessionSourceFromID"] = {
@@ -49,11 +47,10 @@ APIDefs["C_DamageMeter.GetCombatSessionSourceFromID"] = {
     subcategory = "c_damagemeter",
     func = _G["C_DamageMeter"] and _G["C_DamageMeter"]["GetCombatSessionSourceFromID"],
     funcPath = "C_DamageMeter.GetCombatSessionSourceFromID",
-    params = { { name = "sessionID", type = "number", default = nil }, { name = "type", type = "DamageMeterType", default = nil }, { name = "sourceGUID", type = "WOWGUID", default = nil } },
+    params = { { name = "sessionID", type = "number", default = nil }, { name = "type", type = "DamageMeterType", default = nil }, { name = "sourceGUID", type = "WOWGUID", default = nil }, { name = "sourceCreatureID", type = "number", default = nil } },
     returns = { { name = "sessionSource", type = "DamageMeterCombatSessionSource", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenInCombat",
 }
 
 APIDefs["C_DamageMeter.GetCombatSessionSourceFromType"] = {
@@ -63,8 +60,21 @@ APIDefs["C_DamageMeter.GetCombatSessionSourceFromType"] = {
     subcategory = "c_damagemeter",
     func = _G["C_DamageMeter"] and _G["C_DamageMeter"]["GetCombatSessionSourceFromType"],
     funcPath = "C_DamageMeter.GetCombatSessionSourceFromType",
-    params = { { name = "sessionType", type = "DamageMeterSessionType", default = nil }, { name = "type", type = "DamageMeterType", default = nil }, { name = "sourceGUID", type = "WOWGUID", default = nil } },
+    params = { { name = "sessionType", type = "DamageMeterSessionType", default = nil }, { name = "type", type = "DamageMeterType", default = nil }, { name = "sourceGUID", type = "WOWGUID", default = nil }, { name = "sourceCreatureID", type = "number", default = nil } },
     returns = { { name = "sessionSource", type = "DamageMeterCombatSessionSource", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenInCombat",
+}
+
+APIDefs["C_DamageMeter.GetSessionDurationSeconds"] = {
+    key = "C_DamageMeter.GetSessionDurationSeconds",
+    name = "GetSessionDurationSeconds",
+    category = "combat_midnight",
+    subcategory = "c_damagemeter",
+    func = _G["C_DamageMeter"] and _G["C_DamageMeter"]["GetSessionDurationSeconds"],
+    funcPath = "C_DamageMeter.GetSessionDurationSeconds",
+    params = { { name = "sessionType", type = "DamageMeterSessionType", default = nil } },
+    returns = { { name = "durationSeconds", type = "number", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",

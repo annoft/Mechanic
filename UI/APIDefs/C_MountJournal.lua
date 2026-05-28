@@ -247,7 +247,7 @@ APIDefs["C_MountJournal.GetMountFromSpell"] = {
     subcategory = "c_mountjournal",
     func = _G["C_MountJournal"] and _G["C_MountJournal"]["GetMountFromSpell"],
     funcPath = "C_MountJournal.GetMountFromSpell",
-    params = { { name = "spellID", type = "number", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "mountID", type = "number", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,

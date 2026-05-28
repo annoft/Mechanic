@@ -9,7 +9,7 @@ APIDefs["C_ClickBindings.CanSpellBeClickBound"] = {
     subcategory = "c_clickbindings",
     func = _G["C_ClickBindings"] and _G["C_ClickBindings"]["CanSpellBeClickBound"],
     funcPath = "C_ClickBindings.CanSpellBeClickBound",
-    params = { { name = "spellID", type = "number", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "canBeBound", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,

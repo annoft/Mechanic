@@ -338,6 +338,18 @@ APIDefs["C_Housing.HouseFinderRequestReservationAndPort"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_Housing.IsHousingMarketCartFullRemoveEnabled"] = {
+    key = "C_Housing.IsHousingMarketCartFullRemoveEnabled",
+    name = "IsHousingMarketCartFullRemoveEnabled",
+    category = "general",
+    subcategory = "c_housing",
+    func = _G["C_Housing"] and _G["C_Housing"]["IsHousingMarketCartFullRemoveEnabled"],
+    funcPath = "C_Housing.IsHousingMarketCartFullRemoveEnabled",
+    params = {  },
+    returns = { { name = "isHousingMarketCartFullRemoveEnabled", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_Housing.IsHousingMarketEnabled"] = {
     key = "C_Housing.IsHousingMarketEnabled",
     name = "IsHousingMarketEnabled",
@@ -347,6 +359,18 @@ APIDefs["C_Housing.IsHousingMarketEnabled"] = {
     funcPath = "C_Housing.IsHousingMarketEnabled",
     params = {  },
     returns = { { name = "isHousingMarketEnabled", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_Housing.IsHousingMarketShopEnabled"] = {
+    key = "C_Housing.IsHousingMarketShopEnabled",
+    name = "IsHousingMarketShopEnabled",
+    category = "general",
+    subcategory = "c_housing",
+    func = _G["C_Housing"] and _G["C_Housing"]["IsHousingMarketShopEnabled"],
+    funcPath = "C_Housing.IsHousingMarketShopEnabled",
+    params = {  },
+    returns = { { name = "isHousingMarketShopEnabled", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -482,6 +506,20 @@ APIDefs["C_Housing.OnCreateGuildNeighborhoodClosed"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["C_Housing.OnHouseFinderClickPlot"] = {
+    key = "C_Housing.OnHouseFinderClickPlot",
+    name = "OnHouseFinderClickPlot",
+    category = "combat_midnight",
+    subcategory = "c_housing",
+    func = _G["C_Housing"] and _G["C_Housing"]["OnHouseFinderClickPlot"],
+    funcPath = "C_Housing.OnHouseFinderClickPlot",
+    params = { { name = "plotID", type = "number", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_Housing.OnRequestSignatureClicked"] = {
     key = "C_Housing.OnRequestSignatureClicked",
     name = "OnRequestSignatureClicked",
@@ -541,7 +579,7 @@ APIDefs["C_Housing.RequestHouseFinderNeighborhoodData"] = {
     subcategory = "c_housing",
     func = _G["C_Housing"] and _G["C_Housing"]["RequestHouseFinderNeighborhoodData"],
     funcPath = "C_Housing.RequestHouseFinderNeighborhoodData",
-    params = { { name = "neighborhoodGuid", type = "WOWGUID", default = nil } },
+    params = { { name = "neighborhoodGuid", type = "WOWGUID", default = nil }, { name = "neighborhoodName", type = "cstring", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,

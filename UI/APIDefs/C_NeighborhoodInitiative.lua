@@ -16,6 +16,30 @@ APIDefs["C_NeighborhoodInitiative.AddTrackedInitiativeTask"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_NeighborhoodInitiative.GetActiveNeighborhood"] = {
+    key = "C_NeighborhoodInitiative.GetActiveNeighborhood",
+    name = "GetActiveNeighborhood",
+    category = "general",
+    subcategory = "c_neighborhoodinitiative",
+    func = _G["C_NeighborhoodInitiative"] and _G["C_NeighborhoodInitiative"]["GetActiveNeighborhood"],
+    funcPath = "C_NeighborhoodInitiative.GetActiveNeighborhood",
+    params = {  },
+    returns = { { name = "neighborhoodGUID", type = "WOWGUID", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_NeighborhoodInitiative.GetAvailableHouseXP"] = {
+    key = "C_NeighborhoodInitiative.GetAvailableHouseXP",
+    name = "GetAvailableHouseXP",
+    category = "general",
+    subcategory = "c_neighborhoodinitiative",
+    func = _G["C_NeighborhoodInitiative"] and _G["C_NeighborhoodInitiative"]["GetAvailableHouseXP"],
+    funcPath = "C_NeighborhoodInitiative.GetAvailableHouseXP",
+    params = {  },
+    returns = { { name = "availabeXP", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_NeighborhoodInitiative.GetInitiativeActivityLogInfo"] = {
     key = "C_NeighborhoodInitiative.GetInitiativeActivityLogInfo",
     name = "GetInitiativeActivityLogInfo",
@@ -125,6 +149,18 @@ APIDefs["C_NeighborhoodInitiative.IsViewingActiveNeighborhood"] = {
     funcPath = "C_NeighborhoodInitiative.IsViewingActiveNeighborhood",
     params = {  },
     returns = { { name = "isViewingActiveNeighborhood", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_NeighborhoodInitiative.PlayerHasInitiativeAccess"] = {
+    key = "C_NeighborhoodInitiative.PlayerHasInitiativeAccess",
+    name = "PlayerHasInitiativeAccess",
+    category = "general",
+    subcategory = "c_neighborhoodinitiative",
+    func = _G["C_NeighborhoodInitiative"] and _G["C_NeighborhoodInitiative"]["PlayerHasInitiativeAccess"],
+    funcPath = "C_NeighborhoodInitiative.PlayerHasInitiativeAccess",
+    params = {  },
+    returns = { { name = "success", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 

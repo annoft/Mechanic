@@ -2,6 +2,20 @@
 local _, ns = ...
 local APIDefs = ns.APIDefinitions
 
+APIDefs["C_TooltipComparison.CompareItem"] = {
+    key = "C_TooltipComparison.CompareItem",
+    name = "CompareItem",
+    category = "combat_midnight",
+    subcategory = "c_tooltipcomparison",
+    func = _G["C_TooltipComparison"] and _G["C_TooltipComparison"]["CompareItem"],
+    funcPath = "C_TooltipComparison.CompareItem",
+    params = { { name = "comparisonItem", type = "TooltipComparisonItem", default = nil }, { name = "tooltip", type = "Tooltip", default = nil }, { name = "anchorFrame", type = "SimpleFrame", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_TooltipComparison.GetItemComparisonDelta"] = {
     key = "C_TooltipComparison.GetItemComparisonDelta",
     name = "GetItemComparisonDelta",

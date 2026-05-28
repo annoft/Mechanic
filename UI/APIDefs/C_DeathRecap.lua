@@ -30,6 +30,20 @@ APIDefs["C_DeathRecap.GetRecapLink"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_DeathRecap.GetRecapMaxHealth"] = {
+    key = "C_DeathRecap.GetRecapMaxHealth",
+    name = "GetRecapMaxHealth",
+    category = "combat_midnight",
+    subcategory = "c_deathrecap",
+    func = _G["C_DeathRecap"] and _G["C_DeathRecap"]["GetRecapMaxHealth"],
+    funcPath = "C_DeathRecap.GetRecapMaxHealth",
+    params = { { name = "recapID", type = "number", default = nil } },
+    returns = { { name = "maxHealth", type = "number", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_DeathRecap.HasRecapEvents"] = {
     key = "C_DeathRecap.HasRecapEvents",
     name = "HasRecapEvents",

@@ -112,16 +112,80 @@ APIDefs["C_HouseExterior.HasSelectedFixturePoint"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["C_HouseExterior.IsAnyDecorAttachedToCoreFixture"] = {
+    key = "C_HouseExterior.IsAnyDecorAttachedToCoreFixture",
+    name = "IsAnyDecorAttachedToCoreFixture",
+    category = "combat_midnight",
+    subcategory = "c_houseexterior",
+    func = _G["C_HouseExterior"] and _G["C_HouseExterior"]["IsAnyDecorAttachedToCoreFixture"],
+    funcPath = "C_HouseExterior.IsAnyDecorAttachedToCoreFixture",
+    params = { { name = "coreFixtureType", type = "HousingFixtureType", default = nil } },
+    returns = { { name = "anyAttachedDecor", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_HouseExterior.IsAnyDecorAttachedToDoor"] = {
+    key = "C_HouseExterior.IsAnyDecorAttachedToDoor",
+    name = "IsAnyDecorAttachedToDoor",
+    category = "general",
+    subcategory = "c_houseexterior",
+    func = _G["C_HouseExterior"] and _G["C_HouseExterior"]["IsAnyDecorAttachedToDoor"],
+    funcPath = "C_HouseExterior.IsAnyDecorAttachedToDoor",
+    params = {  },
+    returns = { { name = "anyAttachedDecor", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_HouseExterior.IsAnyDecorAttachedToHouseExterior"] = {
+    key = "C_HouseExterior.IsAnyDecorAttachedToHouseExterior",
+    name = "IsAnyDecorAttachedToHouseExterior",
+    category = "general",
+    subcategory = "c_houseexterior",
+    func = _G["C_HouseExterior"] and _G["C_HouseExterior"]["IsAnyDecorAttachedToHouseExterior"],
+    funcPath = "C_HouseExterior.IsAnyDecorAttachedToHouseExterior",
+    params = {  },
+    returns = { { name = "anyAttachedDecor", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_HouseExterior.IsAnyDecorAttachedToSelectedFixturePoint"] = {
+    key = "C_HouseExterior.IsAnyDecorAttachedToSelectedFixturePoint",
+    name = "IsAnyDecorAttachedToSelectedFixturePoint",
+    category = "general",
+    subcategory = "c_houseexterior",
+    func = _G["C_HouseExterior"] and _G["C_HouseExterior"]["IsAnyDecorAttachedToSelectedFixturePoint"],
+    funcPath = "C_HouseExterior.IsAnyDecorAttachedToSelectedFixturePoint",
+    params = {  },
+    returns = { { name = "anyAttachedDecor", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_HouseExterior.IsExteriorDecorHidden"] = {
+    key = "C_HouseExterior.IsExteriorDecorHidden",
+    name = "IsExteriorDecorHidden",
+    category = "general",
+    subcategory = "c_houseexterior",
+    func = _G["C_HouseExterior"] and _G["C_HouseExterior"]["IsExteriorDecorHidden"],
+    funcPath = "C_HouseExterior.IsExteriorDecorHidden",
+    params = {  },
+    returns = { { name = "decorHidden", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_HouseExterior.RemoveFixtureFromSelectedPoint"] = {
     key = "C_HouseExterior.RemoveFixtureFromSelectedPoint",
     name = "RemoveFixtureFromSelectedPoint",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "c_houseexterior",
     func = _G["C_HouseExterior"] and _G["C_HouseExterior"]["RemoveFixtureFromSelectedPoint"],
     funcPath = "C_HouseExterior.RemoveFixtureFromSelectedPoint",
-    params = {  },
+    params = { { name = "attachedDecorAction", type = "HousingFixtureDecorAction", default = "Store" } },
     returns = {  },
-    midnightImpact = "NORMAL",
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["C_HouseExterior.SelectCoreFixtureOption"] = {
@@ -131,7 +195,7 @@ APIDefs["C_HouseExterior.SelectCoreFixtureOption"] = {
     subcategory = "c_houseexterior",
     func = _G["C_HouseExterior"] and _G["C_HouseExterior"]["SelectCoreFixtureOption"],
     funcPath = "C_HouseExterior.SelectCoreFixtureOption",
-    params = { { name = "fixtureID", type = "number", default = nil } },
+    params = { { name = "fixtureID", type = "number", default = nil }, { name = "attachedDecorAction", type = "HousingFixtureDecorAction", default = "Store" } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -145,7 +209,21 @@ APIDefs["C_HouseExterior.SelectFixtureOption"] = {
     subcategory = "c_houseexterior",
     func = _G["C_HouseExterior"] and _G["C_HouseExterior"]["SelectFixtureOption"],
     funcPath = "C_HouseExterior.SelectFixtureOption",
-    params = { { name = "fixtureID", type = "number", default = nil } },
+    params = { { name = "fixtureID", type = "number", default = nil }, { name = "attachedDecorAction", type = "HousingFixtureDecorAction", default = "Store" } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_HouseExterior.SetExteriorDecorHidden"] = {
+    key = "C_HouseExterior.SetExteriorDecorHidden",
+    name = "SetExteriorDecorHidden",
+    category = "combat_midnight",
+    subcategory = "c_houseexterior",
+    func = _G["C_HouseExterior"] and _G["C_HouseExterior"]["SetExteriorDecorHidden"],
+    funcPath = "C_HouseExterior.SetExteriorDecorHidden",
+    params = { { name = "decorHidden", type = "bool", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -159,7 +237,7 @@ APIDefs["C_HouseExterior.SetHouseExteriorSize"] = {
     subcategory = "c_houseexterior",
     func = _G["C_HouseExterior"] and _G["C_HouseExterior"]["SetHouseExteriorSize"],
     funcPath = "C_HouseExterior.SetHouseExteriorSize",
-    params = { { name = "size", type = "HousingFixtureSize", default = nil } },
+    params = { { name = "size", type = "HousingFixtureSize", default = nil }, { name = "attachedDecorAction", type = "HousingFixtureDecorAction", default = "Store" } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -173,7 +251,7 @@ APIDefs["C_HouseExterior.SetHouseExteriorType"] = {
     subcategory = "c_houseexterior",
     func = _G["C_HouseExterior"] and _G["C_HouseExterior"]["SetHouseExteriorType"],
     funcPath = "C_HouseExterior.SetHouseExteriorType",
-    params = { { name = "houseExteriorTypeID", type = "number", default = nil } },
+    params = { { name = "houseExteriorTypeID", type = "number", default = nil }, { name = "attachedDecorAction", type = "HousingFixtureDecorAction", default = "Store" } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,

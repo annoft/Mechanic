@@ -62,6 +62,18 @@ APIDefs["C_PvP.CanPlayerUseRatedPVPUI"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["C_PvP.CanPlayerUseTrainingGroundsUI"] = {
+    key = "C_PvP.CanPlayerUseTrainingGroundsUI",
+    name = "CanPlayerUseTrainingGroundsUI",
+    category = "general",
+    subcategory = "c_pvp",
+    func = _G["C_PvP"] and _G["C_PvP"]["CanPlayerUseTrainingGroundsUI"],
+    funcPath = "C_PvP.CanPlayerUseTrainingGroundsUI",
+    params = {  },
+    returns = { { name = "canUseTrainingGroundsUI", type = "bool", canBeSecret = false }, { name = "failureReason", type = "string", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_PvP.CanToggleWarMode"] = {
     key = "C_PvP.CanToggleWarMode",
     name = "CanToggleWarMode",
@@ -160,6 +172,20 @@ APIDefs["C_PvP.GetActiveMatchWinner"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["C_PvP.GetArenaCrowdControlDuration"] = {
+    key = "C_PvP.GetArenaCrowdControlDuration",
+    name = "GetArenaCrowdControlDuration",
+    category = "combat_midnight",
+    subcategory = "c_pvp",
+    func = _G["C_PvP"] and _G["C_PvP"]["GetArenaCrowdControlDuration"],
+    funcPath = "C_PvP.GetArenaCrowdControlDuration",
+    params = { { name = "playerToken", type = "UnitToken", default = "player" } },
+    returns = { { name = "duration", type = "LuaDurationObject", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_PvP.GetArenaCrowdControlInfo"] = {
     key = "C_PvP.GetArenaCrowdControlInfo",
     name = "GetArenaCrowdControlInfo",
@@ -169,9 +195,8 @@ APIDefs["C_PvP.GetArenaCrowdControlInfo"] = {
     funcPath = "C_PvP.GetArenaCrowdControlInfo",
     params = { { name = "playerToken", type = "UnitToken", default = "player" } },
     returns = { { name = "spellID", type = "number", canBeSecret = false }, { name = "startTime", type = "number", canBeSecret = false }, { name = "duration", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenLossOfControlInfoRestricted",
 }
 
 APIDefs["C_PvP.GetArenaRewards"] = {
@@ -685,7 +710,7 @@ APIDefs["C_PvP.GetScoreInfo"] = {
     returns = { { name = "info", type = "PVPScoreInfo", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretInActivePvPMatch, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["C_PvP.GetScoreInfoByPlayerGuid"] = {
@@ -699,7 +724,7 @@ APIDefs["C_PvP.GetScoreInfoByPlayerGuid"] = {
     returns = { { name = "info", type = "PVPScoreInfo", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretInActivePvPMatch, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["C_PvP.GetSeasonBestInfo"] = {
@@ -1188,6 +1213,18 @@ APIDefs["C_PvP.JoinBrawl"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_PvP.JoinRandomTrainingGround"] = {
+    key = "C_PvP.JoinRandomTrainingGround",
+    name = "JoinRandomTrainingGround",
+    category = "general",
+    subcategory = "c_pvp",
+    func = _G["C_PvP"] and _G["C_PvP"]["JoinRandomTrainingGround"],
+    funcPath = "C_PvP.JoinRandomTrainingGround",
+    params = {  },
+    returns = {  },
+    midnightImpact = "NORMAL",
 }
 
 APIDefs["C_PvP.JoinRatedBGBlitz"] = {

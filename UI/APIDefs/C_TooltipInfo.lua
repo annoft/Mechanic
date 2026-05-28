@@ -371,7 +371,7 @@ APIDefs["C_TooltipInfo.GetItemByID"] = {
     subcategory = "c_tooltipinfo",
     func = _G["C_TooltipInfo"] and _G["C_TooltipInfo"]["GetItemByID"],
     funcPath = "C_TooltipInfo.GetItemByID",
-    params = { { name = "itemID", type = "number", default = nil }, { name = "quality", type = "number", default = nil } },
+    params = { { name = "itemID", type = "number", default = nil }, { name = "quality", type = "number", default = nil }, { name = "itemContext", type = "number", default = nil }, { name = "treasureContextLevel", type = "number", default = nil } },
     returns = { { name = "data", type = "TooltipData", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -535,7 +535,7 @@ APIDefs["C_TooltipInfo.GetMountBySpellID"] = {
     subcategory = "c_tooltipinfo",
     func = _G["C_TooltipInfo"] and _G["C_TooltipInfo"]["GetMountBySpellID"],
     funcPath = "C_TooltipInfo.GetMountBySpellID",
-    params = { { name = "spellID", type = "number", default = nil }, { name = "checkIndoors", type = "bool", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil }, { name = "checkIndoors", type = "bool", default = nil } },
     returns = { { name = "data", type = "TooltipData", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -881,7 +881,7 @@ APIDefs["C_TooltipInfo.GetSpellByID"] = {
     subcategory = "c_tooltipinfo",
     func = _G["C_TooltipInfo"] and _G["C_TooltipInfo"]["GetSpellByID"],
     funcPath = "C_TooltipInfo.GetSpellByID",
-    params = { { name = "spellID", type = "number", default = nil }, { name = "isPet", type = "bool", default = nil }, { name = "showSubtext", type = "bool", default = nil }, { name = "dontOverride", type = "bool", default = nil }, { name = "difficultyID", type = "number", default = nil }, { name = "isLink", type = "bool", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil }, { name = "isPet", type = "bool", default = nil }, { name = "showSubtext", type = "bool", default = nil }, { name = "dontOverride", type = "bool", default = nil }, { name = "difficultyID", type = "number", default = nil }, { name = "isLink", type = "bool", default = nil } },
     returns = { { name = "data", type = "TooltipData", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -993,7 +993,7 @@ APIDefs["C_TooltipInfo.GetUnit"] = {
     subcategory = "c_tooltipinfo",
     func = _G["C_TooltipInfo"] and _G["C_TooltipInfo"]["GetUnit"],
     funcPath = "C_TooltipInfo.GetUnit",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "hideStatus", type = "bool", default = nil } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "hideStatus", type = "bool", default = nil } },
     returns = { { name = "data", type = "TooltipData", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -1007,11 +1007,10 @@ APIDefs["C_TooltipInfo.GetUnitAura"] = {
     subcategory = "c_tooltipinfo",
     func = _G["C_TooltipInfo"] and _G["C_TooltipInfo"]["GetUnitAura"],
     funcPath = "C_TooltipInfo.GetUnitAura",
-    params = { { name = "unitToken", type = "UnitToken", default = "player" }, { name = "index", type = "luaIndex", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
+    params = { { name = "unitToken", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "index", type = "luaIndex", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
     returns = { { name = "data", type = "TooltipData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_TooltipInfo.GetUnitAuraByAuraInstanceID"] = {
@@ -1021,11 +1020,10 @@ APIDefs["C_TooltipInfo.GetUnitAuraByAuraInstanceID"] = {
     subcategory = "c_tooltipinfo",
     func = _G["C_TooltipInfo"] and _G["C_TooltipInfo"]["GetUnitAuraByAuraInstanceID"],
     funcPath = "C_TooltipInfo.GetUnitAuraByAuraInstanceID",
-    params = { { name = "unitToken", type = "UnitToken", default = "player" }, { name = "auraInstanceID", type = "number", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
+    params = { { name = "unitToken", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "auraInstanceID", type = "number", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
     returns = { { name = "data", type = "TooltipData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_TooltipInfo.GetUnitBuff"] = {
@@ -1035,11 +1033,10 @@ APIDefs["C_TooltipInfo.GetUnitBuff"] = {
     subcategory = "c_tooltipinfo",
     func = _G["C_TooltipInfo"] and _G["C_TooltipInfo"]["GetUnitBuff"],
     funcPath = "C_TooltipInfo.GetUnitBuff",
-    params = { { name = "unitToken", type = "UnitToken", default = "player" }, { name = "index", type = "luaIndex", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
+    params = { { name = "unitToken", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "index", type = "luaIndex", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
     returns = { { name = "data", type = "TooltipData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_TooltipInfo.GetUnitBuffByAuraInstanceID"] = {
@@ -1049,11 +1046,10 @@ APIDefs["C_TooltipInfo.GetUnitBuffByAuraInstanceID"] = {
     subcategory = "c_tooltipinfo",
     func = _G["C_TooltipInfo"] and _G["C_TooltipInfo"]["GetUnitBuffByAuraInstanceID"],
     funcPath = "C_TooltipInfo.GetUnitBuffByAuraInstanceID",
-    params = { { name = "unitToken", type = "UnitToken", default = "player" }, { name = "auraInstanceID", type = "number", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
+    params = { { name = "unitToken", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "auraInstanceID", type = "number", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
     returns = { { name = "data", type = "TooltipData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_TooltipInfo.GetUnitDebuff"] = {
@@ -1063,11 +1059,10 @@ APIDefs["C_TooltipInfo.GetUnitDebuff"] = {
     subcategory = "c_tooltipinfo",
     func = _G["C_TooltipInfo"] and _G["C_TooltipInfo"]["GetUnitDebuff"],
     funcPath = "C_TooltipInfo.GetUnitDebuff",
-    params = { { name = "unitToken", type = "UnitToken", default = "player" }, { name = "index", type = "luaIndex", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
+    params = { { name = "unitToken", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "index", type = "luaIndex", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
     returns = { { name = "data", type = "TooltipData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_TooltipInfo.GetUnitDebuffByAuraInstanceID"] = {
@@ -1077,11 +1072,10 @@ APIDefs["C_TooltipInfo.GetUnitDebuffByAuraInstanceID"] = {
     subcategory = "c_tooltipinfo",
     func = _G["C_TooltipInfo"] and _G["C_TooltipInfo"]["GetUnitDebuffByAuraInstanceID"],
     funcPath = "C_TooltipInfo.GetUnitDebuffByAuraInstanceID",
-    params = { { name = "unitToken", type = "UnitToken", default = "player" }, { name = "auraInstanceID", type = "number", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
+    params = { { name = "unitToken", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "auraInstanceID", type = "number", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
     returns = { { name = "data", type = "TooltipData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_TooltipInfo.GetUpgradeItem"] = {

@@ -463,13 +463,15 @@ APIDefs["C_TransmogCollection.GetIllusionStrings"] = {
 APIDefs["C_TransmogCollection.GetIllusions"] = {
     key = "C_TransmogCollection.GetIllusions",
     name = "GetIllusions",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "c_transmogcollection",
     func = _G["C_TransmogCollection"] and _G["C_TransmogCollection"]["GetIllusions"],
     funcPath = "C_TransmogCollection.GetIllusions",
-    params = {  },
+    params = { { name = "category", type = "TransmogCollectionType", default = nil } },
     returns = { { name = "illusions", type = "table", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["C_TransmogCollection.GetInspectItemTransmogInfoList"] = {
@@ -747,6 +749,20 @@ APIDefs["C_TransmogCollection.IsSourceTypeFilterChecked"] = {
     funcPath = "C_TransmogCollection.IsSourceTypeFilterChecked",
     params = { { name = "index", type = "luaIndex", default = nil } },
     returns = { { name = "checked", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_TransmogCollection.IsSpellItemEnchantmentHiddenVisual"] = {
+    key = "C_TransmogCollection.IsSpellItemEnchantmentHiddenVisual",
+    name = "IsSpellItemEnchantmentHiddenVisual",
+    category = "combat_midnight",
+    subcategory = "c_transmogcollection",
+    func = _G["C_TransmogCollection"] and _G["C_TransmogCollection"]["IsSpellItemEnchantmentHiddenVisual"],
+    funcPath = "C_TransmogCollection.IsSpellItemEnchantmentHiddenVisual",
+    params = { { name = "spellItemEnchantmentID", type = "number", default = nil } },
+    returns = { { name = "isHiddenVisual", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",

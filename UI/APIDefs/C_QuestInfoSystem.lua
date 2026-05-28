@@ -23,7 +23,7 @@ APIDefs["C_QuestInfoSystem.GetQuestLogRewardFavor"] = {
     subcategory = "c_questinfosystem",
     func = _G["C_QuestInfoSystem"] and _G["C_QuestInfoSystem"]["GetQuestLogRewardFavor"],
     funcPath = "C_QuestInfoSystem.GetQuestLogRewardFavor",
-    params = { { name = "questID", type = "number", default = nil } },
+    params = { { name = "questID", type = "number", default = nil }, { name = "clampFavorToCycleCap", type = "bool", default = nil } },
     returns = { { name = "amount", type = "number", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,

@@ -78,6 +78,20 @@ APIDefs["AcceptResurrect"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["AddBreakpoint"] = {
+    key = "AddBreakpoint",
+    name = "AddBreakpoint",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["AddBreakpoint"],
+    funcPath = "AddBreakpoint",
+    params = { { name = "breakpoint", type = "NumericRuleFormatBreakpoint", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["AddCharacterLight"] = {
     key = "AddCharacterLight",
     name = "AddCharacterLight",
@@ -241,7 +255,7 @@ APIDefs["Ambiguate"] = {
     returns = { { name = "result", type = "string", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
 }
 
 APIDefs["ApplySnapshot"] = {
@@ -430,6 +444,20 @@ APIDefs["CalculateStringEditDistance"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["CanApproximate"] = {
+    key = "CanApproximate",
+    name = "CanApproximate",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["CanApproximate"],
+    funcPath = "CanApproximate",
+    params = { { name = "seconds", type = "DurationSecondsDouble", default = nil } },
+    returns = { { name = "canApproximate", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["CanBeRaidTarget"] = {
     key = "CanBeRaidTarget",
     name = "CanBeRaidTarget",
@@ -453,6 +481,18 @@ APIDefs["CanChangeAttribute"] = {
     funcPath = "CanChangeAttribute",
     params = { { name = "canChangeAttributes", type = "bool", default = nil } },
     returns = { { name = "canChangeAttributes", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["CanChangeHitTestPoints"] = {
+    key = "CanChangeHitTestPoints",
+    name = "CanChangeHitTestPoints",
+    category = "general",
+    subcategory = "global",
+    func = _G["CanChangeHitTestPoints"],
+    funcPath = "CanChangeHitTestPoints",
+    params = {  },
+    returns = { { name = "canChangeHitTestPoints", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -555,7 +595,7 @@ APIDefs["CanMove"] = {
     subcategory = "global",
     func = _G["CanMove"],
     funcPath = "CanMove",
-    params = { { name = "moveRestriction", type = "HousingLayoutRestriction", default = nil } },
+    params = {  },
     returns = { { name = "moveRestriction", type = "HousingLayoutRestriction", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -603,7 +643,7 @@ APIDefs["CanRemove"] = {
     subcategory = "global",
     func = _G["CanRemove"],
     funcPath = "CanRemove",
-    params = { { name = "removalRestriction", type = "HousingLayoutRestriction", default = nil } },
+    params = {  },
     returns = { { name = "removalRestriction", type = "HousingLayoutRestriction", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -615,8 +655,32 @@ APIDefs["CanRotate"] = {
     subcategory = "global",
     func = _G["CanRotate"],
     funcPath = "CanRotate",
-    params = { { name = "rotateRestriction", type = "HousingLayoutRestriction", default = nil } },
+    params = {  },
     returns = { { name = "rotateRestriction", type = "HousingLayoutRestriction", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["CanRoundUpIntervals"] = {
+    key = "CanRoundUpIntervals",
+    name = "CanRoundUpIntervals",
+    category = "general",
+    subcategory = "global",
+    func = _G["CanRoundUpIntervals"],
+    funcPath = "CanRoundUpIntervals",
+    params = {  },
+    returns = { { name = "canRound", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["CanRoundUpLastUnit"] = {
+    key = "CanRoundUpLastUnit",
+    name = "CanRoundUpLastUnit",
+    category = "general",
+    subcategory = "global",
+    func = _G["CanRoundUpLastUnit"],
+    funcPath = "CanRoundUpLastUnit",
+    params = {  },
+    returns = { { name = "canRound", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -627,7 +691,7 @@ APIDefs["CanSaveTabardNow"] = {
     subcategory = "global",
     func = _G["CanSaveTabardNow"],
     funcPath = "CanSaveTabardNow",
-    params = { { name = "canSave", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "canSave", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -890,6 +954,18 @@ APIDefs["Clear"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["ClearAllHitTestPoints"] = {
+    key = "ClearAllHitTestPoints",
+    name = "ClearAllHitTestPoints",
+    category = "general",
+    subcategory = "global",
+    func = _G["ClearAllHitTestPoints"],
+    funcPath = "ClearAllHitTestPoints",
+    params = {  },
+    returns = {  },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["ClearAllPoints"] = {
     key = "ClearAllPoints",
     name = "ClearAllPoints",
@@ -935,6 +1011,18 @@ APIDefs["ClearAttributes"] = {
     subcategory = "global",
     func = _G["ClearAttributes"],
     funcPath = "ClearAttributes",
+    params = {  },
+    returns = {  },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["ClearBreakpoints"] = {
+    key = "ClearBreakpoints",
+    name = "ClearBreakpoints",
+    category = "general",
+    subcategory = "global",
+    func = _G["ClearBreakpoints"],
+    funcPath = "ClearBreakpoints",
     params = {  },
     returns = {  },
     midnightImpact = "NORMAL",
@@ -1084,6 +1172,18 @@ APIDefs["ClearOutage"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["ClearPadding"] = {
+    key = "ClearPadding",
+    name = "ClearPadding",
+    category = "general",
+    subcategory = "global",
+    func = _G["ClearPadding"],
+    funcPath = "ClearPadding",
+    params = {  },
+    returns = {  },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["ClearParentKey"] = {
     key = "ClearParentKey",
     name = "ClearParentKey",
@@ -1193,6 +1293,18 @@ APIDefs["ClearTarget"] = {
     funcPath = "ClearTarget",
     params = {  },
     returns = { { name = "willMakeChange", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["ClearText"] = {
+    key = "ClearText",
+    name = "ClearText",
+    category = "general",
+    subcategory = "global",
+    func = _G["ClearText"],
+    funcPath = "ClearText",
+    params = {  },
+    returns = {  },
     midnightImpact = "NORMAL",
 }
 
@@ -1445,8 +1557,8 @@ APIDefs["Copy"] = {
     subcategory = "global",
     func = _G["Copy"],
     funcPath = "Copy",
-    params = { { name = "copy", type = "LuaDurationObject", default = nil } },
-    returns = { { name = "copy", type = "LuaDurationObject", canBeSecret = false } },
+    params = {  },
+    returns = { { name = "copy", type = "NumericRuleFormatter", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -1656,6 +1768,18 @@ APIDefs["CreateTexture"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=NotAllowed",
+}
+
+APIDefs["CreateUnitHealPredictionCalculator"] = {
+    key = "CreateUnitHealPredictionCalculator",
+    name = "CreateUnitHealPredictionCalculator",
+    category = "general",
+    subcategory = "global",
+    func = _G["CreateUnitHealPredictionCalculator"],
+    funcPath = "CreateUnitHealPredictionCalculator",
+    params = {  },
+    returns = { { name = "healPredictionCalculator", type = "UnitHealPredictionCalculator", canBeSecret = false } },
+    midnightImpact = "NORMAL",
 }
 
 APIDefs["CreateWindow"] = {
@@ -2224,6 +2348,47 @@ APIDefs["Evaluate"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["EvaluateCurrentHealthPercent"] = {
+    key = "EvaluateCurrentHealthPercent",
+    name = "EvaluateCurrentHealthPercent",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["EvaluateCurrentHealthPercent"],
+    funcPath = "EvaluateCurrentHealthPercent",
+    params = { { name = "curve", type = "LuaCurveObjectBase", default = nil } },
+    returns = { { name = "result", type = "LuaCurveEvaluatedResult", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["EvaluateDesiredUnitCount"] = {
+    key = "EvaluateDesiredUnitCount",
+    name = "EvaluateDesiredUnitCount",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["EvaluateDesiredUnitCount"],
+    funcPath = "EvaluateDesiredUnitCount",
+    params = { { name = "seconds", type = "DurationSecondsDouble", default = nil } },
+    returns = { { name = "count", type = "number", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["EvaluateElapsedDuration"] = {
+    key = "EvaluateElapsedDuration",
+    name = "EvaluateElapsedDuration",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["EvaluateElapsedDuration"],
+    funcPath = "EvaluateElapsedDuration",
+    params = { { name = "curve", type = "LuaCurveObjectBase", default = nil }, { name = "modifier", type = "DurationTimeModifier", default = "RealTime" } },
+    returns = { { name = "result", type = "LuaCurveEvaluatedResult", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCurveSecret",
+}
+
 APIDefs["EvaluateElapsedPercent"] = {
     key = "EvaluateElapsedPercent",
     name = "EvaluateElapsedPercent",
@@ -2237,6 +2402,61 @@ APIDefs["EvaluateElapsedPercent"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCurveSecret",
 }
 
+APIDefs["EvaluateMaxInterval"] = {
+    key = "EvaluateMaxInterval",
+    name = "EvaluateMaxInterval",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["EvaluateMaxInterval"],
+    funcPath = "EvaluateMaxInterval",
+    params = { { name = "seconds", type = "DurationSecondsDouble", default = nil } },
+    returns = { { name = "interval", type = "SecondsFormatterInterval", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["EvaluateMinInterval"] = {
+    key = "EvaluateMinInterval",
+    name = "EvaluateMinInterval",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["EvaluateMinInterval"],
+    funcPath = "EvaluateMinInterval",
+    params = { { name = "seconds", type = "DurationSecondsDouble", default = nil } },
+    returns = { { name = "interval", type = "SecondsFormatterInterval", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["EvaluateMissingHealthPercent"] = {
+    key = "EvaluateMissingHealthPercent",
+    name = "EvaluateMissingHealthPercent",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["EvaluateMissingHealthPercent"],
+    funcPath = "EvaluateMissingHealthPercent",
+    params = { { name = "curve", type = "LuaCurveObjectBase", default = nil } },
+    returns = { { name = "result", type = "LuaCurveEvaluatedResult", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["EvaluateRemainingDuration"] = {
+    key = "EvaluateRemainingDuration",
+    name = "EvaluateRemainingDuration",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["EvaluateRemainingDuration"],
+    funcPath = "EvaluateRemainingDuration",
+    params = { { name = "curve", type = "LuaCurveObjectBase", default = nil }, { name = "modifier", type = "DurationTimeModifier", default = "RealTime" } },
+    returns = { { name = "result", type = "LuaCurveEvaluatedResult", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCurveSecret",
+}
+
 APIDefs["EvaluateRemainingPercent"] = {
     key = "EvaluateRemainingPercent",
     name = "EvaluateRemainingPercent",
@@ -2244,6 +2464,19 @@ APIDefs["EvaluateRemainingPercent"] = {
     subcategory = "global",
     func = _G["EvaluateRemainingPercent"],
     funcPath = "EvaluateRemainingPercent",
+    params = { { name = "curve", type = "LuaCurveObjectBase", default = nil }, { name = "modifier", type = "DurationTimeModifier", default = "RealTime" } },
+    returns = { { name = "result", type = "LuaCurveEvaluatedResult", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCurveSecret",
+}
+
+APIDefs["EvaluateTotalDuration"] = {
+    key = "EvaluateTotalDuration",
+    name = "EvaluateTotalDuration",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["EvaluateTotalDuration"],
+    funcPath = "EvaluateTotalDuration",
     params = { { name = "curve", type = "LuaCurveObjectBase", default = nil }, { name = "modifier", type = "DurationTimeModifier", default = "RealTime" } },
     returns = { { name = "result", type = "LuaCurveEvaluatedResult", canBeSecret = false } },
     midnightImpact = "CONDITIONAL",
@@ -2394,6 +2627,87 @@ APIDefs["ForceQuit"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["Format"] = {
+    key = "Format",
+    name = "Format",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["Format"],
+    funcPath = "Format",
+    params = { { name = "seconds", type = "DurationSecondsDouble", default = nil }, { name = "abbreviation", type = "SecondsFormatterAbbrevation", default = nil } },
+    returns = { { name = "formattedSeconds", type = "string", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["FormatElapsedDuration"] = {
+    key = "FormatElapsedDuration",
+    name = "FormatElapsedDuration",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["FormatElapsedDuration"],
+    funcPath = "FormatElapsedDuration",
+    params = { { name = "formatter", type = "NumericFormatter", default = nil }, { name = "modifier", type = "DurationTimeModifier", default = "RealTime" } },
+    returns = { { name = "formatted", type = "string", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenNumericFormatterSecret",
+}
+
+APIDefs["FormatNumber"] = {
+    key = "FormatNumber",
+    name = "FormatNumber",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["FormatNumber"],
+    funcPath = "FormatNumber",
+    params = { { name = "number", type = "number", default = nil } },
+    returns = { { name = "formatted", type = "string", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["FormatRemainingDuration"] = {
+    key = "FormatRemainingDuration",
+    name = "FormatRemainingDuration",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["FormatRemainingDuration"],
+    funcPath = "FormatRemainingDuration",
+    params = { { name = "formatter", type = "NumericFormatter", default = nil }, { name = "modifier", type = "DurationTimeModifier", default = "RealTime" } },
+    returns = { { name = "formatted", type = "string", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenNumericFormatterSecret",
+}
+
+APIDefs["FormatTotalDuration"] = {
+    key = "FormatTotalDuration",
+    name = "FormatTotalDuration",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["FormatTotalDuration"],
+    funcPath = "FormatTotalDuration",
+    params = { { name = "formatter", type = "NumericFormatter", default = nil }, { name = "modifier", type = "DurationTimeModifier", default = "RealTime" } },
+    returns = { { name = "formatted", type = "string", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenNumericFormatterSecret",
+}
+
+APIDefs["FormatZero"] = {
+    key = "FormatZero",
+    name = "FormatZero",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["FormatZero"],
+    funcPath = "FormatZero",
+    params = { { name = "abbreviation", type = "SecondsFormatterAbbrevation", default = nil } },
+    returns = { { name = "formattedSeconds", type = "string", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["FreezeAnimation"] = {
     key = "FreezeAnimation",
     name = "FreezeAnimation",
@@ -2415,7 +2729,7 @@ APIDefs["GetAbbreviateNumberData"] = {
     subcategory = "global",
     func = _G["GetAbbreviateNumberData"],
     funcPath = "GetAbbreviateNumberData",
-    params = { { name = "data", type = "table", default = nil } },
+    params = {  },
     returns = { { name = "data", type = "table", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -2439,7 +2753,7 @@ APIDefs["GetActiveBoundingBox"] = {
     subcategory = "global",
     func = _G["GetActiveBoundingBox"],
     funcPath = "GetActiveBoundingBox",
-    params = { { name = "boxBottom", type = "vector3", default = nil }, { name = "boxTop", type = "vector3", default = nil } },
+    params = {  },
     returns = { { name = "boxBottom", type = "vector3", canBeSecret = false }, { name = "boxTop", type = "vector3", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -2493,8 +2807,8 @@ APIDefs["GetAllSearchItems"] = {
     subcategory = "global",
     func = _G["GetAllSearchItems"],
     funcPath = "GetAllSearchItems",
-    params = { { name = "matchingEntryIDs", type = "table", default = nil } },
-    returns = { { name = "matchingEntryIDs", type = "table", canBeSecret = false } },
+    params = {  },
+    returns = { { name = "matchingEntryVariantIDs", type = "table", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -2517,7 +2831,7 @@ APIDefs["GetAllowOverlappedModels"] = {
     subcategory = "global",
     func = _G["GetAllowOverlappedModels"],
     funcPath = "GetAllowOverlappedModels",
-    params = { { name = "allowOverlappedModels", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "allowOverlappedModels", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -2577,7 +2891,7 @@ APIDefs["GetAnimation"] = {
     subcategory = "global",
     func = _G["GetAnimation"],
     funcPath = "GetAnimation",
-    params = { { name = "animation", type = "AnimationDataEnum", default = nil } },
+    params = {  },
     returns = { { name = "animation", type = "AnimationDataEnum", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -2589,7 +2903,7 @@ APIDefs["GetAnimationBlendOperation"] = {
     subcategory = "global",
     func = _G["GetAnimationBlendOperation"],
     funcPath = "GetAnimationBlendOperation",
-    params = { { name = "blendOp", type = "ModelBlendOperation", default = nil } },
+    params = {  },
     returns = { { name = "blendOp", type = "ModelBlendOperation", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -2601,7 +2915,7 @@ APIDefs["GetAnimationGroups"] = {
     subcategory = "global",
     func = _G["GetAnimationGroups"],
     funcPath = "GetAnimationGroups",
-    params = { { name = "groups", type = "SimpleAnimGroup", default = nil } },
+    params = {  },
     returns = { { name = "groups", type = "SimpleAnimGroup", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -2625,7 +2939,7 @@ APIDefs["GetAnimationVariation"] = {
     subcategory = "global",
     func = _G["GetAnimationVariation"],
     funcPath = "GetAnimationVariation",
-    params = { { name = "variation", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "variation", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -2639,6 +2953,18 @@ APIDefs["GetAnimations"] = {
     funcPath = "GetAnimations",
     params = { { name = "anims", type = "SimpleAnim", default = nil } },
     returns = { { name = "anims", type = "SimpleAnim", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetApproximationSeconds"] = {
+    key = "GetApproximationSeconds",
+    name = "GetApproximationSeconds",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetApproximationSeconds"],
+    funcPath = "GetApproximationSeconds",
+    params = {  },
+    returns = { { name = "approximationSeconds", type = "DurationSecondsDouble", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -2687,9 +3013,8 @@ APIDefs["GetAttackPowerForStat"] = {
     funcPath = "GetAttackPowerForStat",
     params = { { name = "stat", type = "luaIndex", default = nil }, { name = "value", type = "number", default = nil } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["GetAttribute"] = {
@@ -2737,7 +3062,7 @@ APIDefs["GetAutoDress"] = {
     subcategory = "global",
     func = _G["GetAutoDress"],
     funcPath = "GetAutoDress",
-    params = { { name = "autoDress", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "autoDress", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -2785,13 +3110,14 @@ APIDefs["GetAvailableLocales"] = {
 APIDefs["GetAvoidance"] = {
     key = "GetAvoidance",
     name = "GetAvoidance",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetAvoidance"],
     funcPath = "GetAvoidance",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetBackgroundLoadingStatus"] = {
@@ -2857,13 +3183,14 @@ APIDefs["GetBlinkSpeed"] = {
 APIDefs["GetBlockChance"] = {
     key = "GetBlockChance",
     name = "GetBlockChance",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetBlockChance"],
     funcPath = "GetBlockChance",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetBottom"] = {
@@ -2887,6 +3214,18 @@ APIDefs["GetBoundsRect"] = {
     funcPath = "GetBoundsRect",
     params = { { name = "left", type = "uiUnit", default = nil }, { name = "bottom", type = "uiUnit", default = nil }, { name = "width", type = "uiUnit", default = nil }, { name = "height", type = "uiUnit", default = nil } },
     returns = { { name = "left", type = "uiUnit", canBeSecret = false }, { name = "bottom", type = "uiUnit", canBeSecret = false }, { name = "width", type = "uiUnit", canBeSecret = false }, { name = "height", type = "uiUnit", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetBreakpoints"] = {
+    key = "GetBreakpoints",
+    name = "GetBreakpoints",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetBreakpoints"],
+    funcPath = "GetBreakpoints",
+    params = {  },
+    returns = { { name = "breakpoints", type = "table", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -2933,7 +3272,7 @@ APIDefs["GetCameraDistance"] = {
     subcategory = "global",
     func = _G["GetCameraDistance"],
     funcPath = "GetCameraDistance",
-    params = { { name = "distance", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "distance", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -2957,7 +3296,7 @@ APIDefs["GetCameraFacing"] = {
     subcategory = "global",
     func = _G["GetCameraFacing"],
     funcPath = "GetCameraFacing",
-    params = { { name = "radians", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "radians", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -2969,7 +3308,7 @@ APIDefs["GetCameraFarClip"] = {
     subcategory = "global",
     func = _G["GetCameraFarClip"],
     funcPath = "GetCameraFarClip",
-    params = { { name = "farClip", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "farClip", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -2981,7 +3320,7 @@ APIDefs["GetCameraFieldOfView"] = {
     subcategory = "global",
     func = _G["GetCameraFieldOfView"],
     funcPath = "GetCameraFieldOfView",
-    params = { { name = "fov", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "fov", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -2993,7 +3332,7 @@ APIDefs["GetCameraForward"] = {
     subcategory = "global",
     func = _G["GetCameraForward"],
     funcPath = "GetCameraForward",
-    params = { { name = "forwardX", type = "number", default = nil }, { name = "forwardY", type = "number", default = nil }, { name = "forwardZ", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "forwardX", type = "number", canBeSecret = false }, { name = "forwardY", type = "number", canBeSecret = false }, { name = "forwardZ", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3005,7 +3344,7 @@ APIDefs["GetCameraNearClip"] = {
     subcategory = "global",
     func = _G["GetCameraNearClip"],
     funcPath = "GetCameraNearClip",
-    params = { { name = "nearClip", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "nearClip", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3017,7 +3356,7 @@ APIDefs["GetCameraPosition"] = {
     subcategory = "global",
     func = _G["GetCameraPosition"],
     funcPath = "GetCameraPosition",
-    params = { { name = "positionX", type = "number", default = nil }, { name = "positionY", type = "number", default = nil }, { name = "positionZ", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "positionX", type = "number", canBeSecret = false }, { name = "positionY", type = "number", canBeSecret = false }, { name = "positionZ", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3029,7 +3368,7 @@ APIDefs["GetCameraRight"] = {
     subcategory = "global",
     func = _G["GetCameraRight"],
     funcPath = "GetCameraRight",
-    params = { { name = "rightX", type = "number", default = nil }, { name = "rightY", type = "number", default = nil }, { name = "rightZ", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "rightX", type = "number", canBeSecret = false }, { name = "rightY", type = "number", canBeSecret = false }, { name = "rightZ", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3041,7 +3380,7 @@ APIDefs["GetCameraRoll"] = {
     subcategory = "global",
     func = _G["GetCameraRoll"],
     funcPath = "GetCameraRoll",
-    params = { { name = "radians", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "radians", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3053,7 +3392,7 @@ APIDefs["GetCameraTarget"] = {
     subcategory = "global",
     func = _G["GetCameraTarget"],
     funcPath = "GetCameraTarget",
-    params = { { name = "targetX", type = "number", default = nil }, { name = "targetY", type = "number", default = nil }, { name = "targetZ", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "targetX", type = "number", canBeSecret = false }, { name = "targetY", type = "number", canBeSecret = false }, { name = "targetZ", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3065,7 +3404,7 @@ APIDefs["GetCameraUp"] = {
     subcategory = "global",
     func = _G["GetCameraUp"],
     funcPath = "GetCameraUp",
-    params = { { name = "upX", type = "number", default = nil }, { name = "upY", type = "number", default = nil }, { name = "upZ", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "upX", type = "number", canBeSecret = false }, { name = "upY", type = "number", canBeSecret = false }, { name = "upZ", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3077,8 +3416,8 @@ APIDefs["GetCatalogSearchResults"] = {
     subcategory = "global",
     func = _G["GetCatalogSearchResults"],
     funcPath = "GetCatalogSearchResults",
-    params = { { name = "matchingEntryIDs", type = "table", default = nil } },
-    returns = { { name = "matchingEntryIDs", type = "table", canBeSecret = false } },
+    params = {  },
+    returns = { { name = "matchingEntryVariantIDs", type = "table", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -3113,7 +3452,7 @@ APIDefs["GetChecked"] = {
     subcategory = "global",
     func = _G["GetChecked"],
     funcPath = "GetChecked",
-    params = { { name = "checked", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "checked", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3125,7 +3464,7 @@ APIDefs["GetCheckedTexture"] = {
     subcategory = "global",
     func = _G["GetCheckedTexture"],
     funcPath = "GetCheckedTexture",
-    params = { { name = "texture", type = "SimpleTexture", default = nil } },
+    params = {  },
     returns = { { name = "texture", type = "SimpleTexture", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3178,6 +3517,18 @@ APIDefs["GetClientDisplayExpansionLevel"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["GetClockTime"] = {
+    key = "GetClockTime",
+    name = "GetClockTime",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetClockTime"],
+    funcPath = "GetClockTime",
+    params = {  },
+    returns = { { name = "clockTime", type = "FrameTime", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["GetCollapsingStarCost"] = {
     key = "GetCollapsingStarCost",
     name = "GetCollapsingStarCost",
@@ -3197,7 +3548,7 @@ APIDefs["GetColorAlpha"] = {
     subcategory = "global",
     func = _G["GetColorAlpha"],
     funcPath = "GetColorAlpha",
-    params = { { name = "alpha", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "alpha", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3209,7 +3560,7 @@ APIDefs["GetColorAlphaTexture"] = {
     subcategory = "global",
     func = _G["GetColorAlphaTexture"],
     funcPath = "GetColorAlphaTexture",
-    params = { { name = "texture", type = "SimpleTexture", default = nil } },
+    params = {  },
     returns = { { name = "texture", type = "SimpleTexture", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3221,7 +3572,7 @@ APIDefs["GetColorAlphaThumbTexture"] = {
     subcategory = "global",
     func = _G["GetColorAlphaThumbTexture"],
     funcPath = "GetColorAlphaThumbTexture",
-    params = { { name = "texture", type = "SimpleTexture", default = nil } },
+    params = {  },
     returns = { { name = "texture", type = "SimpleTexture", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3233,7 +3584,7 @@ APIDefs["GetColorHSV"] = {
     subcategory = "global",
     func = _G["GetColorHSV"],
     funcPath = "GetColorHSV",
-    params = { { name = "hsvX", type = "number", default = nil }, { name = "hsvY", type = "number", default = nil }, { name = "hsvZ", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "hsvX", type = "number", canBeSecret = false }, { name = "hsvY", type = "number", canBeSecret = false }, { name = "hsvZ", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3245,7 +3596,7 @@ APIDefs["GetColorRGB"] = {
     subcategory = "global",
     func = _G["GetColorRGB"],
     funcPath = "GetColorRGB",
-    params = { { name = "rgbR", type = "number", default = nil }, { name = "rgbG", type = "number", default = nil }, { name = "rgbB", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "rgbR", type = "number", canBeSecret = false }, { name = "rgbG", type = "number", canBeSecret = false }, { name = "rgbB", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3257,7 +3608,7 @@ APIDefs["GetColorValueTexture"] = {
     subcategory = "global",
     func = _G["GetColorValueTexture"],
     funcPath = "GetColorValueTexture",
-    params = { { name = "texture", type = "SimpleTexture", default = nil } },
+    params = {  },
     returns = { { name = "texture", type = "SimpleTexture", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3269,7 +3620,7 @@ APIDefs["GetColorValueThumbTexture"] = {
     subcategory = "global",
     func = _G["GetColorValueThumbTexture"],
     funcPath = "GetColorValueThumbTexture",
-    params = { { name = "texture", type = "SimpleTexture", default = nil } },
+    params = {  },
     returns = { { name = "texture", type = "SimpleTexture", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3281,7 +3632,7 @@ APIDefs["GetColorWheelTexture"] = {
     subcategory = "global",
     func = _G["GetColorWheelTexture"],
     funcPath = "GetColorWheelTexture",
-    params = { { name = "texture", type = "SimpleTexture", default = nil } },
+    params = {  },
     returns = { { name = "texture", type = "SimpleTexture", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3293,7 +3644,7 @@ APIDefs["GetColorWheelThumbTexture"] = {
     subcategory = "global",
     func = _G["GetColorWheelThumbTexture"],
     funcPath = "GetColorWheelThumbTexture",
-    params = { { name = "texture", type = "SimpleTexture", default = nil } },
+    params = {  },
     returns = { { name = "texture", type = "SimpleTexture", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3307,9 +3658,8 @@ APIDefs["GetCombatRating"] = {
     funcPath = "GetCombatRating",
     params = { { name = "ratingIndex", type = "luaIndex", default = nil } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["GetCombatRatingBonus"] = {
@@ -3321,9 +3671,8 @@ APIDefs["GetCombatRatingBonus"] = {
     funcPath = "GetCombatRatingBonus",
     params = { { name = "ratingIndex", type = "luaIndex", default = nil } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["GetCombatRatingBonusForCombatRatingValue"] = {
@@ -3347,11 +3696,10 @@ APIDefs["GetComboPoints"] = {
     subcategory = "global",
     func = _G["GetComboPoints"],
     funcPath = "GetComboPoints",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "target", type = "UnitToken", default = "player" } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "target", type = "UnitTokenPvPRestrictedForAddOns", default = nil } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitPowerRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["GetContentHeight"] = {
@@ -3373,8 +3721,20 @@ APIDefs["GetControlPoints"] = {
     subcategory = "global",
     func = _G["GetControlPoints"],
     funcPath = "GetControlPoints",
-    params = { { name = "points", type = "SimpleControlPoint", default = nil } },
+    params = {  },
     returns = { { name = "points", type = "SimpleControlPoint", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetConvertToLower"] = {
+    key = "GetConvertToLower",
+    name = "GetConvertToLower",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetConvertToLower"],
+    funcPath = "GetConvertToLower",
+    params = {  },
+    returns = { { name = "convert", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -3450,6 +3810,18 @@ APIDefs["GetCorruptionResistance"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["GetCountdownAbbrevThreshold"] = {
+    key = "GetCountdownAbbrevThreshold",
+    name = "GetCountdownAbbrevThreshold",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetCountdownAbbrevThreshold"],
+    funcPath = "GetCountdownAbbrevThreshold",
+    params = { { name = "seconds", type = "DurationSecondsPrimitive", default = nil } },
+    returns = { { name = "seconds", type = "DurationSecondsPrimitive", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["GetCountdownFontString"] = {
     key = "GetCountdownFontString",
     name = "GetCountdownFontString",
@@ -3462,16 +3834,41 @@ APIDefs["GetCountdownFontString"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["GetCountdownFormatter"] = {
+    key = "GetCountdownFormatter",
+    name = "GetCountdownFormatter",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetCountdownFormatter"],
+    funcPath = "GetCountdownFormatter",
+    params = { { name = "formatter", type = "NumericFormatter", default = nil } },
+    returns = { { name = "formatter", type = "NumericFormatter", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetCountdownMillisecondsThreshold"] = {
+    key = "GetCountdownMillisecondsThreshold",
+    name = "GetCountdownMillisecondsThreshold",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetCountdownMillisecondsThreshold"],
+    funcPath = "GetCountdownMillisecondsThreshold",
+    params = { { name = "seconds", type = "DurationSecondsPrimitive", default = nil } },
+    returns = { { name = "seconds", type = "DurationSecondsPrimitive", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["GetCritChance"] = {
     key = "GetCritChance",
     name = "GetCritChance",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetCritChance"],
     funcPath = "GetCritChance",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetCritChanceProvidesParryEffect"] = {
@@ -3486,6 +3883,18 @@ APIDefs["GetCritChanceProvidesParryEffect"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["GetCurrentCinematicSummary"] = {
+    key = "GetCurrentCinematicSummary",
+    name = "GetCurrentCinematicSummary",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetCurrentCinematicSummary"],
+    funcPath = "GetCurrentCinematicSummary",
+    params = {  },
+    returns = { { name = "summary", type = "cstring", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["GetCurrentEventID"] = {
     key = "GetCurrentEventID",
     name = "GetCurrentEventID",
@@ -3495,6 +3904,30 @@ APIDefs["GetCurrentEventID"] = {
     funcPath = "GetCurrentEventID",
     params = {  },
     returns = { { name = "eventID", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetCurrentHealth"] = {
+    key = "GetCurrentHealth",
+    name = "GetCurrentHealth",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetCurrentHealth"],
+    funcPath = "GetCurrentHealth",
+    params = {  },
+    returns = { { name = "currentHealth", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetCurrentHealthPercent"] = {
+    key = "GetCurrentHealthPercent",
+    name = "GetCurrentHealthPercent",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetCurrentHealthPercent"],
+    funcPath = "GetCurrentHealthPercent",
+    params = {  },
+    returns = { { name = "currentHealthPercent", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -3589,8 +4022,32 @@ APIDefs["GetCurveType"] = {
     subcategory = "global",
     func = _G["GetCurveType"],
     funcPath = "GetCurveType",
-    params = { { name = "curveType", type = "CurveType", default = nil } },
+    params = {  },
     returns = { { name = "curveType", type = "CurveType", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetDamageAbsorbClampMode"] = {
+    key = "GetDamageAbsorbClampMode",
+    name = "GetDamageAbsorbClampMode",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetDamageAbsorbClampMode"],
+    funcPath = "GetDamageAbsorbClampMode",
+    params = {  },
+    returns = { { name = "damageAbsorbClampMode", type = "UnitDamageAbsorbClampMode", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetDamageAbsorbs"] = {
+    key = "GetDamageAbsorbs",
+    name = "GetDamageAbsorbs",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetDamageAbsorbs"],
+    funcPath = "GetDamageAbsorbs",
+    params = {  },
+    returns = { { name = "amount", type = "number", canBeSecret = false }, { name = "clamped", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -3603,6 +4060,32 @@ APIDefs["GetDebugName"] = {
     funcPath = "GetDebugName",
     params = { { name = "preferParentKey", type = "bool", default = false } },
     returns = { { name = "debugName", type = "string", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["GetDefaultAbbreviation"] = {
+    key = "GetDefaultAbbreviation",
+    name = "GetDefaultAbbreviation",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetDefaultAbbreviation"],
+    funcPath = "GetDefaultAbbreviation",
+    params = {  },
+    returns = { { name = "abbreviation", type = "SecondsFormatterAbbrevation", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetDefaultAbbreviationBreakpoints"] = {
+    key = "GetDefaultAbbreviationBreakpoints",
+    name = "GetDefaultAbbreviationBreakpoints",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["GetDefaultAbbreviationBreakpoints"],
+    funcPath = "GetDefaultAbbreviationBreakpoints",
+    params = { { name = "locale", type = "WowLocale", default = nil } },
+    returns = { { name = "breakpoints", type = "table", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -3627,7 +4110,7 @@ APIDefs["GetDegrees"] = {
     subcategory = "global",
     func = _G["GetDegrees"],
     funcPath = "GetDegrees",
-    params = { { name = "angle", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "angle", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3641,6 +4124,30 @@ APIDefs["GetDesaturation"] = {
     funcPath = "GetDesaturation",
     params = { { name = "desaturation", type = "normalizedValue", default = nil } },
     returns = { { name = "desaturation", type = "normalizedValue", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetDesiredUnitCount"] = {
+    key = "GetDesiredUnitCount",
+    name = "GetDesiredUnitCount",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetDesiredUnitCount"],
+    funcPath = "GetDesiredUnitCount",
+    params = {  },
+    returns = { { name = "count", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetDesiredUnitCountCurve"] = {
+    key = "GetDesiredUnitCountCurve",
+    name = "GetDesiredUnitCountCurve",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetDesiredUnitCountCurve"],
+    funcPath = "GetDesiredUnitCountCurve",
+    params = {  },
+    returns = { { name = "curve", type = "LuaCurveObject", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -3665,7 +4172,7 @@ APIDefs["GetDisabledCheckedTexture"] = {
     subcategory = "global",
     func = _G["GetDisabledCheckedTexture"],
     funcPath = "GetDisabledCheckedTexture",
-    params = { { name = "texture", type = "SimpleTexture", default = nil } },
+    params = {  },
     returns = { { name = "texture", type = "SimpleTexture", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3701,7 +4208,7 @@ APIDefs["GetDisplayInfo"] = {
     subcategory = "global",
     func = _G["GetDisplayInfo"],
     funcPath = "GetDisplayInfo",
-    params = { { name = "displayID", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "displayID", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3725,7 +4232,7 @@ APIDefs["GetDoBlend"] = {
     subcategory = "global",
     func = _G["GetDoBlend"],
     funcPath = "GetDoBlend",
-    params = { { name = "doBlend", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "doBlend", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3733,25 +4240,27 @@ APIDefs["GetDoBlend"] = {
 APIDefs["GetDodgeChance"] = {
     key = "GetDodgeChance",
     name = "GetDodgeChance",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetDodgeChance"],
     funcPath = "GetDodgeChance",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetDodgeChanceFromAttribute"] = {
     key = "GetDodgeChanceFromAttribute",
     name = "GetDodgeChanceFromAttribute",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetDodgeChanceFromAttribute"],
     funcPath = "GetDodgeChanceFromAttribute",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetDontSavePosition"] = {
@@ -3773,7 +4282,7 @@ APIDefs["GetDoorConnectionInfo"] = {
     subcategory = "global",
     func = _G["GetDoorConnectionInfo"],
     funcPath = "GetDoorConnectionInfo",
-    params = { { name = "connectionInfo", type = "DoorConnectionInfo", default = nil } },
+    params = {  },
     returns = { { name = "connectionInfo", type = "DoorConnectionInfo", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3881,7 +4390,7 @@ APIDefs["GetEditorModeContext"] = {
     subcategory = "global",
     func = _G["GetEditorModeContext"],
     funcPath = "GetEditorModeContext",
-    params = { { name = "editorModeContext", type = "HouseEditorMode", default = nil } },
+    params = {  },
     returns = { { name = "editorModeContext", type = "HouseEditorMode", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3969,7 +4478,7 @@ APIDefs["GetEndColor"] = {
     subcategory = "global",
     func = _G["GetEndColor"],
     funcPath = "GetEndColor",
-    params = { { name = "color", type = "colorRGBA", default = nil } },
+    params = {  },
     returns = { { name = "color", type = "colorRGBA", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -3993,7 +4502,7 @@ APIDefs["GetEndPoint"] = {
     subcategory = "global",
     func = _G["GetEndPoint"],
     funcPath = "GetEndPoint",
-    params = { { name = "relativePoint", type = "FramePoint", default = nil }, { name = "relativeTo", type = "ScriptRegion", default = nil }, { name = "offsetX", type = "uiUnit", default = nil }, { name = "offsetY", type = "uiUnit", default = nil } },
+    params = {  },
     returns = { { name = "relativePoint", type = "FramePoint", canBeSecret = false }, { name = "relativeTo", type = "ScriptRegion", canBeSecret = false }, { name = "offsetX", type = "uiUnit", canBeSecret = false }, { name = "offsetY", type = "uiUnit", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4093,25 +4602,27 @@ APIDefs["GetExpansionTrialInfo"] = {
 APIDefs["GetExpertise"] = {
     key = "GetExpertise",
     name = "GetExpertise",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetExpertise"],
     funcPath = "GetExpertise",
     params = {  },
     returns = { { name = "mainhandExpertise", type = "number", canBeSecret = false }, { name = "offhandExpertise", type = "number", canBeSecret = false }, { name = "rangedExpertise", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetExpertisePercent"] = {
     key = "GetExpertisePercent",
     name = "GetExpertisePercent",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetExpertisePercent"],
     funcPath = "GetExpertisePercent",
     params = {  },
     returns = { { name = "mainhandExpertisePercent", type = "number", canBeSecret = false }, { name = "offhandExpertisePercent", type = "number", canBeSecret = false }, { name = "rangedExpertisePercent", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetFacing"] = {
@@ -4121,7 +4632,7 @@ APIDefs["GetFacing"] = {
     subcategory = "global",
     func = _G["GetFacing"],
     funcPath = "GetFacing",
-    params = { { name = "facing", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "facing", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4133,7 +4644,7 @@ APIDefs["GetFadeDuration"] = {
     subcategory = "global",
     func = _G["GetFadeDuration"],
     funcPath = "GetFadeDuration",
-    params = { { name = "fadeDurationSeconds", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "fadeDurationSeconds", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4145,7 +4656,7 @@ APIDefs["GetFadePower"] = {
     subcategory = "global",
     func = _G["GetFadePower"],
     funcPath = "GetFadePower",
-    params = { { name = "fadePower", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "fadePower", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4157,7 +4668,7 @@ APIDefs["GetFading"] = {
     subcategory = "global",
     func = _G["GetFading"],
     funcPath = "GetFading",
-    params = { { name = "isFading", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isFading", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4233,7 +4744,7 @@ APIDefs["GetFilteredCategoryID"] = {
     subcategory = "global",
     func = _G["GetFilteredCategoryID"],
     funcPath = "GetFilteredCategoryID",
-    params = { { name = "categoryID", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "categoryID", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4245,7 +4756,7 @@ APIDefs["GetFilteredSubcategoryID"] = {
     subcategory = "global",
     func = _G["GetFilteredSubcategoryID"],
     funcPath = "GetFilteredSubcategoryID",
-    params = { { name = "subcategoryID", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "subcategoryID", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4269,7 +4780,7 @@ APIDefs["GetFlipBookColumns"] = {
     subcategory = "global",
     func = _G["GetFlipBookColumns"],
     funcPath = "GetFlipBookColumns",
-    params = { { name = "columns", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "columns", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4281,7 +4792,7 @@ APIDefs["GetFlipBookFrameHeight"] = {
     subcategory = "global",
     func = _G["GetFlipBookFrameHeight"],
     funcPath = "GetFlipBookFrameHeight",
-    params = { { name = "height", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "height", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4293,7 +4804,7 @@ APIDefs["GetFlipBookFrameWidth"] = {
     subcategory = "global",
     func = _G["GetFlipBookFrameWidth"],
     funcPath = "GetFlipBookFrameWidth",
-    params = { { name = "width", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "width", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4305,7 +4816,7 @@ APIDefs["GetFlipBookFrames"] = {
     subcategory = "global",
     func = _G["GetFlipBookFrames"],
     funcPath = "GetFlipBookFrames",
-    params = { { name = "frames", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "frames", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4317,7 +4828,7 @@ APIDefs["GetFlipBookRows"] = {
     subcategory = "global",
     func = _G["GetFlipBookRows"],
     funcPath = "GetFlipBookRows",
-    params = { { name = "rows", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "rows", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4329,7 +4840,7 @@ APIDefs["GetFogColor"] = {
     subcategory = "global",
     func = _G["GetFogColor"],
     funcPath = "GetFogColor",
-    params = { { name = "colorR", type = "number", default = nil }, { name = "colorG", type = "number", default = nil }, { name = "colorB", type = "number", default = nil }, { name = "colorA", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "colorR", type = "number", canBeSecret = false }, { name = "colorG", type = "number", canBeSecret = false }, { name = "colorB", type = "number", canBeSecret = false }, { name = "colorA", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4341,7 +4852,7 @@ APIDefs["GetFogFar"] = {
     subcategory = "global",
     func = _G["GetFogFar"],
     funcPath = "GetFogFar",
-    params = { { name = "fogFar", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "fogFar", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4353,7 +4864,7 @@ APIDefs["GetFogNear"] = {
     subcategory = "global",
     func = _G["GetFogNear"],
     funcPath = "GetFogNear",
-    params = { { name = "fogNear", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "fogNear", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4365,7 +4876,7 @@ APIDefs["GetFogOfWarBackgroundAtlas"] = {
     subcategory = "global",
     func = _G["GetFogOfWarBackgroundAtlas"],
     funcPath = "GetFogOfWarBackgroundAtlas",
-    params = { { name = "atlas", type = "textureAtlas", default = nil } },
+    params = {  },
     returns = { { name = "atlas", type = "textureAtlas", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4377,7 +4888,7 @@ APIDefs["GetFogOfWarBackgroundTexture"] = {
     subcategory = "global",
     func = _G["GetFogOfWarBackgroundTexture"],
     funcPath = "GetFogOfWarBackgroundTexture",
-    params = { { name = "asset", type = "FileAsset", default = nil } },
+    params = {  },
     returns = { { name = "asset", type = "FileAsset", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4389,7 +4900,7 @@ APIDefs["GetFogOfWarMaskAtlas"] = {
     subcategory = "global",
     func = _G["GetFogOfWarMaskAtlas"],
     funcPath = "GetFogOfWarMaskAtlas",
-    params = { { name = "atlas", type = "textureAtlas", default = nil } },
+    params = {  },
     returns = { { name = "atlas", type = "textureAtlas", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4401,7 +4912,7 @@ APIDefs["GetFogOfWarMaskTexture"] = {
     subcategory = "global",
     func = _G["GetFogOfWarMaskTexture"],
     funcPath = "GetFogOfWarMaskTexture",
-    params = { { name = "asset", type = "FileAsset", default = nil } },
+    params = {  },
     returns = { { name = "asset", type = "FileAsset", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4413,7 +4924,7 @@ APIDefs["GetFont"] = {
     subcategory = "global",
     func = _G["GetFont"],
     funcPath = "GetFont",
-    params = { { name = "fontFile", type = "cstring", default = nil }, { name = "height", type = "uiFontHeight", default = nil }, { name = "flags", type = "TBFFlags", default = nil } },
+    params = {  },
     returns = { { name = "fontFile", type = "cstring", canBeSecret = false }, { name = "height", type = "uiFontHeight", canBeSecret = false }, { name = "flags", type = "TBFFlags", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4453,7 +4964,7 @@ APIDefs["GetFontObject"] = {
     subcategory = "global",
     func = _G["GetFontObject"],
     funcPath = "GetFontObject",
-    params = { { name = "font", type = "SimpleFont", default = nil } },
+    params = {  },
     returns = { { name = "font", type = "SimpleFont", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4567,7 +5078,7 @@ APIDefs["GetFromAlpha"] = {
     subcategory = "global",
     func = _G["GetFromAlpha"],
     funcPath = "GetFromAlpha",
-    params = { { name = "normalizedAlpha", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "normalizedAlpha", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4601,12 +5112,49 @@ APIDefs["GetGameTime"] = {
 APIDefs["GetHaste"] = {
     key = "GetHaste",
     name = "GetHaste",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetHaste"],
     funcPath = "GetHaste",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
+}
+
+APIDefs["GetHealAbsorbClampMode"] = {
+    key = "GetHealAbsorbClampMode",
+    name = "GetHealAbsorbClampMode",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetHealAbsorbClampMode"],
+    funcPath = "GetHealAbsorbClampMode",
+    params = {  },
+    returns = { { name = "healAbsorbClampMode", type = "UnitHealAbsorbClampMode", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetHealAbsorbMode"] = {
+    key = "GetHealAbsorbMode",
+    name = "GetHealAbsorbMode",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetHealAbsorbMode"],
+    funcPath = "GetHealAbsorbMode",
+    params = {  },
+    returns = { { name = "healAbsorbMode", type = "UnitHealAbsorbMode", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetHealAbsorbs"] = {
+    key = "GetHealAbsorbs",
+    name = "GetHealAbsorbs",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetHealAbsorbs"],
+    funcPath = "GetHealAbsorbs",
+    params = {  },
+    returns = { { name = "amount", type = "number", canBeSecret = false }, { name = "clamped", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -4701,13 +5249,14 @@ APIDefs["GetHistoryLines"] = {
 APIDefs["GetHitModifier"] = {
     key = "GetHitModifier",
     name = "GetHitModifier",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetHitModifier"],
     funcPath = "GetHitModifier",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetHitRectInsets"] = {
@@ -4729,8 +5278,20 @@ APIDefs["GetHitRectThickness"] = {
     subcategory = "global",
     func = _G["GetHitRectThickness"],
     funcPath = "GetHitRectThickness",
-    params = { { name = "thickness", type = "uiUnit", default = nil } },
+    params = {  },
     returns = { { name = "thickness", type = "uiUnit", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetHitTestPoints"] = {
+    key = "GetHitTestPoints",
+    name = "GetHitTestPoints",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetHitTestPoints"],
+    funcPath = "GetHitTestPoints",
+    params = {  },
+    returns = { { name = "anchors", type = "table", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -4806,6 +5367,42 @@ APIDefs["GetID"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["GetIncomingHealClampMode"] = {
+    key = "GetIncomingHealClampMode",
+    name = "GetIncomingHealClampMode",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetIncomingHealClampMode"],
+    funcPath = "GetIncomingHealClampMode",
+    params = {  },
+    returns = { { name = "incomingHealClampMode", type = "UnitIncomingHealClampMode", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetIncomingHealOverflowPercent"] = {
+    key = "GetIncomingHealOverflowPercent",
+    name = "GetIncomingHealOverflowPercent",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetIncomingHealOverflowPercent"],
+    funcPath = "GetIncomingHealOverflowPercent",
+    params = {  },
+    returns = { { name = "incomingHealOverflowPercent", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetIncomingHeals"] = {
+    key = "GetIncomingHeals",
+    name = "GetIncomingHeals",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetIncomingHeals"],
+    funcPath = "GetIncomingHeals",
+    params = {  },
+    returns = { { name = "amount", type = "number", canBeSecret = false }, { name = "amountFromHealer", type = "number", canBeSecret = false }, { name = "amountFromOthers", type = "number", canBeSecret = false }, { name = "clamped", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["GetIndentedWordWrap"] = {
     key = "GetIndentedWordWrap",
     name = "GetIndentedWordWrap",
@@ -4813,7 +5410,7 @@ APIDefs["GetIndentedWordWrap"] = {
     subcategory = "global",
     func = _G["GetIndentedWordWrap"],
     funcPath = "GetIndentedWordWrap",
-    params = { { name = "wordWrap", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "wordWrap", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4837,7 +5434,7 @@ APIDefs["GetInsertMode"] = {
     subcategory = "global",
     func = _G["GetInsertMode"],
     funcPath = "GetInsertMode",
-    params = { { name = "mode", type = "InsertMode", default = nil } },
+    params = {  },
     returns = { { name = "mode", type = "InsertMode", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4925,7 +5522,7 @@ APIDefs["GetItemTransmogInfoList"] = {
     subcategory = "global",
     func = _G["GetItemTransmogInfoList"],
     funcPath = "GetItemTransmogInfoList",
-    params = { { name = "infoList", type = "table", default = nil } },
+    params = {  },
     returns = { { name = "infoList", type = "table", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4949,7 +5546,7 @@ APIDefs["GetJustifyH"] = {
     subcategory = "global",
     func = _G["GetJustifyH"],
     funcPath = "GetJustifyH",
-    params = { { name = "justifyH", type = "JustifyHorizontal", default = nil } },
+    params = {  },
     returns = { { name = "justifyH", type = "JustifyHorizontal", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4961,7 +5558,7 @@ APIDefs["GetJustifyV"] = {
     subcategory = "global",
     func = _G["GetJustifyV"],
     funcPath = "GetJustifyV",
-    params = { { name = "justifyV", type = "JustifyVertical", default = nil } },
+    params = {  },
     returns = { { name = "justifyV", type = "JustifyVertical", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4973,7 +5570,7 @@ APIDefs["GetKeepModelOnHide"] = {
     subcategory = "global",
     func = _G["GetKeepModelOnHide"],
     funcPath = "GetKeepModelOnHide",
-    params = { { name = "keepModelOnHide", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "keepModelOnHide", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -4988,6 +5585,20 @@ APIDefs["GetLeft"] = {
     params = { { name = "left", type = "uiUnit", default = nil } },
     returns = { { name = "left", type = "uiUnit", canBeSecret = false } },
     midnightImpact = "NORMAL",
+}
+
+APIDefs["GetLeftLine"] = {
+    key = "GetLeftLine",
+    name = "GetLeftLine",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["GetLeftLine"],
+    funcPath = "GetLeftLine",
+    params = { { name = "line", type = "luaIndex", default = nil } },
+    returns = { { name = "leftFontString", type = "SimpleFontString", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["GetLegacyRaidDifficultyID"] = {
@@ -5005,13 +5616,14 @@ APIDefs["GetLegacyRaidDifficultyID"] = {
 APIDefs["GetLifesteal"] = {
     key = "GetLifesteal",
     name = "GetLifesteal",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetLifesteal"],
     funcPath = "GetLifesteal",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetLight"] = {
@@ -5021,7 +5633,7 @@ APIDefs["GetLight"] = {
     subcategory = "global",
     func = _G["GetLight"],
     funcPath = "GetLight",
-    params = { { name = "enabled", type = "bool", default = nil }, { name = "light", type = "ModelLight", default = nil } },
+    params = {  },
     returns = { { name = "enabled", type = "bool", canBeSecret = false }, { name = "light", type = "ModelLight", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5033,7 +5645,7 @@ APIDefs["GetLightAmbientColor"] = {
     subcategory = "global",
     func = _G["GetLightAmbientColor"],
     funcPath = "GetLightAmbientColor",
-    params = { { name = "colorR", type = "number", default = nil }, { name = "colorG", type = "number", default = nil }, { name = "colorB", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "colorR", type = "number", canBeSecret = false }, { name = "colorG", type = "number", canBeSecret = false }, { name = "colorB", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5045,7 +5657,7 @@ APIDefs["GetLightDiffuseColor"] = {
     subcategory = "global",
     func = _G["GetLightDiffuseColor"],
     funcPath = "GetLightDiffuseColor",
-    params = { { name = "colorR", type = "number", default = nil }, { name = "colorG", type = "number", default = nil }, { name = "colorB", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "colorR", type = "number", canBeSecret = false }, { name = "colorG", type = "number", canBeSecret = false }, { name = "colorB", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5057,7 +5669,7 @@ APIDefs["GetLightDirection"] = {
     subcategory = "global",
     func = _G["GetLightDirection"],
     funcPath = "GetLightDirection",
-    params = { { name = "directionX", type = "number", default = nil }, { name = "directionY", type = "number", default = nil }, { name = "directionZ", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "directionX", type = "number", canBeSecret = false }, { name = "directionY", type = "number", canBeSecret = false }, { name = "directionZ", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5069,7 +5681,7 @@ APIDefs["GetLightPosition"] = {
     subcategory = "global",
     func = _G["GetLightPosition"],
     funcPath = "GetLightPosition",
-    params = { { name = "positionX", type = "number", default = nil }, { name = "positionY", type = "number", default = nil }, { name = "positionZ", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "positionX", type = "number", canBeSecret = false }, { name = "positionY", type = "number", canBeSecret = false }, { name = "positionZ", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5081,7 +5693,7 @@ APIDefs["GetLightType"] = {
     subcategory = "global",
     func = _G["GetLightType"],
     funcPath = "GetLightType",
-    params = { { name = "lightType", type = "ModelLightType", default = nil } },
+    params = {  },
     returns = { { name = "lightType", type = "ModelLightType", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5165,7 +5777,7 @@ APIDefs["GetLowerBackgroundFileName"] = {
     subcategory = "global",
     func = _G["GetLowerBackgroundFileName"],
     funcPath = "GetLowerBackgroundFileName",
-    params = { { name = "file", type = "fileID", default = nil } },
+    params = {  },
     returns = { { name = "file", type = "fileID", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5177,7 +5789,7 @@ APIDefs["GetLowerBorderFile"] = {
     subcategory = "global",
     func = _G["GetLowerBorderFile"],
     funcPath = "GetLowerBorderFile",
-    params = { { name = "file", type = "fileID", default = nil } },
+    params = {  },
     returns = { { name = "file", type = "fileID", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5189,7 +5801,7 @@ APIDefs["GetLowerEmblemFile"] = {
     subcategory = "global",
     func = _G["GetLowerEmblemFile"],
     funcPath = "GetLowerEmblemFile",
-    params = { { name = "file", type = "fileID", default = nil } },
+    params = {  },
     returns = { { name = "file", type = "fileID", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5211,13 +5823,14 @@ APIDefs["GetLowerEmblemTexture"] = {
 APIDefs["GetManaRegen"] = {
     key = "GetManaRegen",
     name = "GetManaRegen",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetManaRegen"],
     funcPath = "GetManaRegen",
     params = {  },
     returns = { { name = "baseManaRegen", type = "number", canBeSecret = false }, { name = "castingManaRegen", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetMapID"] = {
@@ -5227,7 +5840,7 @@ APIDefs["GetMapID"] = {
     subcategory = "global",
     func = _G["GetMapID"],
     funcPath = "GetMapID",
-    params = { { name = "uiMapID", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "uiMapID", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5239,7 +5852,7 @@ APIDefs["GetMaskScalar"] = {
     subcategory = "global",
     func = _G["GetMaskScalar"],
     funcPath = "GetMaskScalar",
-    params = { { name = "scalar", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "scalar", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5261,25 +5874,27 @@ APIDefs["GetMaskTexture"] = {
 APIDefs["GetMastery"] = {
     key = "GetMastery",
     name = "GetMastery",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetMastery"],
     funcPath = "GetMastery",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetMasteryEffect"] = {
     key = "GetMasteryEffect",
     name = "GetMasteryEffect",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetMasteryEffect"],
     funcPath = "GetMasteryEffect",
     params = {  },
     returns = { { name = "masteryEffect", type = "number", canBeSecret = false }, { name = "bonusCoefficient", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetMaxBoundingBox"] = {
@@ -5289,7 +5904,7 @@ APIDefs["GetMaxBoundingBox"] = {
     subcategory = "global",
     func = _G["GetMaxBoundingBox"],
     funcPath = "GetMaxBoundingBox",
-    params = { { name = "boxBottom", type = "vector3", default = nil }, { name = "boxTop", type = "vector3", default = nil } },
+    params = {  },
     returns = { { name = "boxBottom", type = "vector3", canBeSecret = false }, { name = "boxTop", type = "vector3", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5313,23 +5928,9 @@ APIDefs["GetMaxCharacterSlotCount"] = {
     subcategory = "global",
     func = _G["GetMaxCharacterSlotCount"],
     funcPath = "GetMaxCharacterSlotCount",
-    params = { { name = "maxCharacterSlotCount", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "maxCharacterSlotCount", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
-}
-
-APIDefs["GetMaxCombatRatingBonus"] = {
-    key = "GetMaxCombatRatingBonus",
-    name = "GetMaxCombatRatingBonus",
-    category = "combat_midnight",
-    subcategory = "global",
-    func = _G["GetMaxCombatRatingBonus"],
-    funcPath = "GetMaxCombatRatingBonus",
-    params = { { name = "ratingIndex", type = "luaIndex", default = nil } },
-    returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["GetMaxControlPointOrder"] = {
@@ -5339,8 +5940,32 @@ APIDefs["GetMaxControlPointOrder"] = {
     subcategory = "global",
     func = _G["GetMaxControlPointOrder"],
     funcPath = "GetMaxControlPointOrder",
-    params = { { name = "maxOrder", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "maxOrder", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetMaxInterval"] = {
+    key = "GetMaxInterval",
+    name = "GetMaxInterval",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetMaxInterval"],
+    funcPath = "GetMaxInterval",
+    params = {  },
+    returns = { { name = "interval", type = "SecondsFormatterInterval", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetMaxIntervalCurve"] = {
+    key = "GetMaxIntervalCurve",
+    name = "GetMaxIntervalCurve",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetMaxIntervalCurve"],
+    funcPath = "GetMaxIntervalCurve",
+    params = {  },
+    returns = { { name = "curve", type = "LuaCurveObject", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -5425,8 +6050,20 @@ APIDefs["GetMaxSnapshots"] = {
     subcategory = "global",
     func = _G["GetMaxSnapshots"],
     funcPath = "GetMaxSnapshots",
-    params = { { name = "maxSnapshots", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "maxSnapshots", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetMaximumDamageAbsorbs"] = {
+    key = "GetMaximumDamageAbsorbs",
+    name = "GetMaximumDamageAbsorbs",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetMaximumDamageAbsorbs"],
+    funcPath = "GetMaximumDamageAbsorbs",
+    params = {  },
+    returns = { { name = "maximumDamageAbsorbs", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -5442,15 +6079,100 @@ APIDefs["GetMaximumExpansionLevel"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["GetMaximumHealAbsorbs"] = {
+    key = "GetMaximumHealAbsorbs",
+    name = "GetMaximumHealAbsorbs",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetMaximumHealAbsorbs"],
+    funcPath = "GetMaximumHealAbsorbs",
+    params = {  },
+    returns = { { name = "maximumHealAbsorbs", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetMaximumHealth"] = {
+    key = "GetMaximumHealth",
+    name = "GetMaximumHealth",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetMaximumHealth"],
+    funcPath = "GetMaximumHealth",
+    params = {  },
+    returns = { { name = "maximumHealth", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetMaximumHealthMode"] = {
+    key = "GetMaximumHealthMode",
+    name = "GetMaximumHealthMode",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetMaximumHealthMode"],
+    funcPath = "GetMaximumHealthMode",
+    params = {  },
+    returns = { { name = "maximumHealthMode", type = "UnitMaximumHealthMode", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetMaximumIncomingHeals"] = {
+    key = "GetMaximumIncomingHeals",
+    name = "GetMaximumIncomingHeals",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetMaximumIncomingHeals"],
+    funcPath = "GetMaximumIncomingHeals",
+    params = {  },
+    returns = { { name = "maximumIncomingHeals", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["GetMeleeHaste"] = {
     key = "GetMeleeHaste",
     name = "GetMeleeHaste",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetMeleeHaste"],
     funcPath = "GetMeleeHaste",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
+}
+
+APIDefs["GetMillisecondsThreshold"] = {
+    key = "GetMillisecondsThreshold",
+    name = "GetMillisecondsThreshold",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetMillisecondsThreshold"],
+    funcPath = "GetMillisecondsThreshold",
+    params = {  },
+    returns = { { name = "threshold", type = "DurationSecondsDouble", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetMinInterval"] = {
+    key = "GetMinInterval",
+    name = "GetMinInterval",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetMinInterval"],
+    funcPath = "GetMinInterval",
+    params = {  },
+    returns = { { name = "interval", type = "SecondsFormatterInterval", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetMinIntervalCurve"] = {
+    key = "GetMinIntervalCurve",
+    name = "GetMinIntervalCurve",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetMinIntervalCurve"],
+    funcPath = "GetMinIntervalCurve",
+    params = {  },
+    returns = { { name = "curve", type = "LuaCurveObject", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -5485,8 +6207,8 @@ APIDefs["GetMinimumCountdownDuration"] = {
     subcategory = "global",
     func = _G["GetMinimumCountdownDuration"],
     funcPath = "GetMinimumCountdownDuration",
-    params = { { name = "milliseconds", type = "number", default = nil } },
-    returns = { { name = "milliseconds", type = "number", canBeSecret = false } },
+    params = { { name = "milliseconds", type = "DurationMillisecondsPrimitive", default = nil } },
+    returns = { { name = "milliseconds", type = "DurationMillisecondsPrimitive", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -5542,6 +6264,30 @@ APIDefs["GetMirrorTimerProgress"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["GetMissingHealth"] = {
+    key = "GetMissingHealth",
+    name = "GetMissingHealth",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetMissingHealth"],
+    funcPath = "GetMissingHealth",
+    params = {  },
+    returns = { { name = "missingHealth", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetMissingHealthPercent"] = {
+    key = "GetMissingHealthPercent",
+    name = "GetMissingHealthPercent",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetMissingHealthPercent"],
+    funcPath = "GetMissingHealthPercent",
+    params = {  },
+    returns = { { name = "missingHealthPercent", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["GetModRate"] = {
     key = "GetModRate",
     name = "GetModRate",
@@ -5549,7 +6295,7 @@ APIDefs["GetModRate"] = {
     subcategory = "global",
     func = _G["GetModRate"],
     funcPath = "GetModRate",
-    params = { { name = "modRate", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "modRate", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5557,13 +6303,14 @@ APIDefs["GetModRate"] = {
 APIDefs["GetModResilienceDamageReduction"] = {
     key = "GetModResilienceDamageReduction",
     name = "GetModResilienceDamageReduction",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetModResilienceDamageReduction"],
     funcPath = "GetModResilienceDamageReduction",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetModelAlpha"] = {
@@ -5573,7 +6320,7 @@ APIDefs["GetModelAlpha"] = {
     subcategory = "global",
     func = _G["GetModelAlpha"],
     funcPath = "GetModelAlpha",
-    params = { { name = "alpha", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "alpha", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5585,7 +6332,7 @@ APIDefs["GetModelDrawLayer"] = {
     subcategory = "global",
     func = _G["GetModelDrawLayer"],
     funcPath = "GetModelDrawLayer",
-    params = { { name = "layer", type = "DrawLayer", default = nil }, { name = "sublayer", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "layer", type = "DrawLayer", canBeSecret = false }, { name = "sublayer", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5597,7 +6344,7 @@ APIDefs["GetModelFileID"] = {
     subcategory = "global",
     func = _G["GetModelFileID"],
     funcPath = "GetModelFileID",
-    params = { { name = "modelFileID", type = "fileID", default = nil } },
+    params = {  },
     returns = { { name = "modelFileID", type = "fileID", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5609,7 +6356,7 @@ APIDefs["GetModelPath"] = {
     subcategory = "global",
     func = _G["GetModelPath"],
     funcPath = "GetModelPath",
-    params = { { name = "path", type = "string", default = nil } },
+    params = {  },
     returns = { { name = "path", type = "string", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5621,7 +6368,7 @@ APIDefs["GetModelScale"] = {
     subcategory = "global",
     func = _G["GetModelScale"],
     funcPath = "GetModelScale",
-    params = { { name = "scale", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "scale", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5633,7 +6380,7 @@ APIDefs["GetModelUnitGUID"] = {
     subcategory = "global",
     func = _G["GetModelUnitGUID"],
     funcPath = "GetModelUnitGUID",
-    params = { { name = "guid", type = "WOWGUID", default = nil } },
+    params = {  },
     returns = { { name = "guid", type = "WOWGUID", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5707,8 +6454,8 @@ APIDefs["GetMouseOverUnits"] = {
     subcategory = "global",
     func = _G["GetMouseOverUnits"],
     funcPath = "GetMouseOverUnits",
-    params = { { name = "units", type = "string", default = nil } },
-    returns = { { name = "units", type = "string", canBeSecret = false } },
+    params = {  },
+    returns = { { name = "units", type = "UnitTokenType", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -5829,7 +6576,7 @@ APIDefs["GetNumActors"] = {
     subcategory = "global",
     func = _G["GetNumActors"],
     funcPath = "GetNumActors",
-    params = { { name = "numActors", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "numActors", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5915,7 +6662,7 @@ APIDefs["GetNumPoints"] = {
     subcategory = "global",
     func = _G["GetNumPoints"],
     funcPath = "GetNumPoints",
-    params = { { name = "numPoints", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "numPoints", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5939,7 +6686,7 @@ APIDefs["GetNumSearchItems"] = {
     subcategory = "global",
     func = _G["GetNumSearchItems"],
     funcPath = "GetNumSearchItems",
-    params = { { name = "numSearchItems", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "numSearchItems", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -5963,8 +6710,20 @@ APIDefs["GetNumTooltips"] = {
     subcategory = "global",
     func = _G["GetNumTooltips"],
     funcPath = "GetNumTooltips",
-    params = { { name = "numObjectives", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "numObjectives", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetNumTotemSlots"] = {
+    key = "GetNumTotemSlots",
+    name = "GetNumTotemSlots",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetNumTotemSlots"],
+    funcPath = "GetNumTotemSlots",
+    params = {  },
+    returns = { { name = "numSlots", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -5999,7 +6758,7 @@ APIDefs["GetObeyHideInTransmogFlag"] = {
     subcategory = "global",
     func = _G["GetObeyHideInTransmogFlag"],
     funcPath = "GetObeyHideInTransmogFlag",
-    params = { { name = "obey", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "obey", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6011,7 +6770,7 @@ APIDefs["GetObeyStepOnDrag"] = {
     subcategory = "global",
     func = _G["GetObeyStepOnDrag"],
     funcPath = "GetObeyStepOnDrag",
-    params = { { name = "isObeyStepOnDrag", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isObeyStepOnDrag", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6035,7 +6794,7 @@ APIDefs["GetOffset"] = {
     subcategory = "global",
     func = _G["GetOffset"],
     funcPath = "GetOffset",
-    params = { { name = "offsetX", type = "uiUnit", default = nil }, { name = "offsetY", type = "uiUnit", default = nil } },
+    params = {  },
     returns = { { name = "offsetX", type = "uiUnit", canBeSecret = false }, { name = "offsetY", type = "uiUnit", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6047,7 +6806,7 @@ APIDefs["GetOrder"] = {
     subcategory = "global",
     func = _G["GetOrder"],
     funcPath = "GetOrder",
-    params = { { name = "order", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "order", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6071,7 +6830,7 @@ APIDefs["GetOrigin"] = {
     subcategory = "global",
     func = _G["GetOrigin"],
     funcPath = "GetOrigin",
-    params = { { name = "point", type = "FramePoint", default = nil }, { name = "originX", type = "number", default = nil }, { name = "originY", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "point", type = "FramePoint", canBeSecret = false }, { name = "originX", type = "number", canBeSecret = false }, { name = "originY", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6079,25 +6838,27 @@ APIDefs["GetOrigin"] = {
 APIDefs["GetOverrideAPBySpellPower"] = {
     key = "GetOverrideAPBySpellPower",
     name = "GetOverrideAPBySpellPower",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetOverrideAPBySpellPower"],
     funcPath = "GetOverrideAPBySpellPower",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetOverrideSpellPowerByAP"] = {
     key = "GetOverrideSpellPowerByAP",
     name = "GetOverrideSpellPowerByAP",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetOverrideSpellPowerByAP"],
     funcPath = "GetOverrideSpellPowerByAP",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetPVPDesired"] = {
@@ -6211,25 +6972,27 @@ APIDefs["GetParentKey"] = {
 APIDefs["GetParryChance"] = {
     key = "GetParryChance",
     name = "GetParryChance",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetParryChance"],
     funcPath = "GetParryChance",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetParryChanceFromAttribute"] = {
     key = "GetParryChanceFromAttribute",
     name = "GetParryChanceFromAttribute",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetParryChanceFromAttribute"],
     funcPath = "GetParryChanceFromAttribute",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetParticleOverrideScale"] = {
@@ -6239,7 +7002,7 @@ APIDefs["GetParticleOverrideScale"] = {
     subcategory = "global",
     func = _G["GetParticleOverrideScale"],
     funcPath = "GetParticleOverrideScale",
-    params = { { name = "scale", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "scale", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6251,7 +7014,7 @@ APIDefs["GetPaused"] = {
     subcategory = "global",
     func = _G["GetPaused"],
     funcPath = "GetPaused",
-    params = { { name = "paused", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "paused", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6259,25 +7022,27 @@ APIDefs["GetPaused"] = {
 APIDefs["GetPetMeleeHaste"] = {
     key = "GetPetMeleeHaste",
     name = "GetPetMeleeHaste",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetPetMeleeHaste"],
     funcPath = "GetPetMeleeHaste",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetPetSpellBonusDamage"] = {
     key = "GetPetSpellBonusDamage",
     name = "GetPetSpellBonusDamage",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetPetSpellBonusDamage"],
     funcPath = "GetPetSpellBonusDamage",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetPhysicalScreenSize"] = {
@@ -6299,7 +7064,7 @@ APIDefs["GetPinType"] = {
     subcategory = "global",
     func = _G["GetPinType"],
     funcPath = "GetPinType",
-    params = { { name = "type", type = "HousingLayoutPinType", default = nil } },
+    params = {  },
     returns = { { name = "type", type = "HousingLayoutPinType", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6311,7 +7076,7 @@ APIDefs["GetPingPosition"] = {
     subcategory = "global",
     func = _G["GetPingPosition"],
     funcPath = "GetPingPosition",
-    params = { { name = "positionX", type = "number", default = nil }, { name = "positionY", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "positionX", type = "number", canBeSecret = false }, { name = "positionY", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6323,7 +7088,7 @@ APIDefs["GetPitch"] = {
     subcategory = "global",
     func = _G["GetPitch"],
     funcPath = "GetPitch",
-    params = { { name = "pitch", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "pitch", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6361,7 +7126,7 @@ APIDefs["GetPlayerPingScale"] = {
     subcategory = "global",
     func = _G["GetPlayerPingScale"],
     funcPath = "GetPlayerPingScale",
-    params = { { name = "scale", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "scale", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6375,9 +7140,8 @@ APIDefs["GetPoint"] = {
     funcPath = "GetPoint",
     params = { { name = "anchorIndex", type = "luaIndex", default = 0 }, { name = "resolveCollapsed", type = "bool", default = false } },
     returns = { { name = "point", type = "FramePoint", canBeSecret = false }, { name = "relativeTo", type = "ScriptRegion", canBeSecret = false }, { name = "relativePoint", type = "FramePoint", canBeSecret = false }, { name = "offsetX", type = "uiUnit", canBeSecret = false }, { name = "offsetY", type = "uiUnit", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenAnchoringSecret, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["GetPointByName"] = {
@@ -6389,9 +7153,8 @@ APIDefs["GetPointByName"] = {
     funcPath = "GetPointByName",
     params = { { name = "point", type = "FramePoint", default = nil }, { name = "resolveCollapsed", type = "bool", default = false } },
     returns = { { name = "point", type = "FramePoint", canBeSecret = false }, { name = "relativeTo", type = "ScriptRegion", canBeSecret = false }, { name = "relativePoint", type = "FramePoint", canBeSecret = false }, { name = "offsetX", type = "uiUnit", canBeSecret = false }, { name = "offsetY", type = "uiUnit", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenAnchoringSecret, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["GetPointCount"] = {
@@ -6401,7 +7164,7 @@ APIDefs["GetPointCount"] = {
     subcategory = "global",
     func = _G["GetPointCount"],
     funcPath = "GetPointCount",
-    params = { { name = "count", type = "size", default = nil } },
+    params = {  },
     returns = { { name = "count", type = "size", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6413,7 +7176,7 @@ APIDefs["GetPoints"] = {
     subcategory = "global",
     func = _G["GetPoints"],
     funcPath = "GetPoints",
-    params = { { name = "point", type = "table", default = nil } },
+    params = {  },
     returns = { { name = "point", type = "table", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6425,7 +7188,7 @@ APIDefs["GetPosition"] = {
     subcategory = "global",
     func = _G["GetPosition"],
     funcPath = "GetPosition",
-    params = { { name = "positionX", type = "number", default = nil }, { name = "positionY", type = "number", default = nil }, { name = "positionZ", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "positionX", type = "number", canBeSecret = false }, { name = "positionY", type = "number", canBeSecret = false }, { name = "positionZ", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6433,13 +7196,14 @@ APIDefs["GetPosition"] = {
 APIDefs["GetPowerRegen"] = {
     key = "GetPowerRegen",
     name = "GetPowerRegen",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetPowerRegen"],
     funcPath = "GetPowerRegen",
     params = {  },
     returns = { { name = "basePowerRegen", type = "number", canBeSecret = false }, { name = "castingPowerRegen", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetPowerRegenForPowerType"] = {
@@ -6451,9 +7215,20 @@ APIDefs["GetPowerRegenForPowerType"] = {
     funcPath = "GetPowerRegenForPowerType",
     params = { { name = "powerType", type = "number", default = nil } },
     returns = { { name = "basePowerRegen", type = "number", canBeSecret = false }, { name = "castingPowerRegen", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["GetPredictedValues"] = {
+    key = "GetPredictedValues",
+    name = "GetPredictedValues",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetPredictedValues"],
+    funcPath = "GetPredictedValues",
+    params = {  },
+    returns = { { name = "predictedValues", type = "UnitHealPredictionValues", canBeSecret = false } },
+    midnightImpact = "NORMAL",
 }
 
 APIDefs["GetProgress"] = {
@@ -6507,25 +7282,27 @@ APIDefs["GetPushedTexture"] = {
 APIDefs["GetPvpPowerDamage"] = {
     key = "GetPvpPowerDamage",
     name = "GetPvpPowerDamage",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetPvpPowerDamage"],
     funcPath = "GetPvpPowerDamage",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetPvpPowerHealing"] = {
     key = "GetPvpPowerHealing",
     name = "GetPvpPowerHealing",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetPvpPowerHealing"],
     funcPath = "GetPvpPowerHealing",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetRadians"] = {
@@ -6535,7 +7312,7 @@ APIDefs["GetRadians"] = {
     subcategory = "global",
     func = _G["GetRadians"],
     funcPath = "GetRadians",
-    params = { { name = "angle", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "angle", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6580,25 +7357,27 @@ APIDefs["GetRaisedFrameLevel"] = {
 APIDefs["GetRangedCritChance"] = {
     key = "GetRangedCritChance",
     name = "GetRangedCritChance",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetRangedCritChance"],
     funcPath = "GetRangedCritChance",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetRangedHaste"] = {
     key = "GetRangedHaste",
     name = "GetRangedHaste",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetRangedHaste"],
     funcPath = "GetRangedHaste",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetRealZoneText"] = {
@@ -6799,6 +7578,20 @@ APIDefs["GetRight"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["GetRightLine"] = {
+    key = "GetRightLine",
+    name = "GetRightLine",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["GetRightLine"],
+    funcPath = "GetRightLine",
+    params = { { name = "line", type = "luaIndex", default = nil } },
+    returns = { { name = "rightFontString", type = "SimpleFontString", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["GetRoll"] = {
     key = "GetRoll",
     name = "GetRoll",
@@ -6806,7 +7599,7 @@ APIDefs["GetRoll"] = {
     subcategory = "global",
     func = _G["GetRoll"],
     funcPath = "GetRoll",
-    params = { { name = "roll", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "roll", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6818,7 +7611,7 @@ APIDefs["GetRoomGUID"] = {
     subcategory = "global",
     func = _G["GetRoomGUID"],
     funcPath = "GetRoomGUID",
-    params = { { name = "roomGUID", type = "WOWGUID", default = nil } },
+    params = {  },
     returns = { { name = "roomGUID", type = "WOWGUID", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6830,7 +7623,7 @@ APIDefs["GetRoomName"] = {
     subcategory = "global",
     func = _G["GetRoomName"],
     funcPath = "GetRoomName",
-    params = { { name = "name", type = "cstring", default = nil } },
+    params = {  },
     returns = { { name = "name", type = "cstring", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6918,7 +7711,7 @@ APIDefs["GetScaleFrom"] = {
     subcategory = "global",
     func = _G["GetScaleFrom"],
     funcPath = "GetScaleFrom",
-    params = { { name = "scaleX", type = "number", default = nil }, { name = "scaleY", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "scaleX", type = "number", canBeSecret = false }, { name = "scaleY", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6930,7 +7723,7 @@ APIDefs["GetScaleTo"] = {
     subcategory = "global",
     func = _G["GetScaleTo"],
     funcPath = "GetScaleTo",
-    params = { { name = "scaleX", type = "number", default = nil }, { name = "scaleY", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "scaleX", type = "number", canBeSecret = false }, { name = "scaleY", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -6954,7 +7747,7 @@ APIDefs["GetScenarioTooltipText"] = {
     subcategory = "global",
     func = _G["GetScenarioTooltipText"],
     funcPath = "GetScenarioTooltipText",
-    params = { { name = "tooltipText", type = "cstring", default = nil } },
+    params = {  },
     returns = { { name = "tooltipText", type = "cstring", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7028,7 +7821,7 @@ APIDefs["GetSearchCount"] = {
     subcategory = "global",
     func = _G["GetSearchCount"],
     funcPath = "GetSearchCount",
-    params = { { name = "searchCount", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "searchCount", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7040,7 +7833,7 @@ APIDefs["GetSearchText"] = {
     subcategory = "global",
     func = _G["GetSearchText"],
     funcPath = "GetSearchText",
-    params = { { name = "searchText", type = "string", default = nil } },
+    params = {  },
     returns = { { name = "searchText", type = "string", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7100,7 +7893,7 @@ APIDefs["GetShadowColor"] = {
     subcategory = "global",
     func = _G["GetShadowColor"],
     funcPath = "GetShadowColor",
-    params = { { name = "colorR", type = "number", default = nil }, { name = "colorG", type = "number", default = nil }, { name = "colorB", type = "number", default = nil }, { name = "colorA", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "colorR", type = "number", canBeSecret = false }, { name = "colorG", type = "number", canBeSecret = false }, { name = "colorB", type = "number", canBeSecret = false }, { name = "colorA", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7112,7 +7905,7 @@ APIDefs["GetShadowEffect"] = {
     subcategory = "global",
     func = _G["GetShadowEffect"],
     funcPath = "GetShadowEffect",
-    params = { { name = "strength", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "strength", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7124,7 +7917,7 @@ APIDefs["GetShadowOffset"] = {
     subcategory = "global",
     func = _G["GetShadowOffset"],
     funcPath = "GetShadowOffset",
-    params = { { name = "offsetX", type = "number", default = nil }, { name = "offsetY", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "offsetX", type = "number", canBeSecret = false }, { name = "offsetY", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7148,7 +7941,7 @@ APIDefs["GetSheathed"] = {
     subcategory = "global",
     func = _G["GetSheathed"],
     funcPath = "GetSheathed",
-    params = { { name = "sheathed", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "sheathed", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7156,13 +7949,14 @@ APIDefs["GetSheathed"] = {
 APIDefs["GetShieldBlock"] = {
     key = "GetShieldBlock",
     name = "GetShieldBlock",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetShieldBlock"],
     funcPath = "GetShieldBlock",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetSize"] = {
@@ -7191,6 +7985,18 @@ APIDefs["GetSmoothProgress"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["GetSmoothScaling"] = {
+    key = "GetSmoothScaling",
+    name = "GetSmoothScaling",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetSmoothScaling"],
+    funcPath = "GetSmoothScaling",
+    params = { { name = "smoothScaling", type = "bool", default = nil } },
+    returns = { { name = "smoothScaling", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["GetSmoothing"] = {
     key = "GetSmoothing",
     name = "GetSmoothing",
@@ -7210,7 +8016,7 @@ APIDefs["GetSortType"] = {
     subcategory = "global",
     func = _G["GetSortType"],
     funcPath = "GetSortType",
-    params = { { name = "sortType", type = "HousingCatalogSortType", default = nil } },
+    params = {  },
     returns = { { name = "sortType", type = "HousingCatalogSortType", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7234,7 +8040,7 @@ APIDefs["GetSpacing"] = {
     subcategory = "global",
     func = _G["GetSpacing"],
     funcPath = "GetSpacing",
-    params = { { name = "spacing", type = "uiUnit", default = nil } },
+    params = {  },
     returns = { { name = "spacing", type = "uiUnit", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7284,13 +8090,14 @@ APIDefs["GetSpecializationNameForSpecID"] = {
 APIDefs["GetSpeed"] = {
     key = "GetSpeed",
     name = "GetSpeed",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetSpeed"],
     funcPath = "GetSpeed",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetSpellBonusDamage"] = {
@@ -7302,57 +8109,60 @@ APIDefs["GetSpellBonusDamage"] = {
     funcPath = "GetSpellBonusDamage",
     params = { { name = "school", type = "luaIndex", default = nil } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["GetSpellBonusHealing"] = {
     key = "GetSpellBonusHealing",
     name = "GetSpellBonusHealing",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetSpellBonusHealing"],
     funcPath = "GetSpellBonusHealing",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetSpellCritChance"] = {
     key = "GetSpellCritChance",
     name = "GetSpellCritChance",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetSpellCritChance"],
     funcPath = "GetSpellCritChance",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetSpellHitModifier"] = {
     key = "GetSpellHitModifier",
     name = "GetSpellHitModifier",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetSpellHitModifier"],
     funcPath = "GetSpellHitModifier",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetSpellPenetration"] = {
     key = "GetSpellPenetration",
     name = "GetSpellPenetration",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetSpellPenetration"],
     funcPath = "GetSpellPenetration",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetSpellVisualKit"] = {
@@ -7362,7 +8172,7 @@ APIDefs["GetSpellVisualKit"] = {
     subcategory = "global",
     func = _G["GetSpellVisualKit"],
     funcPath = "GetSpellVisualKit",
-    params = { { name = "spellVisualKitID", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "spellVisualKitID", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7374,7 +8184,7 @@ APIDefs["GetStartColor"] = {
     subcategory = "global",
     func = _G["GetStartColor"],
     funcPath = "GetStartColor",
-    params = { { name = "color", type = "colorRGBA", default = nil } },
+    params = {  },
     returns = { { name = "color", type = "colorRGBA", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7398,7 +8208,7 @@ APIDefs["GetStartPoint"] = {
     subcategory = "global",
     func = _G["GetStartPoint"],
     funcPath = "GetStartPoint",
-    params = { { name = "relativePoint", type = "FramePoint", default = nil }, { name = "relativeTo", type = "ScriptRegion", default = nil }, { name = "offsetX", type = "uiUnit", default = nil }, { name = "offsetY", type = "uiUnit", default = nil } },
+    params = {  },
     returns = { { name = "relativePoint", type = "FramePoint", canBeSecret = false }, { name = "relativeTo", type = "ScriptRegion", canBeSecret = false }, { name = "offsetX", type = "uiUnit", canBeSecret = false }, { name = "offsetY", type = "uiUnit", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7460,7 +8270,7 @@ APIDefs["GetStepsPerPage"] = {
     subcategory = "global",
     func = _G["GetStepsPerPage"],
     funcPath = "GetStepsPerPage",
-    params = { { name = "stepsPerPage", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "stepsPerPage", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7489,16 +8299,29 @@ APIDefs["GetStringWidth"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["GetStripIntervalWhitespace"] = {
+    key = "GetStripIntervalWhitespace",
+    name = "GetStripIntervalWhitespace",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetStripIntervalWhitespace"],
+    funcPath = "GetStripIntervalWhitespace",
+    params = {  },
+    returns = { { name = "strip", type = "SecondsFormatterIntervalWhitespace", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["GetSturdiness"] = {
     key = "GetSturdiness",
     name = "GetSturdiness",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["GetSturdiness"],
     funcPath = "GetSturdiness",
     params = {  },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["GetSubZoneText"] = {
@@ -7580,7 +8403,7 @@ APIDefs["GetTextColor"] = {
     subcategory = "global",
     func = _G["GetTextColor"],
     funcPath = "GetTextColor",
-    params = { { name = "colorR", type = "number", default = nil }, { name = "colorG", type = "number", default = nil }, { name = "colorB", type = "number", default = nil }, { name = "colorA", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "colorR", type = "number", canBeSecret = false }, { name = "colorG", type = "number", canBeSecret = false }, { name = "colorB", type = "number", canBeSecret = false }, { name = "colorA", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7712,7 +8535,7 @@ APIDefs["GetThickness"] = {
     subcategory = "global",
     func = _G["GetThickness"],
     funcPath = "GetThickness",
-    params = { { name = "thickness", type = "uiUnit", default = nil } },
+    params = {  },
     returns = { { name = "thickness", type = "uiUnit", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7738,7 +8561,7 @@ APIDefs["GetThumbTexture"] = {
     subcategory = "global",
     func = _G["GetThumbTexture"],
     funcPath = "GetThumbTexture",
-    params = { { name = "texture", type = "SimpleTexture", default = nil } },
+    params = {  },
     returns = { { name = "texture", type = "SimpleTexture", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7786,7 +8609,7 @@ APIDefs["GetTimeVisible"] = {
     subcategory = "global",
     func = _G["GetTimeVisible"],
     funcPath = "GetTimeVisible",
-    params = { { name = "timeVisibleSeconds", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "timeVisibleSeconds", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7824,7 +8647,7 @@ APIDefs["GetToAlpha"] = {
     subcategory = "global",
     func = _G["GetToAlpha"],
     funcPath = "GetToAlpha",
-    params = { { name = "normalizedAlpha", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "normalizedAlpha", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7855,6 +8678,18 @@ APIDefs["GetTop"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["GetTotalDamageAbsorbs"] = {
+    key = "GetTotalDamageAbsorbs",
+    name = "GetTotalDamageAbsorbs",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetTotalDamageAbsorbs"],
+    funcPath = "GetTotalDamageAbsorbs",
+    params = {  },
+    returns = { { name = "totalDamageAbsorbs", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["GetTotalDuration"] = {
     key = "GetTotalDuration",
     name = "GetTotalDuration",
@@ -7867,6 +8702,42 @@ APIDefs["GetTotalDuration"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["GetTotalHealAbsorbs"] = {
+    key = "GetTotalHealAbsorbs",
+    name = "GetTotalHealAbsorbs",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetTotalHealAbsorbs"],
+    funcPath = "GetTotalHealAbsorbs",
+    params = {  },
+    returns = { { name = "totalHealAbsorbs", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetTotalIncomingHeals"] = {
+    key = "GetTotalIncomingHeals",
+    name = "GetTotalIncomingHeals",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetTotalIncomingHeals"],
+    funcPath = "GetTotalIncomingHeals",
+    params = {  },
+    returns = { { name = "totalIncomingHeals", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["GetTotalIncomingHealsFromHealer"] = {
+    key = "GetTotalIncomingHealsFromHealer",
+    name = "GetTotalIncomingHealsFromHealer",
+    category = "general",
+    subcategory = "global",
+    func = _G["GetTotalIncomingHealsFromHealer"],
+    funcPath = "GetTotalIncomingHealsFromHealer",
+    params = {  },
+    returns = { { name = "totalIncomingHealsFromHealer", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
 }
 
 APIDefs["GetTotemCannotDismiss"] = {
@@ -7883,6 +8754,20 @@ APIDefs["GetTotemCannotDismiss"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["GetTotemDuration"] = {
+    key = "GetTotemDuration",
+    name = "GetTotemDuration",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["GetTotemDuration"],
+    funcPath = "GetTotemDuration",
+    params = { { name = "slot", type = "luaIndex", default = nil } },
+    returns = { { name = "duration", type = "LuaDurationObject", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["GetTotemInfo"] = {
     key = "GetTotemInfo",
     name = "GetTotemInfo",
@@ -7892,9 +8777,8 @@ APIDefs["GetTotemInfo"] = {
     funcPath = "GetTotemInfo",
     params = { { name = "slot", type = "luaIndex", default = nil } },
     returns = { { name = "haveTotem", type = "bool", canBeSecret = false }, { name = "totemName", type = "cstring", canBeSecret = false }, { name = "startTime", type = "number", canBeSecret = false }, { name = "duration", type = "number", canBeSecret = false }, { name = "icon", type = "fileID", canBeSecret = false }, { name = "modRate", type = "number", canBeSecret = false }, { name = "spellID", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenTotemSlotSecret",
 }
 
 APIDefs["GetTotemTimeLeft"] = {
@@ -7906,9 +8790,8 @@ APIDefs["GetTotemTimeLeft"] = {
     funcPath = "GetTotemTimeLeft",
     params = { { name = "slot", type = "luaIndex", default = nil } },
     returns = { { name = "timeLeft", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenTotemSlotSecret, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["GetType"] = {
@@ -7918,7 +8801,7 @@ APIDefs["GetType"] = {
     subcategory = "global",
     func = _G["GetType"],
     funcPath = "GetType",
-    params = { { name = "curveType", type = "LuaCurveType", default = nil } },
+    params = {  },
     returns = { { name = "curveType", type = "LuaCurveType", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7956,7 +8839,7 @@ APIDefs["GetUiMapID"] = {
     subcategory = "global",
     func = _G["GetUiMapID"],
     funcPath = "GetUiMapID",
-    params = { { name = "mapID", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "mapID", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -7973,6 +8856,20 @@ APIDefs["GetUnboundedStringWidth"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["GetUnboundedStringWidthForText"] = {
+    key = "GetUnboundedStringWidthForText",
+    name = "GetUnboundedStringWidthForText",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["GetUnboundedStringWidthForText"],
+    funcPath = "GetUnboundedStringWidthForText",
+    params = { { name = "text", type = "cstring", default = nil } },
+    returns = { { name = "width", type = "uiUnit", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["GetUnitChargedPowerPoints"] = {
     key = "GetUnitChargedPowerPoints",
     name = "GetUnitChargedPowerPoints",
@@ -7982,9 +8879,8 @@ APIDefs["GetUnitChargedPowerPoints"] = {
     funcPath = "GetUnitChargedPowerPoints",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "pointIndices", type = "table", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitPowerRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["GetUnitEmpowerHoldAtMaxTime"] = {
@@ -7996,9 +8892,8 @@ APIDefs["GetUnitEmpowerHoldAtMaxTime"] = {
     funcPath = "GetUnitEmpowerHoldAtMaxTime",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "holdAtMaxTime", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitSpellCastRestricted",
 }
 
 APIDefs["GetUnitEmpowerMinHoldTime"] = {
@@ -8010,9 +8905,8 @@ APIDefs["GetUnitEmpowerMinHoldTime"] = {
     funcPath = "GetUnitEmpowerMinHoldTime",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "minHoldTime", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitSpellCastRestricted",
 }
 
 APIDefs["GetUnitEmpowerStageDuration"] = {
@@ -8024,9 +8918,8 @@ APIDefs["GetUnitEmpowerStageDuration"] = {
     funcPath = "GetUnitEmpowerStageDuration",
     params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "index", type = "number", default = nil } },
     returns = { { name = "duration", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitSpellCastRestricted",
 }
 
 APIDefs["GetUnitHealthModifier"] = {
@@ -8164,9 +9057,8 @@ APIDefs["GetUnitSpeed"] = {
     funcPath = "GetUnitSpeed",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "currentSpeed", type = "number", canBeSecret = false }, { name = "runSpeed", type = "number", canBeSecret = false }, { name = "flightSpeed", type = "number", canBeSecret = false }, { name = "swimSpeed", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["GetUnitTotalModifiedMaxHealthPercent"] = {
@@ -8202,7 +9094,7 @@ APIDefs["GetUpperBackgroundFileName"] = {
     subcategory = "global",
     func = _G["GetUpperBackgroundFileName"],
     funcPath = "GetUpperBackgroundFileName",
-    params = { { name = "file", type = "fileID", default = nil } },
+    params = {  },
     returns = { { name = "file", type = "fileID", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8214,7 +9106,7 @@ APIDefs["GetUpperBorderFile"] = {
     subcategory = "global",
     func = _G["GetUpperBorderFile"],
     funcPath = "GetUpperBorderFile",
-    params = { { name = "file", type = "fileID", default = nil } },
+    params = {  },
     returns = { { name = "file", type = "fileID", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8226,7 +9118,7 @@ APIDefs["GetUpperEmblemFile"] = {
     subcategory = "global",
     func = _G["GetUpperEmblemFile"],
     funcPath = "GetUpperEmblemFile",
-    params = { { name = "file", type = "fileID", default = nil } },
+    params = {  },
     returns = { { name = "file", type = "fileID", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8264,7 +9156,7 @@ APIDefs["GetUseTransmogChoices"] = {
     subcategory = "global",
     func = _G["GetUseTransmogChoices"],
     funcPath = "GetUseTransmogChoices",
-    params = { { name = "use", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "use", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8276,7 +9168,7 @@ APIDefs["GetUseTransmogSkin"] = {
     subcategory = "global",
     func = _G["GetUseTransmogSkin"],
     funcPath = "GetUseTransmogSkin",
-    params = { { name = "use", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "use", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8300,7 +9192,7 @@ APIDefs["GetValueStep"] = {
     subcategory = "global",
     func = _G["GetValueStep"],
     funcPath = "GetValueStep",
-    params = { { name = "valueStep", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "valueStep", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8342,9 +9234,8 @@ APIDefs["GetVersatilityBonus"] = {
     funcPath = "GetVersatilityBonus",
     params = { { name = "combatRating", type = "luaIndex", default = nil } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["GetVertTile"] = {
@@ -8416,7 +9307,7 @@ APIDefs["GetViewInsets"] = {
     subcategory = "global",
     func = _G["GetViewInsets"],
     funcPath = "GetViewInsets",
-    params = { { name = "left", type = "uiUnit", default = nil }, { name = "right", type = "uiUnit", default = nil }, { name = "top", type = "uiUnit", default = nil }, { name = "bottom", type = "uiUnit", default = nil } },
+    params = {  },
     returns = { { name = "left", type = "uiUnit", canBeSecret = false }, { name = "right", type = "uiUnit", canBeSecret = false }, { name = "top", type = "uiUnit", canBeSecret = false }, { name = "bottom", type = "uiUnit", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8428,7 +9319,7 @@ APIDefs["GetViewTranslation"] = {
     subcategory = "global",
     func = _G["GetViewTranslation"],
     funcPath = "GetViewTranslation",
-    params = { { name = "x", type = "uiUnit", default = nil }, { name = "y", type = "uiUnit", default = nil } },
+    params = {  },
     returns = { { name = "x", type = "uiUnit", canBeSecret = false }, { name = "y", type = "uiUnit", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8478,7 +9369,7 @@ APIDefs["GetWorldScale"] = {
     subcategory = "global",
     func = _G["GetWorldScale"],
     funcPath = "GetWorldScale",
-    params = { { name = "worldScale", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "worldScale", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8514,7 +9405,7 @@ APIDefs["GetYaw"] = {
     subcategory = "global",
     func = _G["GetYaw"],
     funcPath = "GetYaw",
-    params = { { name = "yaw", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "yaw", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8538,7 +9429,7 @@ APIDefs["GetZoom"] = {
     subcategory = "global",
     func = _G["GetZoom"],
     funcPath = "GetZoom",
-    params = { { name = "zoomFactor", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "zoomFactor", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8550,7 +9441,7 @@ APIDefs["GetZoomLevels"] = {
     subcategory = "global",
     func = _G["GetZoomLevels"],
     funcPath = "GetZoomLevels",
-    params = { { name = "zoomLevels", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "zoomLevels", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8612,7 +9503,7 @@ APIDefs["HasAttachedFixture"] = {
     subcategory = "global",
     func = _G["HasAttachedFixture"],
     funcPath = "HasAttachedFixture",
-    params = { { name = "hasAttachedFixture", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "hasAttachedFixture", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8624,7 +9515,7 @@ APIDefs["HasAttachmentPoints"] = {
     subcategory = "global",
     func = _G["HasAttachmentPoints"],
     funcPath = "HasAttachmentPoints",
-    params = { { name = "hasAttachmentPoints", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "hasAttachmentPoints", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8636,7 +9527,7 @@ APIDefs["HasCustomCamera"] = {
     subcategory = "global",
     func = _G["HasCustomCamera"],
     funcPath = "HasCustomCamera",
-    params = { { name = "hasCustomCamera", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "hasCustomCamera", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -8810,7 +9701,7 @@ APIDefs["HasSecretValues"] = {
     subcategory = "global",
     func = _G["HasSecretValues"],
     funcPath = "HasSecretValues",
-    params = { { name = "hasSecretValues", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "hasSecretValues", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -9030,7 +9921,7 @@ APIDefs["IsAllowedIndoorsActive"] = {
     subcategory = "global",
     func = _G["IsAllowedIndoorsActive"],
     funcPath = "IsAllowedIndoorsActive",
-    params = { { name = "isActive", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isActive", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -9042,7 +9933,7 @@ APIDefs["IsAllowedOutdoorsActive"] = {
     subcategory = "global",
     func = _G["IsAllowedOutdoorsActive"],
     funcPath = "IsAllowedOutdoorsActive",
-    params = { { name = "isActive", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isActive", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -9102,7 +9993,7 @@ APIDefs["IsAnyPartOfRoomSelected"] = {
     subcategory = "global",
     func = _G["IsAnyPartOfRoomSelected"],
     funcPath = "IsAnyPartOfRoomSelected",
-    params = { { name = "isSelected", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isSelected", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -9116,6 +10007,18 @@ APIDefs["IsAutoFocus"] = {
     funcPath = "IsAutoFocus",
     params = { { name = "autoFocus", type = "bool", default = nil } },
     returns = { { name = "autoFocus", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["IsBaseVariantOnlyActive"] = {
+    key = "IsBaseVariantOnlyActive",
+    name = "IsBaseVariantOnlyActive",
+    category = "general",
+    subcategory = "global",
+    func = _G["IsBaseVariantOnlyActive"],
+    funcPath = "IsBaseVariantOnlyActive",
+    params = {  },
+    returns = { { name = "isActive", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -9198,8 +10101,20 @@ APIDefs["IsCollectedActive"] = {
     subcategory = "global",
     func = _G["IsCollectedActive"],
     funcPath = "IsCollectedActive",
-    params = { { name = "isActive", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isActive", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["IsCollisionEnabled"] = {
+    key = "IsCollisionEnabled",
+    name = "IsCollisionEnabled",
+    category = "general",
+    subcategory = "global",
+    func = _G["IsCollisionEnabled"],
+    funcPath = "IsCollisionEnabled",
+    params = {  },
+    returns = { { name = "result", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -9246,7 +10161,7 @@ APIDefs["IsCustomizableOnlyActive"] = {
     subcategory = "global",
     func = _G["IsCustomizableOnlyActive"],
     funcPath = "IsCustomizableOnlyActive",
-    params = { { name = "isActive", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isActive", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -9330,7 +10245,7 @@ APIDefs["IsDraggingThumb"] = {
     subcategory = "global",
     func = _G["IsDraggingThumb"],
     funcPath = "IsDraggingThumb",
-    params = { { name = "isDraggingThumb", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isDraggingThumb", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -9380,7 +10295,7 @@ APIDefs["IsEnabled"] = {
     subcategory = "global",
     func = _G["IsEnabled"],
     funcPath = "IsEnabled",
-    params = { { name = "enabled", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "enabled", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -9405,7 +10320,7 @@ APIDefs["IsEventRegistered"] = {
     func = _G["IsEventRegistered"],
     funcPath = "IsEventRegistered",
     params = { { name = "eventName", type = "cstring", default = nil } },
-    returns = { { name = "isRegistered", type = "bool", canBeSecret = false }, { name = "units", type = "string", canBeSecret = false } },
+    returns = { { name = "isRegistered", type = "bool", canBeSecret = false }, { name = "units", type = "UnitTokenType", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -9444,7 +10359,7 @@ APIDefs["IsFirstAcquisitionBonusOnlyActive"] = {
     subcategory = "global",
     func = _G["IsFirstAcquisitionBonusOnlyActive"],
     funcPath = "IsFirstAcquisitionBonusOnlyActive",
-    params = { { name = "isActive", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isActive", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -9530,7 +10445,7 @@ APIDefs["IsGeoReady"] = {
     subcategory = "global",
     func = _G["IsGeoReady"],
     funcPath = "IsGeoReady",
-    params = { { name = "isReady", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isReady", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -9554,7 +10469,7 @@ APIDefs["IsGuildTabard"] = {
     subcategory = "global",
     func = _G["IsGuildTabard"],
     funcPath = "IsGuildTabard",
-    params = { { name = "isGuildTabard", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isGuildTabard", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -9814,7 +10729,7 @@ APIDefs["IsLightVisible"] = {
     subcategory = "global",
     func = _G["IsLightVisible"],
     funcPath = "IsLightVisible",
-    params = { { name = "isVisible", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isVisible", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -9838,7 +10753,7 @@ APIDefs["IsLoaded"] = {
     subcategory = "global",
     func = _G["IsLoaded"],
     funcPath = "IsLoaded",
-    params = { { name = "isLoaded", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isLoaded", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -10114,7 +11029,7 @@ APIDefs["IsOccupiedDoor"] = {
     subcategory = "global",
     func = _G["IsOccupiedDoor"],
     funcPath = "IsOccupiedDoor",
-    params = { { name = "isOccupied", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isOccupied", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -10164,18 +11079,6 @@ APIDefs["IsOutdoors"] = {
     funcPath = "IsOutdoors",
     params = {  },
     returns = { { name = "result", type = "bool", canBeSecret = false } },
-    midnightImpact = "NORMAL",
-}
-
-APIDefs["IsOwnedOnlyActive"] = {
-    key = "IsOwnedOnlyActive",
-    name = "IsOwnedOnlyActive",
-    category = "general",
-    subcategory = "global",
-    func = _G["IsOwnedOnlyActive"],
-    funcPath = "IsOwnedOnlyActive",
-    params = { { name = "isActive", type = "bool", default = nil } },
-    returns = { { name = "isActive", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -10284,7 +11187,7 @@ APIDefs["IsPreferringModelCollisionBounds"] = {
     subcategory = "global",
     func = _G["IsPreferringModelCollisionBounds"],
     funcPath = "IsPreferringModelCollisionBounds",
-    params = { { name = "preferringCollisionBounds", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "preferringCollisionBounds", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -10490,7 +11393,7 @@ APIDefs["IsSearchInProgress"] = {
     subcategory = "global",
     func = _G["IsSearchInProgress"],
     funcPath = "IsSearchInProgress",
-    params = { { name = "isSearchInProgress", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isSearchInProgress", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -10514,7 +11417,7 @@ APIDefs["IsSelected"] = {
     subcategory = "global",
     func = _G["IsSelected"],
     funcPath = "IsSelected",
-    params = { { name = "isSelected", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isSelected", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -10645,6 +11548,18 @@ APIDefs["IsStopped"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["IsStoredOnlyActive"] = {
+    key = "IsStoredOnlyActive",
+    name = "IsStoredOnlyActive",
+    category = "general",
+    subcategory = "global",
+    func = _G["IsStoredOnlyActive"],
+    funcPath = "IsStoredOnlyActive",
+    params = {  },
+    returns = { { name = "isActive", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["IsSubmerged"] = {
     key = "IsSubmerged",
     name = "IsSubmerged",
@@ -10766,7 +11681,7 @@ APIDefs["IsUncollectedActive"] = {
     subcategory = "global",
     func = _G["IsUncollectedActive"],
     funcPath = "IsUncollectedActive",
-    params = { { name = "isActive", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isActive", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -10804,7 +11719,7 @@ APIDefs["IsUsingCenterForOrigin"] = {
     subcategory = "global",
     func = _G["IsUsingCenterForOrigin"],
     funcPath = "IsUsingCenterForOrigin",
-    params = { { name = "x", type = "bool", default = nil }, { name = "y", type = "bool", default = nil }, { name = "z", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "x", type = "bool", canBeSecret = false }, { name = "y", type = "bool", canBeSecret = false }, { name = "z", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -10840,7 +11755,7 @@ APIDefs["IsUsingModelCenterToTransform"] = {
     subcategory = "global",
     func = _G["IsUsingModelCenterToTransform"],
     funcPath = "IsUsingModelCenterToTransform",
-    params = { { name = "useCenter", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "useCenter", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -10876,7 +11791,7 @@ APIDefs["IsValid"] = {
     subcategory = "global",
     func = _G["IsValid"],
     funcPath = "IsValid",
-    params = { { name = "isValid", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isValid", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -10888,7 +11803,7 @@ APIDefs["IsValidForSelectedFloorplan"] = {
     subcategory = "global",
     func = _G["IsValidForSelectedFloorplan"],
     funcPath = "IsValidForSelectedFloorplan",
-    params = { { name = "isValid", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isValid", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -10948,7 +11863,7 @@ APIDefs["IsZero"] = {
     subcategory = "global",
     func = _G["IsZero"],
     funcPath = "IsZero",
-    params = { { name = "isZero", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "isZero", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -11370,13 +12285,14 @@ APIDefs["PlayerCanTeleport"] = {
 APIDefs["PlayerEffectiveAttackPower"] = {
     key = "PlayerEffectiveAttackPower",
     name = "PlayerEffectiveAttackPower",
-    category = "general",
+    category = "combat_midnight",
     subcategory = "global",
     func = _G["PlayerEffectiveAttackPower"],
     funcPath = "PlayerEffectiveAttackPower",
     params = {  },
     returns = { { name = "mainHandAttackPower", type = "number", canBeSecret = false }, { name = "offHandAttackPower", type = "number", canBeSecret = false }, { name = "rangedAttackPower", type = "number", canBeSecret = false }, { name = "baseAttackPower", type = "number", canBeSecret = false }, { name = "baseRangedAttackPower", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted",
 }
 
 APIDefs["PlayerGetTimerunningSeasonID"] = {
@@ -11415,6 +12331,19 @@ APIDefs["PlayerIsPVPInactive"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["PlayerIsSpellTarget"] = {
+    key = "PlayerIsSpellTarget",
+    name = "PlayerIsSpellTarget",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["PlayerIsSpellTarget"],
+    funcPath = "PlayerIsSpellTarget",
+    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    returns = { { name = "result", type = "bool", canBeSecret = true } },
+    midnightImpact = "HIGH",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretReturns",
 }
 
 APIDefs["PlayerIsTimerunning"] = {
@@ -11632,7 +12561,7 @@ APIDefs["RegisterUnitEvent"] = {
     subcategory = "global",
     func = _G["RegisterUnitEvent"],
     funcPath = "RegisterUnitEvent",
-    params = { { name = "eventName", type = "cstring", default = nil }, { name = "units", type = "string", default = nil } },
+    params = { { name = "eventName", type = "cstring", default = nil }, { name = "units", type = "UnitTokenType", default = nil } },
     returns = { { name = "registered", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -11646,7 +12575,7 @@ APIDefs["RegisterUnitEventCallback"] = {
     subcategory = "global",
     func = _G["RegisterUnitEventCallback"],
     funcPath = "RegisterUnitEventCallback",
-    params = { { name = "eventName", type = "cstring", default = nil }, { name = "cb", type = "FrameEventCallbackType", default = nil }, { name = "units", type = "string", default = nil } },
+    params = { { name = "eventName", type = "cstring", default = nil }, { name = "cb", type = "FrameEventCallbackType", default = nil }, { name = "units", type = "UnitTokenType", default = nil } },
     returns = { { name = "registered", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -11660,7 +12589,7 @@ APIDefs["ReleaseFrontEndCharacterDisplays"] = {
     subcategory = "global",
     func = _G["ReleaseFrontEndCharacterDisplays"],
     funcPath = "ReleaseFrontEndCharacterDisplays",
-    params = { { name = "success", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "success", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -11809,6 +12738,18 @@ APIDefs["Reset"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["ResetBreakpoints"] = {
+    key = "ResetBreakpoints",
+    name = "ResetBreakpoints",
+    category = "general",
+    subcategory = "global",
+    func = _G["ResetBreakpoints"],
+    funcPath = "ResetBreakpoints",
+    params = {  },
+    returns = {  },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["ResetCPUUsage"] = {
     key = "ResetCPUUsage",
     name = "ResetCPUUsage",
@@ -11890,6 +12831,18 @@ APIDefs["ResetNextHandSlot"] = {
     subcategory = "global",
     func = _G["ResetNextHandSlot"],
     funcPath = "ResetNextHandSlot",
+    params = {  },
+    returns = {  },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["ResetPredictedValues"] = {
+    key = "ResetPredictedValues",
+    name = "ResetPredictedValues",
+    category = "general",
+    subcategory = "global",
+    func = _G["ResetPredictedValues"],
+    funcPath = "ResetPredictedValues",
     params = {  },
     returns = {  },
     midnightImpact = "NORMAL",
@@ -12149,6 +13102,20 @@ APIDefs["SetAbbreviateNumberData"] = {
     midnightNote = "Secret behavior: SecretArguments=NotAllowed",
 }
 
+APIDefs["SetAllHitTestPoints"] = {
+    key = "SetAllHitTestPoints",
+    name = "SetAllHitTestPoints",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetAllHitTestPoints"],
+    funcPath = "SetAllHitTestPoints",
+    params = { { name = "relativeTo", type = "ScriptRegion", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["SetAllInFilterTagGroup"] = {
     key = "SetAllInFilterTagGroup",
     name = "SetAllInFilterTagGroup",
@@ -12387,6 +13354,20 @@ APIDefs["SetAnimationSpeedMultiplier"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["SetApproximationSeconds"] = {
+    key = "SetApproximationSeconds",
+    name = "SetApproximationSeconds",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetApproximationSeconds"],
+    funcPath = "SetApproximationSeconds",
+    params = { { name = "seconds", type = "DurationSecondsDouble", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["SetArchBlobInsideAlpha"] = {
     key = "SetArchBlobInsideAlpha",
     name = "SetArchBlobInsideAlpha",
@@ -12609,6 +13590,20 @@ APIDefs["SetBarberShopAlternateForm"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["SetBaseVariantOnly"] = {
+    key = "SetBaseVariantOnly",
+    name = "SetBaseVariantOnly",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetBaseVariantOnly"],
+    funcPath = "SetBaseVariantOnly",
+    params = { { name = "isActive", type = "bool", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["SetBlendMode"] = {
     key = "SetBlendMode",
     name = "SetBlendMode",
@@ -12715,6 +13710,20 @@ APIDefs["SetBorderTexture"] = {
     func = _G["SetBorderTexture"],
     funcPath = "SetBorderTexture",
     params = { { name = "asset", type = "FileAsset", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetBreakpoints"] = {
+    key = "SetBreakpoints",
+    name = "SetBreakpoints",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetBreakpoints"],
+    funcPath = "SetBreakpoints",
+    params = { { name = "breakpoints", type = "table", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -12897,6 +13906,34 @@ APIDefs["SetCameraTarget"] = {
     func = _G["SetCameraTarget"],
     funcPath = "SetCameraTarget",
     params = { { name = "targetX", type = "number", default = nil }, { name = "targetY", type = "number", default = nil }, { name = "targetZ", type = "number", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetCanRoundUpIntervals"] = {
+    key = "SetCanRoundUpIntervals",
+    name = "SetCanRoundUpIntervals",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetCanRoundUpIntervals"],
+    funcPath = "SetCanRoundUpIntervals",
+    params = { { name = "canRound", type = "bool", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetCanRoundUpLastUnit"] = {
+    key = "SetCanRoundUpLastUnit",
+    name = "SetCanRoundUpLastUnit",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetCanRoundUpLastUnit"],
+    funcPath = "SetCanRoundUpLastUnit",
+    params = { { name = "canRound", type = "bool", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -13197,6 +14234,20 @@ APIDefs["SetConsoleKey"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["SetConvertToLower"] = {
+    key = "SetConvertToLower",
+    name = "SetConvertToLower",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetConvertToLower"],
+    funcPath = "SetConvertToLower",
+    params = { { name = "convert", type = "bool", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["SetCooldown"] = {
     key = "SetCooldown",
     name = "SetCooldown",
@@ -13208,7 +14259,7 @@ APIDefs["SetCooldown"] = {
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["SetCooldownDuration"] = {
@@ -13222,7 +14273,7 @@ APIDefs["SetCooldownDuration"] = {
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["SetCooldownFromDurationObject"] = {
@@ -13250,7 +14301,7 @@ APIDefs["SetCooldownFromExpirationTime"] = {
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["SetCooldownUNIX"] = {
@@ -13264,7 +14315,7 @@ APIDefs["SetCooldownUNIX"] = {
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["SetCorpsePOIArrowTexture"] = {
@@ -13302,7 +14353,7 @@ APIDefs["SetCountdownAbbrevThreshold"] = {
     subcategory = "global",
     func = _G["SetCountdownAbbrevThreshold"],
     funcPath = "SetCountdownAbbrevThreshold",
-    params = { { name = "seconds", type = "number", default = nil } },
+    params = { { name = "seconds", type = "DurationSecondsPrimitive", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -13317,6 +14368,34 @@ APIDefs["SetCountdownFont"] = {
     func = _G["SetCountdownFont"],
     funcPath = "SetCountdownFont",
     params = { { name = "fontName", type = "cstring", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetCountdownFormatter"] = {
+    key = "SetCountdownFormatter",
+    name = "SetCountdownFormatter",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetCountdownFormatter"],
+    funcPath = "SetCountdownFormatter",
+    params = { { name = "formatter", type = "NumericFormatter", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetCountdownMillisecondsThreshold"] = {
+    key = "SetCountdownMillisecondsThreshold",
+    name = "SetCountdownMillisecondsThreshold",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetCountdownMillisecondsThreshold"],
+    funcPath = "SetCountdownMillisecondsThreshold",
+    params = { { name = "seconds", type = "DurationSecondsPrimitive", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -13491,6 +14570,34 @@ APIDefs["SetCustomizableOnly"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["SetDamageAbsorbClampMode"] = {
+    key = "SetDamageAbsorbClampMode",
+    name = "SetDamageAbsorbClampMode",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetDamageAbsorbClampMode"],
+    funcPath = "SetDamageAbsorbClampMode",
+    params = { { name = "damageAbsorbClampMode", type = "UnitDamageAbsorbClampMode", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=NotAllowed",
+}
+
+APIDefs["SetDefaultAbbreviation"] = {
+    key = "SetDefaultAbbreviation",
+    name = "SetDefaultAbbreviation",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetDefaultAbbreviation"],
+    funcPath = "SetDefaultAbbreviation",
+    params = { { name = "abbreviation", type = "SecondsFormatterAbbrevation", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["SetDegrees"] = {
     key = "SetDegrees",
     name = "SetDegrees",
@@ -13531,6 +14638,34 @@ APIDefs["SetDesaturation"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+}
+
+APIDefs["SetDesiredUnitCount"] = {
+    key = "SetDesiredUnitCount",
+    name = "SetDesiredUnitCount",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetDesiredUnitCount"],
+    funcPath = "SetDesiredUnitCount",
+    params = { { name = "count", type = "number", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetDesiredUnitCountCurve"] = {
+    key = "SetDesiredUnitCountCurve",
+    name = "SetDesiredUnitCountCurve",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetDesiredUnitCountCurve"],
+    funcPath = "SetDesiredUnitCountCurve",
+    params = { { name = "curve", type = "LuaCurveObject", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["SetDisabledAtlas"] = {
@@ -13642,7 +14777,7 @@ APIDefs["SetDrawBling"] = {
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
 }
 
 APIDefs["SetDrawEdge"] = {
@@ -13656,7 +14791,7 @@ APIDefs["SetDrawEdge"] = {
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
 }
 
 APIDefs["SetDrawLayer"] = {
@@ -13698,7 +14833,7 @@ APIDefs["SetDrawSwipe"] = {
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
 }
 
 APIDefs["SetDungeonDifficultyID"] = {
@@ -13740,7 +14875,7 @@ APIDefs["SetEdgeColor"] = {
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
 }
 
 APIDefs["SetEdgeScale"] = {
@@ -14467,6 +15602,48 @@ APIDefs["SetGradientMask"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["SetGradientMaskWithDyes"] = {
+    key = "SetGradientMaskWithDyes",
+    name = "SetGradientMaskWithDyes",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetGradientMaskWithDyes"],
+    funcPath = "SetGradientMaskWithDyes",
+    params = { { name = "grad0DyeColorID", type = "number", default = nil }, { name = "grad1DyeColorID", type = "number", default = nil }, { name = "grad2DyeColorID", type = "number", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetHealAbsorbClampMode"] = {
+    key = "SetHealAbsorbClampMode",
+    name = "SetHealAbsorbClampMode",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetHealAbsorbClampMode"],
+    funcPath = "SetHealAbsorbClampMode",
+    params = { { name = "healAbsorbClampMode", type = "UnitHealAbsorbClampMode", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=NotAllowed",
+}
+
+APIDefs["SetHealAbsorbMode"] = {
+    key = "SetHealAbsorbMode",
+    name = "SetHealAbsorbMode",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetHealAbsorbMode"],
+    funcPath = "SetHealAbsorbMode",
+    params = { { name = "healAbsorbMode", type = "UnitHealAbsorbMode", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=NotAllowed",
+}
+
 APIDefs["SetHeight"] = {
     key = "SetHeight",
     name = "SetHeight",
@@ -14615,6 +15792,20 @@ APIDefs["SetHitRectThickness"] = {
     func = _G["SetHitRectThickness"],
     funcPath = "SetHitRectThickness",
     params = { { name = "thickness", type = "uiUnit", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetHitTestPoints"] = {
+    key = "SetHitTestPoints",
+    name = "SetHitTestPoints",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetHitTestPoints"],
+    funcPath = "SetHitTestPoints",
+    params = { { name = "anchors", type = "table", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -14773,6 +15964,34 @@ APIDefs["SetInWorldUIVisibility"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetIncomingHealClampMode"] = {
+    key = "SetIncomingHealClampMode",
+    name = "SetIncomingHealClampMode",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetIncomingHealClampMode"],
+    funcPath = "SetIncomingHealClampMode",
+    params = { { name = "incomingHealClampMode", type = "UnitIncomingHealClampMode", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=NotAllowed",
+}
+
+APIDefs["SetIncomingHealOverflowPercent"] = {
+    key = "SetIncomingHealOverflowPercent",
+    name = "SetIncomingHealOverflowPercent",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetIncomingHealOverflowPercent"],
+    funcPath = "SetIncomingHealOverflowPercent",
+    params = { { name = "incomingHealOverflowPercent", type = "number", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=NotAllowed",
 }
 
 APIDefs["SetIndentedWordWrap"] = {
@@ -15125,6 +16344,34 @@ APIDefs["SetMaxBytes"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["SetMaxInterval"] = {
+    key = "SetMaxInterval",
+    name = "SetMaxInterval",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetMaxInterval"],
+    funcPath = "SetMaxInterval",
+    params = { { name = "interval", type = "SecondsFormatterInterval", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetMaxIntervalCurve"] = {
+    key = "SetMaxIntervalCurve",
+    name = "SetMaxIntervalCurve",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetMaxIntervalCurve"],
+    funcPath = "SetMaxIntervalCurve",
+    params = { { name = "curve", type = "LuaCurveObject", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["SetMaxLetters"] = {
     key = "SetMaxLetters",
     name = "SetMaxLetters",
@@ -15167,6 +16414,20 @@ APIDefs["SetMaxSnapshots"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["SetMaximumHealthMode"] = {
+    key = "SetMaximumHealthMode",
+    name = "SetMaximumHealthMode",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetMaximumHealthMode"],
+    funcPath = "SetMaximumHealthMode",
+    params = { { name = "maximumHealthMode", type = "UnitMaximumHealthMode", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=NotAllowed",
+}
+
 APIDefs["SetMergeThreshold"] = {
     key = "SetMergeThreshold",
     name = "SetMergeThreshold",
@@ -15175,6 +16436,48 @@ APIDefs["SetMergeThreshold"] = {
     func = _G["SetMergeThreshold"],
     funcPath = "SetMergeThreshold",
     params = { { name = "threshold", type = "number", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetMillisecondsThreshold"] = {
+    key = "SetMillisecondsThreshold",
+    name = "SetMillisecondsThreshold",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetMillisecondsThreshold"],
+    funcPath = "SetMillisecondsThreshold",
+    params = { { name = "threshold", type = "DurationSecondsDouble", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetMinInterval"] = {
+    key = "SetMinInterval",
+    name = "SetMinInterval",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetMinInterval"],
+    funcPath = "SetMinInterval",
+    params = { { name = "interval", type = "SecondsFormatterInterval", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetMinIntervalCurve"] = {
+    key = "SetMinIntervalCurve",
+    name = "SetMinIntervalCurve",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetMinIntervalCurve"],
+    funcPath = "SetMinIntervalCurve",
+    params = { { name = "curve", type = "LuaCurveObject", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -15202,7 +16505,7 @@ APIDefs["SetMinimumCountdownDuration"] = {
     subcategory = "global",
     func = _G["SetMinimumCountdownDuration"],
     funcPath = "SetMinimumCountdownDuration",
-    params = { { name = "milliseconds", type = "number", default = nil } },
+    params = { { name = "milliseconds", type = "DurationMillisecondsPrimitive", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -15615,20 +16918,6 @@ APIDefs["SetOrigin"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
-APIDefs["SetOwnedOnly"] = {
-    key = "SetOwnedOnly",
-    name = "SetOwnedOnly",
-    category = "combat_midnight",
-    subcategory = "global",
-    func = _G["SetOwnedOnly"],
-    funcPath = "SetOwnedOnly",
-    params = { { name = "isActive", type = "bool", default = nil } },
-    returns = {  },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
-}
-
 APIDefs["SetPOIArrowTexture"] = {
     key = "SetPOIArrowTexture",
     name = "SetPOIArrowTexture",
@@ -15951,6 +17240,20 @@ APIDefs["SetPosition"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["SetPredictedValues"] = {
+    key = "SetPredictedValues",
+    name = "SetPredictedValues",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetPredictedValues"],
+    funcPath = "SetPredictedValues",
+    params = { { name = "predictedValues", type = "UnitHealPredictionValues", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["SetPreferModelCollisionBounds"] = {
     key = "SetPreferModelCollisionBounds",
     name = "SetPreferModelCollisionBounds",
@@ -15959,20 +17262,6 @@ APIDefs["SetPreferModelCollisionBounds"] = {
     func = _G["SetPreferModelCollisionBounds"],
     funcPath = "SetPreferModelCollisionBounds",
     params = { { name = "preferCollisionBounds", type = "bool", default = nil } },
-    returns = {  },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
-}
-
-APIDefs["SetPreventSecretValues"] = {
-    key = "SetPreventSecretValues",
-    name = "SetPreventSecretValues",
-    category = "combat_midnight",
-    subcategory = "global",
-    func = _G["SetPreventSecretValues"],
-    funcPath = "SetPreventSecretValues",
-    params = { { name = "preventSecretValues", type = "bool", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -16535,6 +17824,20 @@ APIDefs["SetSheathed"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["SetSheathedCategory"] = {
+    key = "SetSheathedCategory",
+    name = "SetSheathedCategory",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetSheathedCategory"],
+    funcPath = "SetSheathedCategory",
+    params = { { name = "inventorySlots", type = "number", default = nil }, { name = "category", type = "TransmogOutfitSlotOptionSheatheCategory", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["SetShown"] = {
     key = "SetShown",
     name = "SetShown",
@@ -16575,6 +17878,20 @@ APIDefs["SetSmoothProgress"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=NotAllowed",
+}
+
+APIDefs["SetSmoothScaling"] = {
+    key = "SetSmoothScaling",
+    name = "SetSmoothScaling",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetSmoothScaling"],
+    funcPath = "SetSmoothScaling",
+    params = { { name = "smoothScaling", type = "bool", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["SetSmoothing"] = {
@@ -16661,6 +17978,20 @@ APIDefs["SetSpriteSheetCell"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
 }
 
+APIDefs["SetStackingBoundsFrame"] = {
+    key = "SetStackingBoundsFrame",
+    name = "SetStackingBoundsFrame",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetStackingBoundsFrame"],
+    funcPath = "SetStackingBoundsFrame",
+    params = { { name = "frame", type = "SimpleFrame", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["SetStartColor"] = {
     key = "SetStartColor",
     name = "SetStartColor",
@@ -16728,7 +18059,7 @@ APIDefs["SetStatusBarColor"] = {
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
 }
 
 APIDefs["SetStatusBarDesaturated"] = {
@@ -16742,7 +18073,7 @@ APIDefs["SetStatusBarDesaturated"] = {
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
 }
 
 APIDefs["SetStatusBarDesaturation"] = {
@@ -16756,7 +18087,7 @@ APIDefs["SetStatusBarDesaturation"] = {
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
 }
 
 APIDefs["SetStatusBarTexture"] = {
@@ -16787,6 +18118,34 @@ APIDefs["SetStepsPerPage"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["SetStoredOnly"] = {
+    key = "SetStoredOnly",
+    name = "SetStoredOnly",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetStoredOnly"],
+    funcPath = "SetStoredOnly",
+    params = { { name = "isActive", type = "bool", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetStripIntervalWhitespace"] = {
+    key = "SetStripIntervalWhitespace",
+    name = "SetStripIntervalWhitespace",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetStripIntervalWhitespace"],
+    funcPath = "SetStripIntervalWhitespace",
+    params = { { name = "strip", type = "SecondsFormatterIntervalWhitespace", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["SetSwipeColor"] = {
     key = "SetSwipeColor",
     name = "SetSwipeColor",
@@ -16798,7 +18157,7 @@ APIDefs["SetSwipeColor"] = {
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
 }
 
 APIDefs["SetSwipeTexture"] = {
@@ -17268,7 +18627,7 @@ APIDefs["SetTimerDuration"] = {
     subcategory = "global",
     func = _G["SetTimerDuration"],
     funcPath = "SetTimerDuration",
-    params = { { name = "duration", type = "LuaDurationObject", default = nil }, { name = "interpolation", type = "StatusBarInterpolation", default = "Immediate" } },
+    params = { { name = "duration", type = "LuaDurationObject", default = nil }, { name = "interpolation", type = "StatusBarInterpolation", default = "Immediate" }, { name = "direction", type = "StatusBarTimerDirection", default = "ElapsedTime" } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -17432,7 +18791,7 @@ APIDefs["SetUnitColor"] = {
     subcategory = "global",
     func = _G["SetUnitColor"],
     funcPath = "SetUnitColor",
-    params = { { name = "unit", type = "string", default = nil }, { name = "colorR", type = "number", default = nil }, { name = "colorG", type = "number", default = nil }, { name = "colorB", type = "number", default = nil }, { name = "colorA", type = "number", default = nil } },
+    params = { { name = "unit", type = "UnitTokenType", default = nil }, { name = "colorR", type = "number", default = nil }, { name = "colorG", type = "number", default = nil }, { name = "colorB", type = "number", default = nil }, { name = "colorA", type = "number", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -17503,6 +18862,20 @@ APIDefs["SetUseCircularEdge"] = {
     func = _G["SetUseCircularEdge"],
     funcPath = "SetUseCircularEdge",
     params = { { name = "useCircularEdge", type = "bool", default = false } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["SetUseGBuffer"] = {
+    key = "SetUseGBuffer",
+    name = "SetUseGBuffer",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["SetUseGBuffer"],
+    funcPath = "SetUseGBuffer",
+    params = { { name = "useGBuffer", type = "bool", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -18230,7 +19603,7 @@ APIDefs["TakeSnapshot"] = {
     subcategory = "global",
     func = _G["TakeSnapshot"],
     funcPath = "TakeSnapshot",
-    params = { { name = "snapshotID", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "snapshotID", type = "number", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -18537,6 +19910,18 @@ APIDefs["ToggleAnimKitDisplay"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["ToggleBaseVariantOnly"] = {
+    key = "ToggleBaseVariantOnly",
+    name = "ToggleBaseVariantOnly",
+    category = "general",
+    subcategory = "global",
+    func = _G["ToggleBaseVariantOnly"],
+    funcPath = "ToggleBaseVariantOnly",
+    params = {  },
+    returns = {  },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["ToggleCollected"] = {
     key = "ToggleCollected",
     name = "ToggleCollected",
@@ -18647,18 +20032,6 @@ APIDefs["ToggleInputLanguage"] = {
     midnightImpact = "NORMAL",
 }
 
-APIDefs["ToggleOwnedOnly"] = {
-    key = "ToggleOwnedOnly",
-    name = "ToggleOwnedOnly",
-    category = "general",
-    subcategory = "global",
-    func = _G["ToggleOwnedOnly"],
-    funcPath = "ToggleOwnedOnly",
-    params = {  },
-    returns = {  },
-    midnightImpact = "NORMAL",
-}
-
 APIDefs["TogglePlayerBounds"] = {
     key = "TogglePlayerBounds",
     name = "TogglePlayerBounds",
@@ -18702,6 +20075,18 @@ APIDefs["ToggleSheath"] = {
     subcategory = "global",
     func = _G["ToggleSheath"],
     funcPath = "ToggleSheath",
+    params = {  },
+    returns = {  },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["ToggleStoredOnly"] = {
+    key = "ToggleStoredOnly",
+    name = "ToggleStoredOnly",
+    category = "general",
+    subcategory = "global",
+    func = _G["ToggleStoredOnly"],
+    funcPath = "ToggleStoredOnly",
     params = {  },
     returns = {  },
     midnightImpact = "NORMAL",
@@ -18836,9 +20221,8 @@ APIDefs["UnitArmor"] = {
     funcPath = "UnitArmor",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "base", type = "number", canBeSecret = false }, { name = "effective", type = "number", canBeSecret = false }, { name = "real", type = "number", canBeSecret = false }, { name = "bonus", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitAttackPower"] = {
@@ -18850,9 +20234,8 @@ APIDefs["UnitAttackPower"] = {
     funcPath = "UnitAttackPower",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "attackPower", type = "number", canBeSecret = false }, { name = "posBuff", type = "number", canBeSecret = false }, { name = "negBuff", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitAttackSpeed"] = {
@@ -18864,9 +20247,8 @@ APIDefs["UnitAttackSpeed"] = {
     funcPath = "UnitAttackSpeed",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "attackSpeed", type = "number", canBeSecret = false }, { name = "offhandAttackSpeed", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitBattlePetLevel"] = {
@@ -18974,7 +20356,7 @@ APIDefs["UnitCastingDuration"] = {
     subcategory = "global",
     func = _G["UnitCastingDuration"],
     funcPath = "UnitCastingDuration",
-    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil } },
     returns = { { name = "duration", type = "LuaDurationObject", canBeSecret = true } },
     midnightImpact = "HIGH",
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretReturns",
@@ -18987,11 +20369,10 @@ APIDefs["UnitCastingInfo"] = {
     subcategory = "global",
     func = _G["UnitCastingInfo"],
     funcPath = "UnitCastingInfo",
-    params = { { name = "unit", type = "UnitToken", default = "player" } },
-    returns = { { name = "name", type = "cstring", canBeSecret = false }, { name = "displayName", type = "string", canBeSecret = false }, { name = "textureID", type = "fileID", canBeSecret = false }, { name = "startTimeMs", type = "number", canBeSecret = false }, { name = "endTimeMs", type = "number", canBeSecret = false }, { name = "isTradeskill", type = "bool", canBeSecret = false }, { name = "castID", type = "WOWGUID", canBeSecret = false }, { name = "notInterruptible", type = "bool", canBeSecret = false }, { name = "castingSpellID", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil } },
+    returns = { { name = "name", type = "cstring", canBeSecret = false }, { name = "displayName", type = "string", canBeSecret = false }, { name = "textureID", type = "fileID", canBeSecret = false }, { name = "startTimeMs", type = "number", canBeSecret = false }, { name = "endTimeMs", type = "number", canBeSecret = false }, { name = "isTradeskill", type = "bool", canBeSecret = false }, { name = "castID", type = "WOWGUID", canBeSecret = false }, { name = "notInterruptible", type = "bool", canBeSecret = false }, { name = "castingSpellID", type = "number", canBeSecret = false }, { name = "castBarID", type = "number", canBeSecret = false }, { name = "delayTimeMs", type = "number", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitSpellCastRestricted",
 }
 
 APIDefs["UnitChannelDuration"] = {
@@ -19001,7 +20382,7 @@ APIDefs["UnitChannelDuration"] = {
     subcategory = "global",
     func = _G["UnitChannelDuration"],
     funcPath = "UnitChannelDuration",
-    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil } },
     returns = { { name = "duration", type = "LuaDurationObject", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -19015,11 +20396,10 @@ APIDefs["UnitChannelInfo"] = {
     subcategory = "global",
     func = _G["UnitChannelInfo"],
     funcPath = "UnitChannelInfo",
-    params = { { name = "unit", type = "UnitToken", default = "player" } },
-    returns = { { name = "name", type = "cstring", canBeSecret = false }, { name = "displayName", type = "cstring", canBeSecret = false }, { name = "textureID", type = "fileID", canBeSecret = false }, { name = "startTimeMs", type = "number", canBeSecret = false }, { name = "endTimeMs", type = "number", canBeSecret = false }, { name = "isTradeskill", type = "bool", canBeSecret = false }, { name = "notInterruptible", type = "bool", canBeSecret = false }, { name = "spellID", type = "number", canBeSecret = false }, { name = "isEmpowered", type = "bool", canBeSecret = false }, { name = "numEmpowerStages", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil } },
+    returns = { { name = "name", type = "cstring", canBeSecret = false }, { name = "displayName", type = "cstring", canBeSecret = false }, { name = "textureID", type = "fileID", canBeSecret = false }, { name = "startTimeMs", type = "number", canBeSecret = false }, { name = "endTimeMs", type = "number", canBeSecret = false }, { name = "isTradeskill", type = "bool", canBeSecret = false }, { name = "notInterruptible", type = "bool", canBeSecret = false }, { name = "spellID", type = "number", canBeSecret = false }, { name = "isEmpowered", type = "bool", canBeSecret = false }, { name = "numEmpowerStages", type = "number", canBeSecret = false }, { name = "castBarID", type = "number", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitSpellCastRestricted",
 }
 
 APIDefs["UnitChromieTimeID"] = {
@@ -19075,7 +20455,7 @@ APIDefs["UnitClassFromGUID"] = {
     returns = { { name = "className", type = "cstring", canBeSecret = false }, { name = "classFilename", type = "cstring", canBeSecret = false }, { name = "classID", type = "number", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
 }
 
 APIDefs["UnitClassification"] = {
@@ -19115,9 +20495,8 @@ APIDefs["UnitCreatureFamily"] = {
     funcPath = "UnitCreatureFamily",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "name", type = "cstring", canBeSecret = false }, { name = "id", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitIdentityRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitCreatureID"] = {
@@ -19129,9 +20508,8 @@ APIDefs["UnitCreatureID"] = {
     funcPath = "UnitCreatureID",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "creatureID", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitIdentityRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitCreatureType"] = {
@@ -19143,9 +20521,8 @@ APIDefs["UnitCreatureType"] = {
     funcPath = "UnitCreatureType",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "name", type = "cstring", canBeSecret = false }, { name = "id", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitIdentityRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitDamage"] = {
@@ -19157,9 +20534,8 @@ APIDefs["UnitDamage"] = {
     funcPath = "UnitDamage",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "minDamage", type = "number", canBeSecret = false }, { name = "maxDamage", type = "number", canBeSecret = false }, { name = "offhandMinDamage", type = "number", canBeSecret = false }, { name = "offhandMaxDamage", type = "number", canBeSecret = false }, { name = "posBuff", type = "number", canBeSecret = false }, { name = "negBuff", type = "number", canBeSecret = false }, { name = "percent", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitDetailedThreatSituation"] = {
@@ -19171,9 +20547,8 @@ APIDefs["UnitDetailedThreatSituation"] = {
     funcPath = "UnitDetailedThreatSituation",
     params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "mobGUID", type = "UnitToken", default = "player" } },
     returns = { { name = "isTanking", type = "bool", canBeSecret = false }, { name = "status", type = "number", canBeSecret = false }, { name = "scaledPercentage", type = "number", canBeSecret = false }, { name = "rawPercentage", type = "number", canBeSecret = false }, { name = "rawThreat", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitThreatValuesRestricted",
 }
 
 APIDefs["UnitDistanceSquared"] = {
@@ -19199,6 +20574,48 @@ APIDefs["UnitEffectiveLevel"] = {
     funcPath = "UnitEffectiveLevel",
     params = { { name = "name", type = "cstring", default = nil } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["UnitEmpoweredChannelDuration"] = {
+    key = "UnitEmpoweredChannelDuration",
+    name = "UnitEmpoweredChannelDuration",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["UnitEmpoweredChannelDuration"],
+    funcPath = "UnitEmpoweredChannelDuration",
+    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "includeHoldAtMaxTime", type = "bool", default = true } },
+    returns = { { name = "duration", type = "LuaDurationObject", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["UnitEmpoweredStageDurations"] = {
+    key = "UnitEmpoweredStageDurations",
+    name = "UnitEmpoweredStageDurations",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["UnitEmpoweredStageDurations"],
+    funcPath = "UnitEmpoweredStageDurations",
+    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    returns = { { name = "duration", type = "table", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["UnitEmpoweredStagePercentages"] = {
+    key = "UnitEmpoweredStagePercentages",
+    name = "UnitEmpoweredStagePercentages",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["UnitEmpoweredStagePercentages"],
+    funcPath = "UnitEmpoweredStagePercentages",
+    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "includeHoldAtMaxTime", type = "bool", default = true } },
+    returns = { { name = "percentages", type = "table", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -19241,9 +20658,8 @@ APIDefs["UnitFullName"] = {
     funcPath = "UnitFullName",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "unitName", type = "cstring", canBeSecret = false }, { name = "unitServer", type = "cstring", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitIdentityRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitGUID"] = {
@@ -19253,11 +20669,10 @@ APIDefs["UnitGUID"] = {
     subcategory = "global",
     func = _G["UnitGUID"],
     funcPath = "UnitGUID",
-    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil } },
     returns = { { name = "result", type = "WOWGUID", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitIdentityRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitGetAvailableRoles"] = {
@@ -19274,6 +20689,20 @@ APIDefs["UnitGetAvailableRoles"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["UnitGetDetailedHealPrediction"] = {
+    key = "UnitGetDetailedHealPrediction",
+    name = "UnitGetDetailedHealPrediction",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["UnitGetDetailedHealPrediction"],
+    funcPath = "UnitGetDetailedHealPrediction",
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "healerUnit", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "healPredictionCalculator", type = "UnitHealPredictionCalculator", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["UnitGetIncomingHeals"] = {
     key = "UnitGetIncomingHeals",
     name = "UnitGetIncomingHeals",
@@ -19281,7 +20710,7 @@ APIDefs["UnitGetIncomingHeals"] = {
     subcategory = "global",
     func = _G["UnitGetIncomingHeals"],
     funcPath = "UnitGetIncomingHeals",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "healerGUID", type = "UnitToken", default = "player" } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "healerGUID", type = "UnitTokenPvPRestrictedForAddOns", default = nil } },
     returns = { { name = "result", type = "number", canBeSecret = true } },
     midnightImpact = "HIGH",
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretReturns",
@@ -19294,7 +20723,7 @@ APIDefs["UnitGetTotalAbsorbs"] = {
     subcategory = "global",
     func = _G["UnitGetTotalAbsorbs"],
     funcPath = "UnitGetTotalAbsorbs",
-    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil } },
     returns = { { name = "result", type = "number", canBeSecret = true } },
     midnightImpact = "HIGH",
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretReturns",
@@ -19307,7 +20736,7 @@ APIDefs["UnitGetTotalHealAbsorbs"] = {
     subcategory = "global",
     func = _G["UnitGetTotalHealAbsorbs"],
     funcPath = "UnitGetTotalHealAbsorbs",
-    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil } },
     returns = { { name = "result", type = "number", canBeSecret = true } },
     midnightImpact = "HIGH",
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretReturns",
@@ -19350,6 +20779,20 @@ APIDefs["UnitHPPerStamina"] = {
     funcPath = "UnitHPPerStamina",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["UnitHasPowerType"] = {
+    key = "UnitHasPowerType",
+    name = "UnitHasPowerType",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["UnitHasPowerType"],
+    funcPath = "UnitHasPowerType",
+    params = { { name = "unitToken", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "powerType", type = "PowerType", default = nil } },
+    returns = { { name = "hasPower", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -19404,7 +20847,7 @@ APIDefs["UnitHealth"] = {
     subcategory = "global",
     func = _G["UnitHealth"],
     funcPath = "UnitHealth",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "usePredicted", type = "bool", default = true } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "usePredicted", type = "bool", default = true } },
     returns = { { name = "result", type = "number", canBeSecret = true } },
     midnightImpact = "HIGH",
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretReturns",
@@ -19417,11 +20860,10 @@ APIDefs["UnitHealthMax"] = {
     subcategory = "global",
     func = _G["UnitHealthMax"],
     funcPath = "UnitHealthMax",
-    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitHealthMaxRestricted",
 }
 
 APIDefs["UnitHealthMissing"] = {
@@ -19431,7 +20873,7 @@ APIDefs["UnitHealthMissing"] = {
     subcategory = "global",
     func = _G["UnitHealthMissing"],
     funcPath = "UnitHealthMissing",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "usePredicted", type = "bool", default = true } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "usePredicted", type = "bool", default = true } },
     returns = { { name = "result", type = "number", canBeSecret = true } },
     midnightImpact = "HIGH",
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretReturns",
@@ -19444,7 +20886,7 @@ APIDefs["UnitHealthPercent"] = {
     subcategory = "global",
     func = _G["UnitHealthPercent"],
     funcPath = "UnitHealthPercent",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "usePredicted", type = "bool", default = true }, { name = "curve", type = "LuaCurveObjectBase", default = nil } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "usePredicted", type = "bool", default = true }, { name = "curve", type = "LuaCurveObjectBase", default = nil } },
     returns = { { name = "result", type = "LuaCurveEvaluatedResult", canBeSecret = true } },
     midnightImpact = "HIGH",
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretReturns, SecretWhenCurveSecret",
@@ -19670,7 +21112,7 @@ APIDefs["UnitIsAFK"] = {
     returns = { { name = "result", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["UnitIsBattlePet"] = {
@@ -19782,7 +21224,7 @@ APIDefs["UnitIsDND"] = {
     returns = { { name = "result", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["UnitIsDead"] = {
@@ -20163,19 +21605,6 @@ APIDefs["UnitIsSameServer"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
-APIDefs["UnitIsSpellTarget"] = {
-    key = "UnitIsSpellTarget",
-    name = "UnitIsSpellTarget",
-    category = "combat_midnight",
-    subcategory = "global",
-    func = _G["UnitIsSpellTarget"],
-    funcPath = "UnitIsSpellTarget",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "target", type = "UnitToken", default = "player" } },
-    returns = { { name = "result", type = "bool", canBeSecret = true } },
-    midnightImpact = "HIGH",
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretReturns",
-}
-
 APIDefs["UnitIsTapDenied"] = {
     key = "UnitIsTapDenied",
     name = "UnitIsTapDenied",
@@ -20227,9 +21656,8 @@ APIDefs["UnitIsUnit"] = {
     funcPath = "UnitIsUnit",
     params = { { name = "unit1", type = "UnitToken", default = "player" }, { name = "unit2", type = "UnitToken", default = "player" } },
     returns = { { name = "result", type = "bool", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitComparisonRestricted",
 }
 
 APIDefs["UnitIsVisible"] = {
@@ -20297,9 +21725,8 @@ APIDefs["UnitName"] = {
     funcPath = "UnitName",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "unitName", type = "cstring", canBeSecret = false }, { name = "unitServer", type = "cstring", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitIdentityRestricted, SecretArguments=AllowedWhenTainted",
 }
 
 APIDefs["UnitNameFromGUID"] = {
@@ -20311,9 +21738,8 @@ APIDefs["UnitNameFromGUID"] = {
     funcPath = "UnitNameFromGUID",
     params = { { name = "unitGUID", type = "WOWGUID", default = nil } },
     returns = { { name = "unitName", type = "cstring", canBeSecret = false }, { name = "unitServer", type = "cstring", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitIdentityRestricted, SecretArguments=AllowedWhenTainted",
 }
 
 APIDefs["UnitNameUnmodified"] = {
@@ -20325,9 +21751,8 @@ APIDefs["UnitNameUnmodified"] = {
     funcPath = "UnitNameUnmodified",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "unitName", type = "cstring", canBeSecret = false }, { name = "unitServer", type = "cstring", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitIdentityRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitNameplateShowsWidgetsOnly"] = {
@@ -20379,11 +21804,10 @@ APIDefs["UnitOwnerGUID"] = {
     subcategory = "global",
     func = _G["UnitOwnerGUID"],
     funcPath = "UnitOwnerGUID",
-    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil } },
     returns = { { name = "ownerGUID", type = "WOWGUID", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitIdentityRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitPVPName"] = {
@@ -20395,9 +21819,8 @@ APIDefs["UnitPVPName"] = {
     funcPath = "UnitPVPName",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "result", type = "string", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitIdentityRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitPartialPower"] = {
@@ -20407,11 +21830,10 @@ APIDefs["UnitPartialPower"] = {
     subcategory = "global",
     func = _G["UnitPartialPower"],
     funcPath = "UnitPartialPower",
-    params = { { name = "unitToken", type = "UnitToken", default = "player" }, { name = "powerType", type = "PowerType", default = nil }, { name = "unmodified", type = "bool", default = false } },
+    params = { { name = "unitToken", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "powerType", type = "PowerType", default = nil }, { name = "unmodified", type = "bool", default = false } },
     returns = { { name = "partialPower", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitPowerRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitPercentHealthFromGUID"] = {
@@ -20504,11 +21926,10 @@ APIDefs["UnitPower"] = {
     subcategory = "global",
     func = _G["UnitPower"],
     funcPath = "UnitPower",
-    params = { { name = "unitToken", type = "UnitToken", default = "player" }, { name = "powerType", type = "PowerType", default = nil }, { name = "unmodified", type = "bool", default = false } },
+    params = { { name = "unitToken", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "powerType", type = "PowerType", default = nil }, { name = "unmodified", type = "bool", default = false } },
     returns = { { name = "power", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitPowerRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitPowerBarID"] = {
@@ -20559,11 +21980,10 @@ APIDefs["UnitPowerMax"] = {
     subcategory = "global",
     func = _G["UnitPowerMax"],
     funcPath = "UnitPowerMax",
-    params = { { name = "unitToken", type = "UnitToken", default = "player" }, { name = "powerType", type = "PowerType", default = nil }, { name = "unmodified", type = "bool", default = false } },
+    params = { { name = "unitToken", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "powerType", type = "PowerType", default = nil }, { name = "unmodified", type = "bool", default = false } },
     returns = { { name = "maxPower", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitPowerMaxRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitPowerMissing"] = {
@@ -20573,11 +21993,10 @@ APIDefs["UnitPowerMissing"] = {
     subcategory = "global",
     func = _G["UnitPowerMissing"],
     funcPath = "UnitPowerMissing",
-    params = { { name = "unitToken", type = "UnitToken", default = "player" }, { name = "powerType", type = "PowerType", default = nil }, { name = "unmodified", type = "bool", default = false } },
+    params = { { name = "unitToken", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "powerType", type = "PowerType", default = nil }, { name = "unmodified", type = "bool", default = false } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitPowerRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitPowerPercent"] = {
@@ -20587,10 +22006,10 @@ APIDefs["UnitPowerPercent"] = {
     subcategory = "global",
     func = _G["UnitPowerPercent"],
     funcPath = "UnitPowerPercent",
-    params = { { name = "unitToken", type = "UnitToken", default = "player" }, { name = "powerType", type = "PowerType", default = nil }, { name = "unmodified", type = "bool", default = false }, { name = "curve", type = "LuaCurveObjectBase", default = nil } },
+    params = { { name = "unitToken", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "powerType", type = "PowerType", default = nil }, { name = "unmodified", type = "bool", default = false }, { name = "curve", type = "LuaCurveObjectBase", default = nil } },
     returns = { { name = "result", type = "LuaCurveEvaluatedResult", canBeSecret = false } },
     midnightImpact = "CONDITIONAL",
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCurveSecret",
+    midnightNote = "Secret behavior: SecretWhenUnitPowerRestricted, SecretArguments=AllowedWhenUntainted, SecretWhenCurveSecret",
 }
 
 APIDefs["UnitPowerType"] = {
@@ -20600,7 +22019,7 @@ APIDefs["UnitPowerType"] = {
     subcategory = "global",
     func = _G["UnitPowerType"],
     funcPath = "UnitPowerType",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "index", type = "number", default = 0 } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil }, { name = "index", type = "number", default = 0 } },
     returns = { { name = "powerType", type = "PowerType", canBeSecret = false }, { name = "powerTypeToken", type = "string", canBeSecret = false }, { name = "rgbX", type = "number", canBeSecret = false }, { name = "rgbY", type = "number", canBeSecret = false }, { name = "rgbZ", type = "number", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -20614,7 +22033,7 @@ APIDefs["UnitPvpClassification"] = {
     subcategory = "global",
     func = _G["UnitPvpClassification"],
     funcPath = "UnitPvpClassification",
-    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil } },
     returns = { { name = "classification", type = "PvPUnitClassification", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -20672,9 +22091,8 @@ APIDefs["UnitRangedAttackPower"] = {
     funcPath = "UnitRangedAttackPower",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "attackPower", type = "number", canBeSecret = false }, { name = "posBuff", type = "number", canBeSecret = false }, { name = "negBuff", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitRangedDamage"] = {
@@ -20686,9 +22104,8 @@ APIDefs["UnitRangedDamage"] = {
     funcPath = "UnitRangedDamage",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "speed", type = "number", canBeSecret = false }, { name = "minDamage", type = "number", canBeSecret = false }, { name = "maxDamage", type = "number", canBeSecret = false }, { name = "posBuff", type = "number", canBeSecret = false }, { name = "negBuff", type = "number", canBeSecret = false }, { name = "percent", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitReaction"] = {
@@ -20840,9 +22257,8 @@ APIDefs["UnitSpellHaste"] = {
     funcPath = "UnitSpellHaste",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitSpellTargetClass"] = {
@@ -20878,7 +22294,7 @@ APIDefs["UnitStagger"] = {
     subcategory = "global",
     func = _G["UnitStagger"],
     funcPath = "UnitStagger",
-    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    params = { { name = "unit", type = "UnitTokenPvPRestrictedForAddOns", default = nil } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -20894,9 +22310,8 @@ APIDefs["UnitStat"] = {
     funcPath = "UnitStat",
     params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "index", type = "luaIndex", default = nil } },
     returns = { { name = "currentStat", type = "number", canBeSecret = false }, { name = "effectiveStat", type = "number", canBeSecret = false }, { name = "statPositiveBuff", type = "number", canBeSecret = false }, { name = "statNegativeBuff", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitSwitchToVehicleSeat"] = {
@@ -20936,9 +22351,8 @@ APIDefs["UnitThreatLeadSituation"] = {
     funcPath = "UnitThreatLeadSituation",
     params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "mobGUID", type = "UnitToken", default = "player" } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitThreatStateRestricted",
 }
 
 APIDefs["UnitThreatPercentageOfLead"] = {
@@ -20950,9 +22364,8 @@ APIDefs["UnitThreatPercentageOfLead"] = {
     funcPath = "UnitThreatPercentageOfLead",
     params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "mobGUID", type = "UnitToken", default = "player" } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitThreatValuesRestricted",
 }
 
 APIDefs["UnitThreatSituation"] = {
@@ -20964,9 +22377,8 @@ APIDefs["UnitThreatSituation"] = {
     funcPath = "UnitThreatSituation",
     params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "mobGUID", type = "UnitToken", default = "player" } },
     returns = { { name = "result", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitThreatStateRestricted",
 }
 
 APIDefs["UnitTokenFromGUID"] = {
@@ -20978,9 +22390,8 @@ APIDefs["UnitTokenFromGUID"] = {
     funcPath = "UnitTokenFromGUID",
     params = { { name = "unitGUID", type = "WOWGUID", default = nil } },
     returns = { { name = "unitToken", type = "string", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitIdentityRestricted, SecretArguments=AllowedWhenTainted",
 }
 
 APIDefs["UnitTreatAsPlayerForDisplay"] = {
@@ -21090,9 +22501,8 @@ APIDefs["UnitWeaponAttackPower"] = {
     funcPath = "UnitWeaponAttackPower",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "mainHandWeaponAttackPower", type = "number", canBeSecret = false }, { name = "offHandWeaponAttackPower", type = "number", canBeSecret = false }, { name = "rangedWeaponAttackPower", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitStatsRestricted, SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["UnitWidgetSet"] = {
@@ -21291,6 +22701,20 @@ APIDefs["UseModelCenterToTransform"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["UseUnitSheatheCategory"] = {
+    key = "UseUnitSheatheCategory",
+    name = "UseUnitSheatheCategory",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["UseUnitSheatheCategory"],
+    funcPath = "UseUnitSheatheCategory",
+    params = { { name = "useCategory", type = "bool", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["UsesNPOT"] = {
     key = "UsesNPOT",
     name = "UsesNPOT",
@@ -21298,7 +22722,7 @@ APIDefs["UsesNPOT"] = {
     subcategory = "global",
     func = _G["UsesNPOT"],
     funcPath = "UsesNPOT",
-    params = { { name = "usesNPOT", type = "bool", default = nil } },
+    params = {  },
     returns = { { name = "usesNPOT", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
@@ -21419,6 +22843,20 @@ APIDefs["dropsecretaccess"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["dumpobject"] = {
+    key = "dumpobject",
+    name = "dumpobject",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["dumpobject"],
+    funcPath = "dumpobject",
+    params = { { name = "value", type = "LuaValueReference", default = nil } },
+    returns = { { name = "result", type = "LuaValueReference", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["hasanysecretvalues"] = {
     key = "hasanysecretvalues",
     name = "hasanysecretvalues",
@@ -21526,6 +22964,20 @@ APIDefs["secretwrap"] = {
     funcPath = "secretwrap",
     params = { { name = "values", type = "LuaValueReference", default = nil } },
     returns = { { name = "wrapped", type = "LuaValueReference", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["securecallmethod"] = {
+    key = "securecallmethod",
+    name = "securecallmethod",
+    category = "combat_midnight",
+    subcategory = "global",
+    func = _G["securecallmethod"],
+    funcPath = "securecallmethod",
+    params = { { name = "object", type = "LuaValueReference", default = nil }, { name = "method", type = "cstring", default = nil }, { name = "arguments", type = "LuaValueReference", default = nil } },
+    returns = { { name = "results", type = "LuaValueReference", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",

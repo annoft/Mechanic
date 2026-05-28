@@ -364,6 +364,18 @@ APIDefs["C_Commentator.GetCommentatorHistory"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["C_Commentator.GetCommentatorMatchDataState"] = {
+    key = "C_Commentator.GetCommentatorMatchDataState",
+    name = "GetCommentatorMatchDataState",
+    category = "general",
+    subcategory = "c_commentator",
+    func = _G["C_Commentator"] and _G["C_Commentator"]["GetCommentatorMatchDataState"],
+    funcPath = "C_Commentator.GetCommentatorMatchDataState",
+    params = {  },
+    returns = { { name = "state", type = "CommentatorMatchDataState", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_Commentator.GetCurrentMapID"] = {
     key = "C_Commentator.GetCurrentMapID",
     name = "GetCurrentMapID",
@@ -958,7 +970,7 @@ APIDefs["C_Commentator.GetTrackedSpells"] = {
     func = _G["C_Commentator"] and _G["C_Commentator"]["GetTrackedSpells"],
     funcPath = "C_Commentator.GetTrackedSpells",
     params = { { name = "teamIndex", type = "luaIndex", default = nil }, { name = "playerIndex", type = "luaIndex", default = nil }, { name = "category", type = "TrackedSpellCategory", default = nil } },
-    returns = { { name = "spells", type = "table", canBeSecret = false } },
+    returns = { { name = "spells", type = "table", canBeSecret = false }, { name = "result", type = "TrackedSpellsResult", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -972,7 +984,7 @@ APIDefs["C_Commentator.GetTrackedSpellsByUnit"] = {
     func = _G["C_Commentator"] and _G["C_Commentator"]["GetTrackedSpellsByUnit"],
     funcPath = "C_Commentator.GetTrackedSpellsByUnit",
     params = { { name = "unitToken", type = "UnitToken", default = "player" }, { name = "category", type = "TrackedSpellCategory", default = nil } },
-    returns = { { name = "spells", type = "table", canBeSecret = false } },
+    returns = { { name = "spells", type = "table", canBeSecret = false }, { name = "result", type = "TrackedSpellsResult", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -1214,6 +1226,34 @@ APIDefs["C_Commentator.ResetTrackedAuras"] = {
     params = {  },
     returns = {  },
     midnightImpact = "NORMAL",
+}
+
+APIDefs["C_Commentator.SendAddonMessage"] = {
+    key = "C_Commentator.SendAddonMessage",
+    name = "SendAddonMessage",
+    category = "combat_midnight",
+    subcategory = "c_commentator",
+    func = _G["C_Commentator"] and _G["C_Commentator"]["SendAddonMessage"],
+    funcPath = "C_Commentator.SendAddonMessage",
+    params = { { name = "prefix", type = "cstring", default = nil }, { name = "message", type = "cstring", default = nil }, { name = "chatType", type = "cstring", default = nil }, { name = "target", type = "cstring", default = nil } },
+    returns = { { name = "result", type = "SendAddonMessageResult", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_Commentator.SendAddonMessageLogged"] = {
+    key = "C_Commentator.SendAddonMessageLogged",
+    name = "SendAddonMessageLogged",
+    category = "combat_midnight",
+    subcategory = "c_commentator",
+    func = _G["C_Commentator"] and _G["C_Commentator"]["SendAddonMessageLogged"],
+    funcPath = "C_Commentator.SendAddonMessageLogged",
+    params = { { name = "prefix", type = "cstring", default = nil }, { name = "message", type = "cstring", default = nil }, { name = "chatType", type = "cstring", default = nil }, { name = "target", type = "cstring", default = nil } },
+    returns = { { name = "result", type = "SendAddonMessageResult", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["C_Commentator.SetAdditionalCameraWeight"] = {

@@ -13,7 +13,7 @@ APIDefs["C_Ping.GetContextualPingTypeForUnit"] = {
     returns = { { name = "type", type = "PingSubjectType", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
 }
 
 APIDefs["C_Ping.GetCooldownInfo"] = {

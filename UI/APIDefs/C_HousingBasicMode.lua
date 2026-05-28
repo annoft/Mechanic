@@ -259,7 +259,7 @@ APIDefs["C_HousingBasicMode.StartPlacingNewDecor"] = {
     subcategory = "c_housingbasicmode",
     func = _G["C_HousingBasicMode"] and _G["C_HousingBasicMode"]["StartPlacingNewDecor"],
     funcPath = "C_HousingBasicMode.StartPlacingNewDecor",
-    params = { { name = "catalogEntryID", type = "HousingCatalogEntryID", default = nil } },
+    params = { { name = "catalogEntryVariantID", type = "HousingCatalogEntryVariantID", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,

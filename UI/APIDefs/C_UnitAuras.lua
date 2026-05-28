@@ -2,6 +2,20 @@
 local _, ns = ...
 local APIDefs = ns.APIDefinitions
 
+APIDefs["C_UnitAuras.AddBlockedAura"] = {
+    key = "C_UnitAuras.AddBlockedAura",
+    name = "AddBlockedAura",
+    category = "combat_midnight",
+    subcategory = "c_unitauras",
+    func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["AddBlockedAura"],
+    funcPath = "C_UnitAuras.AddBlockedAura",
+    params = { { name = "unit", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "auraInstanceID", type = "number", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_UnitAuras.AddPrivateAuraAnchor"] = {
     key = "C_UnitAuras.AddPrivateAuraAnchor",
     name = "AddPrivateAuraAnchor",
@@ -37,7 +51,7 @@ APIDefs["C_UnitAuras.AuraIsBigDefensive"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["AuraIsBigDefensive"],
     funcPath = "C_UnitAuras.AuraIsBigDefensive",
-    params = { { name = "spellID", type = "number", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "isBigDefensive", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -51,11 +65,25 @@ APIDefs["C_UnitAuras.AuraIsPrivate"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["AuraIsPrivate"],
     funcPath = "C_UnitAuras.AuraIsPrivate",
-    params = { { name = "spellID", type = "number", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "isPrivate", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+}
+
+APIDefs["C_UnitAuras.ClearBlockedAuras"] = {
+    key = "C_UnitAuras.ClearBlockedAuras",
+    name = "ClearBlockedAuras",
+    category = "combat_midnight",
+    subcategory = "c_unitauras",
+    func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["ClearBlockedAuras"],
+    funcPath = "C_UnitAuras.ClearBlockedAuras",
+    params = { { name = "unit", type = "UnitTokenRestrictedForAddOns", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["C_UnitAuras.DoesAuraHaveExpirationTime"] = {
@@ -67,9 +95,8 @@ APIDefs["C_UnitAuras.DoesAuraHaveExpirationTime"] = {
     funcPath = "C_UnitAuras.DoesAuraHaveExpirationTime",
     params = { { name = "auraInstanceUnit", type = "UnitToken", default = "player" }, { name = "auraInstanceID", type = "number", default = nil } },
     returns = { { name = "hasExpirationTime", type = "bool", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_UnitAuras.GetAuraApplicationDisplayCount"] = {
@@ -81,9 +108,8 @@ APIDefs["C_UnitAuras.GetAuraApplicationDisplayCount"] = {
     funcPath = "C_UnitAuras.GetAuraApplicationDisplayCount",
     params = { { name = "auraInstanceUnit", type = "UnitToken", default = "player" }, { name = "auraInstanceID", type = "number", default = nil }, { name = "minDisplayCount", type = "number", default = 2 }, { name = "maxDisplayCount", type = "number", default = nil } },
     returns = { { name = "count", type = "string", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_UnitAuras.GetAuraBaseDuration"] = {
@@ -93,11 +119,10 @@ APIDefs["C_UnitAuras.GetAuraBaseDuration"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetAuraBaseDuration"],
     funcPath = "C_UnitAuras.GetAuraBaseDuration",
-    params = { { name = "auraInstanceUnit", type = "UnitToken", default = "player" }, { name = "auraInstanceID", type = "number", default = nil }, { name = "spellID", type = "number", default = nil } },
+    params = { { name = "auraInstanceUnit", type = "UnitToken", default = "player" }, { name = "auraInstanceID", type = "number", default = nil }, { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "newDuration", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_UnitAuras.GetAuraDataByAuraInstanceID"] = {
@@ -107,11 +132,10 @@ APIDefs["C_UnitAuras.GetAuraDataByAuraInstanceID"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetAuraDataByAuraInstanceID"],
     funcPath = "C_UnitAuras.GetAuraDataByAuraInstanceID",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "auraInstanceID", type = "number", default = nil } },
+    params = { { name = "unit", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "auraInstanceID", type = "number", default = nil } },
     returns = { { name = "aura", type = "AuraData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_UnitAuras.GetAuraDataByIndex"] = {
@@ -121,11 +145,10 @@ APIDefs["C_UnitAuras.GetAuraDataByIndex"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetAuraDataByIndex"],
     funcPath = "C_UnitAuras.GetAuraDataByIndex",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "index", type = "luaIndex", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
+    params = { { name = "unit", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "index", type = "luaIndex", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
     returns = { { name = "aura", type = "AuraData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_UnitAuras.GetAuraDataBySlot"] = {
@@ -135,11 +158,10 @@ APIDefs["C_UnitAuras.GetAuraDataBySlot"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetAuraDataBySlot"],
     funcPath = "C_UnitAuras.GetAuraDataBySlot",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "slot", type = "number", default = nil } },
+    params = { { name = "unit", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "slot", type = "number", default = nil } },
     returns = { { name = "aura", type = "AuraData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_UnitAuras.GetAuraDataBySpellName"] = {
@@ -149,11 +171,10 @@ APIDefs["C_UnitAuras.GetAuraDataBySpellName"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetAuraDataBySpellName"],
     funcPath = "C_UnitAuras.GetAuraDataBySpellName",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "spellName", type = "cstring", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
+    params = { { name = "unit", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "spellName", type = "cstring", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
     returns = { { name = "aura", type = "AuraData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_UnitAuras.GetAuraDispelTypeColor"] = {
@@ -166,7 +187,7 @@ APIDefs["C_UnitAuras.GetAuraDispelTypeColor"] = {
     params = { { name = "auraInstanceUnit", type = "UnitToken", default = "player" }, { name = "auraInstanceID", type = "number", default = nil }, { name = "curve", type = "LuaColorCurveObject", default = nil } },
     returns = { { name = "dispelTypeColor", type = "colorRGBA", canBeSecret = false } },
     midnightImpact = "CONDITIONAL",
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenCurveSecret",
+    midnightNote = "Secret behavior: SecretWhenUnitAuraRestricted, SecretArguments=AllowedWhenUntainted, SecretWhenCurveSecret",
 }
 
 APIDefs["C_UnitAuras.GetAuraDuration"] = {
@@ -180,34 +201,7 @@ APIDefs["C_UnitAuras.GetAuraDuration"] = {
     returns = { { name = "duration", type = "LuaDurationObject", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
-}
-
-APIDefs["C_UnitAuras.GetAuraDurationRemaining"] = {
-    key = "C_UnitAuras.GetAuraDurationRemaining",
-    name = "GetAuraDurationRemaining",
-    category = "combat_midnight",
-    subcategory = "c_unitauras",
-    func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetAuraDurationRemaining"],
-    funcPath = "C_UnitAuras.GetAuraDurationRemaining",
-    params = { { name = "auraInstanceUnit", type = "UnitToken", default = "player" }, { name = "auraInstanceID", type = "number", default = nil } },
-    returns = { { name = "durationRemaining", type = "DurationSeconds", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
-}
-
-APIDefs["C_UnitAuras.GetAuraDurationRemainingPercent"] = {
-    key = "C_UnitAuras.GetAuraDurationRemainingPercent",
-    name = "GetAuraDurationRemainingPercent",
-    category = "combat_midnight",
-    subcategory = "c_unitauras",
-    func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetAuraDurationRemainingPercent"],
-    funcPath = "C_UnitAuras.GetAuraDurationRemainingPercent",
-    params = { { name = "auraInstanceUnit", type = "UnitToken", default = "player" }, { name = "auraInstanceID", type = "number", default = nil }, { name = "curve", type = "LuaCurveObjectBase", default = nil } },
-    returns = { { name = "result", type = "LuaCurveEvaluatedResult", canBeSecret = false } },
-    midnightImpact = "CONDITIONAL",
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenCurveSecret",
 }
 
 APIDefs["C_UnitAuras.GetAuraSlots"] = {
@@ -217,7 +211,7 @@ APIDefs["C_UnitAuras.GetAuraSlots"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetAuraSlots"],
     funcPath = "C_UnitAuras.GetAuraSlots",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "filter", type = "AuraFilters", default = nil }, { name = "maxSlots", type = "number", default = nil }, { name = "continuationToken", type = "number", default = nil } },
+    params = { { name = "unit", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "filter", type = "AuraFilters", default = nil }, { name = "maxSlots", type = "number", default = nil }, { name = "continuationToken", type = "number", default = nil } },
     returns = { { name = "outContinuationToken", type = "number", canBeSecret = false }, { name = "slots", type = "number", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -231,11 +225,10 @@ APIDefs["C_UnitAuras.GetBuffDataByIndex"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetBuffDataByIndex"],
     funcPath = "C_UnitAuras.GetBuffDataByIndex",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "index", type = "luaIndex", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
+    params = { { name = "unit", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "index", type = "luaIndex", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
     returns = { { name = "aura", type = "AuraData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_UnitAuras.GetCooldownAuraBySpellID"] = {
@@ -245,7 +238,7 @@ APIDefs["C_UnitAuras.GetCooldownAuraBySpellID"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetCooldownAuraBySpellID"],
     funcPath = "C_UnitAuras.GetCooldownAuraBySpellID",
-    params = { { name = "spellID", type = "number", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "cooldownSpellID", type = "number", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -259,11 +252,10 @@ APIDefs["C_UnitAuras.GetDebuffDataByIndex"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetDebuffDataByIndex"],
     funcPath = "C_UnitAuras.GetDebuffDataByIndex",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "index", type = "luaIndex", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
+    params = { { name = "unit", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "index", type = "luaIndex", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
     returns = { { name = "aura", type = "AuraData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_UnitAuras.GetPlayerAuraBySpellID"] = {
@@ -273,11 +265,10 @@ APIDefs["C_UnitAuras.GetPlayerAuraBySpellID"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetPlayerAuraBySpellID"],
     funcPath = "C_UnitAuras.GetPlayerAuraBySpellID",
-    params = { { name = "spellID", type = "number", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "aura", type = "AuraData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_UnitAuras.GetRefreshExtendedDuration"] = {
@@ -287,11 +278,10 @@ APIDefs["C_UnitAuras.GetRefreshExtendedDuration"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetRefreshExtendedDuration"],
     funcPath = "C_UnitAuras.GetRefreshExtendedDuration",
-    params = { { name = "auraInstanceUnit", type = "UnitToken", default = "player" }, { name = "auraInstanceID", type = "number", default = nil }, { name = "spellID", type = "number", default = nil } },
+    params = { { name = "auraInstanceUnit", type = "UnitToken", default = "player" }, { name = "auraInstanceID", type = "number", default = nil }, { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "newDuration", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_UnitAuras.GetUnitAuraBySpellID"] = {
@@ -301,11 +291,10 @@ APIDefs["C_UnitAuras.GetUnitAuraBySpellID"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetUnitAuraBySpellID"],
     funcPath = "C_UnitAuras.GetUnitAuraBySpellID",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "spellID", type = "number", default = nil } },
+    params = { { name = "unit", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "aura", type = "AuraData", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_UnitAuras.GetUnitAuraInstanceIDs"] = {
@@ -315,7 +304,7 @@ APIDefs["C_UnitAuras.GetUnitAuraInstanceIDs"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetUnitAuraInstanceIDs"],
     funcPath = "C_UnitAuras.GetUnitAuraInstanceIDs",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "filter", type = "AuraFilters", default = nil }, { name = "maxCount", type = "number", default = nil }, { name = "sortRule", type = "UnitAuraSortRule", default = "Unsorted" }, { name = "sortDirection", type = "UnitAuraSortDirection", default = "Normal" } },
+    params = { { name = "unit", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "filter", type = "AuraFilters", default = nil }, { name = "maxCount", type = "number", default = nil }, { name = "sortRule", type = "UnitAuraSortRule", default = "Unsorted" }, { name = "sortDirection", type = "UnitAuraSortDirection", default = "Normal" } },
     returns = { { name = "auraInstanceIDs", type = "table", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -329,7 +318,7 @@ APIDefs["C_UnitAuras.GetUnitAuras"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["GetUnitAuras"],
     funcPath = "C_UnitAuras.GetUnitAuras",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "filter", type = "AuraFilters", default = nil }, { name = "maxCount", type = "number", default = nil }, { name = "sortRule", type = "UnitAuraSortRule", default = "Unsorted" }, { name = "sortDirection", type = "UnitAuraSortDirection", default = "Normal" } },
+    params = { { name = "unit", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "filter", type = "AuraFilters", default = nil }, { name = "maxCount", type = "number", default = nil }, { name = "sortRule", type = "UnitAuraSortRule", default = "Unsorted" }, { name = "sortDirection", type = "UnitAuraSortDirection", default = "Normal" } },
     returns = { { name = "auras", type = "table", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -343,11 +332,11 @@ APIDefs["C_UnitAuras.IsAuraFilteredOutByInstanceID"] = {
     subcategory = "c_unitauras",
     func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["IsAuraFilteredOutByInstanceID"],
     funcPath = "C_UnitAuras.IsAuraFilteredOutByInstanceID",
-    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "auraInstanceID", type = "number", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
+    params = { { name = "unit", type = "UnitTokenRestrictedForAddOns", default = nil }, { name = "auraInstanceID", type = "number", default = nil }, { name = "filter", type = "AuraFilters", default = nil } },
     returns = { { name = "isFiltered", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["C_UnitAuras.RemovePrivateAuraAnchor"] = {
@@ -378,6 +367,18 @@ APIDefs["C_UnitAuras.RemovePrivateAuraAppliedSound"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_UnitAuras.ResetAuraDataProvider"] = {
+    key = "C_UnitAuras.ResetAuraDataProvider",
+    name = "ResetAuraDataProvider",
+    category = "unit",
+    subcategory = "c_unitauras",
+    func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["ResetAuraDataProvider"],
+    funcPath = "C_UnitAuras.ResetAuraDataProvider",
+    params = {  },
+    returns = {  },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_UnitAuras.SetPrivateWarningTextAnchor"] = {
     key = "C_UnitAuras.SetPrivateWarningTextAnchor",
     name = "SetPrivateWarningTextAnchor",
@@ -390,6 +391,18 @@ APIDefs["C_UnitAuras.SetPrivateWarningTextAnchor"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_UnitAuras.SwitchAuraDataProvider"] = {
+    key = "C_UnitAuras.SwitchAuraDataProvider",
+    name = "SwitchAuraDataProvider",
+    category = "unit",
+    subcategory = "c_unitauras",
+    func = _G["C_UnitAuras"] and _G["C_UnitAuras"]["SwitchAuraDataProvider"],
+    funcPath = "C_UnitAuras.SwitchAuraDataProvider",
+    params = {  },
+    returns = {  },
+    midnightImpact = "NORMAL",
 }
 
 APIDefs["C_UnitAuras.TriggerPrivateAuraShowDispelType"] = {
@@ -417,5 +430,5 @@ APIDefs["C_UnitAuras.WantsAlteredForm"] = {
     returns = { { name = "wantsAlteredForm", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }

@@ -147,9 +147,8 @@ APIDefs["C_SpellBook.GetSpellBookItemCastCount"] = {
     funcPath = "C_SpellBook.GetSpellBookItemCastCount",
     params = { { name = "spellBookItemSlotIndex", type = "luaIndex", default = nil }, { name = "spellBookItemSpellBank", type = "SpellBookSpellBank", default = nil } },
     returns = { { name = "castCount", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCooldownsRestricted",
 }
 
 APIDefs["C_SpellBook.GetSpellBookItemChargeDuration"] = {
@@ -175,9 +174,8 @@ APIDefs["C_SpellBook.GetSpellBookItemCharges"] = {
     funcPath = "C_SpellBook.GetSpellBookItemCharges",
     params = { { name = "spellBookItemSlotIndex", type = "luaIndex", default = nil }, { name = "spellBookItemSpellBank", type = "SpellBookSpellBank", default = nil } },
     returns = { { name = "chargeInfo", type = "SpellChargeInfo", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCooldownsRestricted",
 }
 
 APIDefs["C_SpellBook.GetSpellBookItemCooldown"] = {
@@ -189,9 +187,8 @@ APIDefs["C_SpellBook.GetSpellBookItemCooldown"] = {
     funcPath = "C_SpellBook.GetSpellBookItemCooldown",
     params = { { name = "spellBookItemSlotIndex", type = "luaIndex", default = nil }, { name = "spellBookItemSpellBank", type = "SpellBookSpellBank", default = nil } },
     returns = { { name = "spellCooldownInfo", type = "SpellCooldownInfo", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCooldownsRestricted",
 }
 
 APIDefs["C_SpellBook.GetSpellBookItemCooldownDuration"] = {
@@ -201,7 +198,7 @@ APIDefs["C_SpellBook.GetSpellBookItemCooldownDuration"] = {
     subcategory = "c_spellbook",
     func = _G["C_SpellBook"] and _G["C_SpellBook"]["GetSpellBookItemCooldownDuration"],
     funcPath = "C_SpellBook.GetSpellBookItemCooldownDuration",
-    params = { { name = "spellBookItemSlotIndex", type = "luaIndex", default = nil }, { name = "spellBookItemSpellBank", type = "SpellBookSpellBank", default = nil } },
+    params = { { name = "spellBookItemSlotIndex", type = "luaIndex", default = nil }, { name = "spellBookItemSpellBank", type = "SpellBookSpellBank", default = nil }, { name = "ignoreGCD", type = "bool", default = false } },
     returns = { { name = "duration", type = "LuaDurationObject", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -264,20 +261,6 @@ APIDefs["C_SpellBook.GetSpellBookItemLink"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
-APIDefs["C_SpellBook.GetSpellBookItemLossOfControlCooldown"] = {
-    key = "C_SpellBook.GetSpellBookItemLossOfControlCooldown",
-    name = "GetSpellBookItemLossOfControlCooldown",
-    category = "combat_midnight",
-    subcategory = "c_spellbook",
-    func = _G["C_SpellBook"] and _G["C_SpellBook"]["GetSpellBookItemLossOfControlCooldown"],
-    funcPath = "C_SpellBook.GetSpellBookItemLossOfControlCooldown",
-    params = { { name = "spellBookItemSlotIndex", type = "luaIndex", default = nil }, { name = "spellBookItemSpellBank", type = "SpellBookSpellBank", default = nil } },
-    returns = { { name = "startTime", type = "number", canBeSecret = false }, { name = "duration", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
-}
-
 APIDefs["C_SpellBook.GetSpellBookItemLossOfControlCooldownDuration"] = {
     key = "C_SpellBook.GetSpellBookItemLossOfControlCooldownDuration",
     name = "GetSpellBookItemLossOfControlCooldownDuration",
@@ -290,6 +273,19 @@ APIDefs["C_SpellBook.GetSpellBookItemLossOfControlCooldownDuration"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_SpellBook.GetSpellBookItemLossOfControlCooldownInfo"] = {
+    key = "C_SpellBook.GetSpellBookItemLossOfControlCooldownInfo",
+    name = "GetSpellBookItemLossOfControlCooldownInfo",
+    category = "combat_midnight",
+    subcategory = "c_spellbook",
+    func = _G["C_SpellBook"] and _G["C_SpellBook"]["GetSpellBookItemLossOfControlCooldownInfo"],
+    funcPath = "C_SpellBook.GetSpellBookItemLossOfControlCooldownInfo",
+    params = { { name = "spellBookItemSlotIndex", type = "luaIndex", default = nil }, { name = "spellBookItemSpellBank", type = "SpellBookSpellBank", default = nil } },
+    returns = { { name = "lossOfControlInfo", type = "SpellLossOfControlInfo", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCooldownsRestricted",
 }
 
 APIDefs["C_SpellBook.GetSpellBookItemName"] = {

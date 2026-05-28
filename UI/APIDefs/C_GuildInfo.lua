@@ -118,6 +118,30 @@ APIDefs["C_GuildInfo.GetGuildTabardInfo"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_GuildInfo.GetInfoText"] = {
+    key = "C_GuildInfo.GetInfoText",
+    name = "GetInfoText",
+    category = "social",
+    subcategory = "c_guildinfo",
+    func = _G["C_GuildInfo"] and _G["C_GuildInfo"]["GetInfoText"],
+    funcPath = "C_GuildInfo.GetInfoText",
+    params = {  },
+    returns = { { name = "infoText", type = "string", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_GuildInfo.GetMOTD"] = {
+    key = "C_GuildInfo.GetMOTD",
+    name = "GetMOTD",
+    category = "social",
+    subcategory = "c_guildinfo",
+    func = _G["C_GuildInfo"] and _G["C_GuildInfo"]["GetMOTD"],
+    funcPath = "C_GuildInfo.GetMOTD",
+    params = {  },
+    returns = { { name = "motd", type = "string", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_GuildInfo.GuildControlGetRankFlags"] = {
     key = "C_GuildInfo.GuildControlGetRankFlags",
     name = "GuildControlGetRankFlags",
@@ -350,6 +374,20 @@ APIDefs["C_GuildInfo.SetGuildRankOrder"] = {
     func = _G["C_GuildInfo"] and _G["C_GuildInfo"]["SetGuildRankOrder"],
     funcPath = "C_GuildInfo.SetGuildRankOrder",
     params = { { name = "guid", type = "WOWGUID", default = nil }, { name = "rankOrder", type = "luaIndex", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_GuildInfo.SetInfoText"] = {
+    key = "C_GuildInfo.SetInfoText",
+    name = "SetInfoText",
+    category = "combat_midnight",
+    subcategory = "c_guildinfo",
+    func = _G["C_GuildInfo"] and _G["C_GuildInfo"]["SetInfoText"],
+    funcPath = "C_GuildInfo.SetInfoText",
+    params = { { name = "infoText", type = "cstring", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,

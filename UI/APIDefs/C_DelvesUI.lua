@@ -2,6 +2,18 @@
 local _, ns = ...
 local APIDefs = ns.APIDefinitions
 
+APIDefs["C_DelvesUI.GetActiveDelveTier"] = {
+    key = "C_DelvesUI.GetActiveDelveTier",
+    name = "GetActiveDelveTier",
+    category = "general",
+    subcategory = "c_delvesui",
+    func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["GetActiveDelveTier"],
+    funcPath = "C_DelvesUI.GetActiveDelveTier",
+    params = {  },
+    returns = { { name = "tierInfo", type = "TieredEntranceTierInfo", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_DelvesUI.GetCompanionInfoForActivePlayer"] = {
     key = "C_DelvesUI.GetCompanionInfoForActivePlayer",
     name = "GetCompanionInfoForActivePlayer",
@@ -35,7 +47,7 @@ APIDefs["C_DelvesUI.GetCurioLink"] = {
     subcategory = "c_delvesui",
     func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["GetCurioLink"],
     funcPath = "C_DelvesUI.GetCurioLink",
-    params = { { name = "spellID", type = "number", default = nil }, { name = "rarity", type = "CurioRarity", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil }, { name = "rarity", type = "CurioRarity", default = nil } },
     returns = { { name = "curioLink", type = "cstring", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -79,6 +91,66 @@ APIDefs["C_DelvesUI.GetCurrentDelvesSeasonNumber"] = {
     funcPath = "C_DelvesUI.GetCurrentDelvesSeasonNumber",
     params = {  },
     returns = { { name = "seasonNumber", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_DelvesUI.GetDelveEntranceBackgroundWidgetSetID"] = {
+    key = "C_DelvesUI.GetDelveEntranceBackgroundWidgetSetID",
+    name = "GetDelveEntranceBackgroundWidgetSetID",
+    category = "general",
+    subcategory = "c_delvesui",
+    func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["GetDelveEntranceBackgroundWidgetSetID"],
+    funcPath = "C_DelvesUI.GetDelveEntranceBackgroundWidgetSetID",
+    params = {  },
+    returns = { { name = "backgroundWidgetSetID", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_DelvesUI.GetDelveEntranceDescriptionString"] = {
+    key = "C_DelvesUI.GetDelveEntranceDescriptionString",
+    name = "GetDelveEntranceDescriptionString",
+    category = "general",
+    subcategory = "c_delvesui",
+    func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["GetDelveEntranceDescriptionString"],
+    funcPath = "C_DelvesUI.GetDelveEntranceDescriptionString",
+    params = {  },
+    returns = { { name = "description", type = "string", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_DelvesUI.GetDelveEntranceHeaderString"] = {
+    key = "C_DelvesUI.GetDelveEntranceHeaderString",
+    name = "GetDelveEntranceHeaderString",
+    category = "general",
+    subcategory = "c_delvesui",
+    func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["GetDelveEntranceHeaderString"],
+    funcPath = "C_DelvesUI.GetDelveEntranceHeaderString",
+    params = {  },
+    returns = { { name = "header", type = "string", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_DelvesUI.GetDelveEntranceMapID"] = {
+    key = "C_DelvesUI.GetDelveEntranceMapID",
+    name = "GetDelveEntranceMapID",
+    category = "general",
+    subcategory = "c_delvesui",
+    func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["GetDelveEntranceMapID"],
+    funcPath = "C_DelvesUI.GetDelveEntranceMapID",
+    params = {  },
+    returns = { { name = "mapID", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_DelvesUI.GetDelveEntranceTiers"] = {
+    key = "C_DelvesUI.GetDelveEntranceTiers",
+    name = "GetDelveEntranceTiers",
+    category = "general",
+    subcategory = "c_delvesui",
+    func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["GetDelveEntranceTiers"],
+    funcPath = "C_DelvesUI.GetDelveEntranceTiers",
+    params = {  },
+    returns = { { name = "levelInfo", type = "table", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -160,6 +232,20 @@ APIDefs["C_DelvesUI.GetModelSceneForCompanion"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_DelvesUI.GetPlayerCompanionPDEID"] = {
+    key = "C_DelvesUI.GetPlayerCompanionPDEID",
+    name = "GetPlayerCompanionPDEID",
+    category = "combat_midnight",
+    subcategory = "c_delvesui",
+    func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["GetPlayerCompanionPDEID"],
+    funcPath = "C_DelvesUI.GetPlayerCompanionPDEID",
+    params = { { name = "companionID", type = "number", default = nil } },
+    returns = { { name = "pdeID", type = "number", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_DelvesUI.GetRoleNodeForCompanion"] = {
     key = "C_DelvesUI.GetRoleNodeForCompanion",
     name = "GetRoleNodeForCompanion",
@@ -186,6 +272,42 @@ APIDefs["C_DelvesUI.GetRoleSubtreeForCompanion"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_DelvesUI.GetTieredEntranceOptionalAffixTraitTreeID"] = {
+    key = "C_DelvesUI.GetTieredEntranceOptionalAffixTraitTreeID",
+    name = "GetTieredEntranceOptionalAffixTraitTreeID",
+    category = "general",
+    subcategory = "c_delvesui",
+    func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["GetTieredEntranceOptionalAffixTraitTreeID"],
+    funcPath = "C_DelvesUI.GetTieredEntranceOptionalAffixTraitTreeID",
+    params = {  },
+    returns = { { name = "treeID", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_DelvesUI.GetTieredEntrancePDEID"] = {
+    key = "C_DelvesUI.GetTieredEntrancePDEID",
+    name = "GetTieredEntrancePDEID",
+    category = "general",
+    subcategory = "c_delvesui",
+    func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["GetTieredEntrancePDEID"],
+    funcPath = "C_DelvesUI.GetTieredEntrancePDEID",
+    params = {  },
+    returns = { { name = "pdeID", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_DelvesUI.GetTieredEntranceType"] = {
+    key = "C_DelvesUI.GetTieredEntranceType",
+    name = "GetTieredEntranceType",
+    category = "general",
+    subcategory = "c_delvesui",
+    func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["GetTieredEntranceType"],
+    funcPath = "C_DelvesUI.GetTieredEntranceType",
+    params = {  },
+    returns = { { name = "entranceType", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
 }
 
 APIDefs["C_DelvesUI.GetTraitTreeForCompanion"] = {
@@ -219,12 +341,24 @@ APIDefs["C_DelvesUI.GetUnseenCuriosBySlotType"] = {
 APIDefs["C_DelvesUI.HasActiveDelve"] = {
     key = "C_DelvesUI.HasActiveDelve",
     name = "HasActiveDelve",
-    category = "combat_midnight",
+    category = "general",
     subcategory = "c_delvesui",
     func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["HasActiveDelve"],
     funcPath = "C_DelvesUI.HasActiveDelve",
-    params = { { name = "mapID", type = "number", default = nil } },
+    params = {  },
     returns = { { name = "result", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_DelvesUI.IsDelveEntranceTierEnabled"] = {
+    key = "C_DelvesUI.IsDelveEntranceTierEnabled",
+    name = "IsDelveEntranceTierEnabled",
+    category = "combat_midnight",
+    subcategory = "c_delvesui",
+    func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["IsDelveEntranceTierEnabled"],
+    funcPath = "C_DelvesUI.IsDelveEntranceTierEnabled",
+    params = { { name = "tier", type = "number", default = nil } },
+    returns = { { name = "isEnabled", type = "bool", canBeSecret = false }, { name = "failureReason", type = "cstring", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -265,7 +399,7 @@ APIDefs["C_DelvesUI.RequestPartyEligibilityForDelveTiers"] = {
     subcategory = "c_delvesui",
     func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["RequestPartyEligibilityForDelveTiers"],
     funcPath = "C_DelvesUI.RequestPartyEligibilityForDelveTiers",
-    params = { { name = "gossipOption", type = "number", default = nil } },
+    params = { { name = "mapID", type = "number", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -280,6 +414,20 @@ APIDefs["C_DelvesUI.SaveSeenCuriosBySlotType"] = {
     func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["SaveSeenCuriosBySlotType"],
     funcPath = "C_DelvesUI.SaveSeenCuriosBySlotType",
     params = { { name = "slotType", type = "CompanionConfigSlotTypes", default = nil }, { name = "ownedCurioNodeIDs", type = "table", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_DelvesUI.SelectDelveEntranceTier"] = {
+    key = "C_DelvesUI.SelectDelveEntranceTier",
+    name = "SelectDelveEntranceTier",
+    category = "combat_midnight",
+    subcategory = "c_delvesui",
+    func = _G["C_DelvesUI"] and _G["C_DelvesUI"]["SelectDelveEntranceTier"],
+    funcPath = "C_DelvesUI.SelectDelveEntranceTier",
+    params = { { name = "tier", type = "number", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,

@@ -409,7 +409,7 @@ APIDefs["C_Calendar.EventGetInvite"] = {
     returns = { { name = "info", type = "CalendarEventInviteInfo", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Calendar.EventGetInviteResponseTime"] = {
@@ -423,7 +423,7 @@ APIDefs["C_Calendar.EventGetInviteResponseTime"] = {
     returns = { { name = "time", type = "CalendarTime", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Calendar.EventGetInviteSortCriterion"] = {
@@ -781,7 +781,7 @@ APIDefs["C_Calendar.GetClubCalendarEvents"] = {
     returns = { { name = "events", type = "table", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Calendar.GetDayEvent"] = {
@@ -795,7 +795,7 @@ APIDefs["C_Calendar.GetDayEvent"] = {
     returns = { { name = "event", type = "CalendarDayEvent", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Calendar.GetDefaultGuildFilter"] = {

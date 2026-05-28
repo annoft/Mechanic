@@ -107,7 +107,7 @@ APIDefs["C_Spell.GetMawPowerBorderAtlasBySpellID"] = {
     subcategory = "c_spell",
     func = _G["C_Spell"] and _G["C_Spell"]["GetMawPowerBorderAtlasBySpellID"],
     funcPath = "C_Spell.GetMawPowerBorderAtlasBySpellID",
-    params = { { name = "spellID", type = "number", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "rarityBorderAtlas", type = "textureAtlas", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -121,7 +121,7 @@ APIDefs["C_Spell.GetMawPowerLinkBySpellID"] = {
     subcategory = "c_spell",
     func = _G["C_Spell"] and _G["C_Spell"]["GetMawPowerLinkBySpellID"],
     funcPath = "C_Spell.GetMawPowerLinkBySpellID",
-    params = { { name = "spellID", type = "number", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "link", type = "cstring", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -180,7 +180,7 @@ APIDefs["C_Spell.GetSpellCastCount"] = {
     params = { { name = "spellIdentifier", type = "SpellIdentifier", default = nil } },
     returns = { { name = "castCount", type = "number", canBeSecret = false } },
     midnightImpact = "CONDITIONAL",
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenSpellCooldownRestricted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenCooldownsRestricted",
 }
 
 APIDefs["C_Spell.GetSpellChargeDuration"] = {
@@ -207,7 +207,7 @@ APIDefs["C_Spell.GetSpellCharges"] = {
     params = { { name = "spellIdentifier", type = "SpellIdentifier", default = nil } },
     returns = { { name = "chargeInfo", type = "SpellChargeInfo", canBeSecret = false } },
     midnightImpact = "CONDITIONAL",
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenSpellCooldownRestricted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenCooldownsRestricted",
 }
 
 APIDefs["C_Spell.GetSpellCooldown"] = {
@@ -220,7 +220,7 @@ APIDefs["C_Spell.GetSpellCooldown"] = {
     params = { { name = "spellIdentifier", type = "SpellIdentifier", default = nil } },
     returns = { { name = "spellCooldownInfo", type = "SpellCooldownInfo", canBeSecret = false } },
     midnightImpact = "CONDITIONAL",
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenSpellCooldownRestricted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenCooldownsRestricted",
 }
 
 APIDefs["C_Spell.GetSpellCooldownDuration"] = {
@@ -230,37 +230,11 @@ APIDefs["C_Spell.GetSpellCooldownDuration"] = {
     subcategory = "c_spell",
     func = _G["C_Spell"] and _G["C_Spell"]["GetSpellCooldownDuration"],
     funcPath = "C_Spell.GetSpellCooldownDuration",
-    params = { { name = "spellIdentifier", type = "SpellIdentifier", default = nil } },
+    params = { { name = "spellIdentifier", type = "SpellIdentifier", default = nil }, { name = "ignoreGCD", type = "bool", default = false } },
     returns = { { name = "duration", type = "LuaDurationObject", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
-}
-
-APIDefs["C_Spell.GetSpellCooldownRemaining"] = {
-    key = "C_Spell.GetSpellCooldownRemaining",
-    name = "GetSpellCooldownRemaining",
-    category = "combat_midnight",
-    subcategory = "c_spell",
-    func = _G["C_Spell"] and _G["C_Spell"]["GetSpellCooldownRemaining"],
-    funcPath = "C_Spell.GetSpellCooldownRemaining",
-    params = { { name = "spellIdentifier", type = "SpellIdentifier", default = nil } },
-    returns = { { name = "remainingSeconds", type = "number", canBeSecret = false } },
-    midnightImpact = "CONDITIONAL",
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenSpellCooldownRestricted",
-}
-
-APIDefs["C_Spell.GetSpellCooldownRemainingPercent"] = {
-    key = "C_Spell.GetSpellCooldownRemainingPercent",
-    name = "GetSpellCooldownRemainingPercent",
-    category = "combat_midnight",
-    subcategory = "c_spell",
-    func = _G["C_Spell"] and _G["C_Spell"]["GetSpellCooldownRemainingPercent"],
-    funcPath = "C_Spell.GetSpellCooldownRemainingPercent",
-    params = { { name = "spellIdentifier", type = "SpellIdentifier", default = nil }, { name = "curve", type = "LuaCurveObjectBase", default = nil } },
-    returns = { { name = "result", type = "LuaCurveEvaluatedResult", canBeSecret = false } },
-    midnightImpact = "CONDITIONAL",
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenSpellCooldownRestricted, SecretWhenCurveSecret",
 }
 
 APIDefs["C_Spell.GetSpellDescription"] = {
@@ -287,7 +261,7 @@ APIDefs["C_Spell.GetSpellDisplayCount"] = {
     params = { { name = "spellIdentifier", type = "SpellIdentifier", default = nil }, { name = "maxDisplayCount", type = "number", default = 9999 }, { name = "replacementString", type = "cstring", default = "*" } },
     returns = { { name = "displayCount", type = "string", canBeSecret = false } },
     midnightImpact = "CONDITIONAL",
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenSpellCooldownRestricted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCooldownsRestricted",
 }
 
 APIDefs["C_Spell.GetSpellIDForSpellIdentifier"] = {
@@ -346,19 +320,6 @@ APIDefs["C_Spell.GetSpellLink"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
 }
 
-APIDefs["C_Spell.GetSpellLossOfControlCooldown"] = {
-    key = "C_Spell.GetSpellLossOfControlCooldown",
-    name = "GetSpellLossOfControlCooldown",
-    category = "combat_midnight",
-    subcategory = "c_spell",
-    func = _G["C_Spell"] and _G["C_Spell"]["GetSpellLossOfControlCooldown"],
-    funcPath = "C_Spell.GetSpellLossOfControlCooldown",
-    params = { { name = "spellIdentifier", type = "SpellIdentifier", default = nil } },
-    returns = { { name = "startTime", type = "number", canBeSecret = false }, { name = "duration", type = "number", canBeSecret = false } },
-    midnightImpact = "CONDITIONAL",
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenSpellCooldownRestricted",
-}
-
 APIDefs["C_Spell.GetSpellLossOfControlCooldownDuration"] = {
     key = "C_Spell.GetSpellLossOfControlCooldownDuration",
     name = "GetSpellLossOfControlCooldownDuration",
@@ -373,6 +334,19 @@ APIDefs["C_Spell.GetSpellLossOfControlCooldownDuration"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
 }
 
+APIDefs["C_Spell.GetSpellLossOfControlCooldownInfo"] = {
+    key = "C_Spell.GetSpellLossOfControlCooldownInfo",
+    name = "GetSpellLossOfControlCooldownInfo",
+    category = "combat_midnight",
+    subcategory = "c_spell",
+    func = _G["C_Spell"] and _G["C_Spell"]["GetSpellLossOfControlCooldownInfo"],
+    funcPath = "C_Spell.GetSpellLossOfControlCooldownInfo",
+    params = { { name = "spellIdentifier", type = "SpellIdentifier", default = nil } },
+    returns = { { name = "lossOfControlInfo", type = "SpellLossOfControlInfo", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenCooldownsRestricted",
+}
+
 APIDefs["C_Spell.GetSpellMaxCumulativeAuraApplications"] = {
     key = "C_Spell.GetSpellMaxCumulativeAuraApplications",
     name = "GetSpellMaxCumulativeAuraApplications",
@@ -380,10 +354,10 @@ APIDefs["C_Spell.GetSpellMaxCumulativeAuraApplications"] = {
     subcategory = "c_spell",
     func = _G["C_Spell"] and _G["C_Spell"]["GetSpellMaxCumulativeAuraApplications"],
     funcPath = "C_Spell.GetSpellMaxCumulativeAuraApplications",
-    params = { { name = "spellID", type = "number", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "cumulativeAura", type = "number", canBeSecret = false } },
     midnightImpact = "CONDITIONAL",
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenSpellAuraRestricted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted, SecretWhenUnitAuraRestricted",
 }
 
 APIDefs["C_Spell.GetSpellName"] = {

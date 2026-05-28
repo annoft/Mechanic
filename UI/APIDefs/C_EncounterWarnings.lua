@@ -2,6 +2,20 @@
 local _, ns = ...
 local APIDefs = ns.APIDefinitions
 
+APIDefs["C_EncounterWarnings.GetColorForSeverity"] = {
+    key = "C_EncounterWarnings.GetColorForSeverity",
+    name = "GetColorForSeverity",
+    category = "combat_midnight",
+    subcategory = "c_encounterwarnings",
+    func = _G["C_EncounterWarnings"] and _G["C_EncounterWarnings"]["GetColorForSeverity"],
+    funcPath = "C_EncounterWarnings.GetColorForSeverity",
+    params = { { name = "severity", type = "EncounterEventSeverity", default = nil } },
+    returns = { { name = "color", type = "colorRGB", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_EncounterWarnings.GetEditModeWarningInfo"] = {
     key = "C_EncounterWarnings.GetEditModeWarningInfo",
     name = "GetEditModeWarningInfo",
@@ -16,6 +30,18 @@ APIDefs["C_EncounterWarnings.GetEditModeWarningInfo"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_EncounterWarnings.GetPlayCustomSoundsWhenHidden"] = {
+    key = "C_EncounterWarnings.GetPlayCustomSoundsWhenHidden",
+    name = "GetPlayCustomSoundsWhenHidden",
+    category = "general",
+    subcategory = "c_encounterwarnings",
+    func = _G["C_EncounterWarnings"] and _G["C_EncounterWarnings"]["GetPlayCustomSoundsWhenHidden"],
+    funcPath = "C_EncounterWarnings.GetPlayCustomSoundsWhenHidden",
+    params = {  },
+    returns = { { name = "play", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_EncounterWarnings.GetSoundKitForSeverity"] = {
     key = "C_EncounterWarnings.GetSoundKitForSeverity",
     name = "GetSoundKitForSeverity",
@@ -28,6 +54,18 @@ APIDefs["C_EncounterWarnings.GetSoundKitForSeverity"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_EncounterWarnings.GetWarningsShown"] = {
+    key = "C_EncounterWarnings.GetWarningsShown",
+    name = "GetWarningsShown",
+    category = "general",
+    subcategory = "c_encounterwarnings",
+    func = _G["C_EncounterWarnings"] and _G["C_EncounterWarnings"]["GetWarningsShown"],
+    funcPath = "C_EncounterWarnings.GetWarningsShown",
+    params = {  },
+    returns = { { name = "shown", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
 }
 
 APIDefs["C_EncounterWarnings.IsFeatureAvailable"] = {
@@ -66,4 +104,32 @@ APIDefs["C_EncounterWarnings.PlaySound"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_EncounterWarnings.SetPlayCustomSoundsWhenHidden"] = {
+    key = "C_EncounterWarnings.SetPlayCustomSoundsWhenHidden",
+    name = "SetPlayCustomSoundsWhenHidden",
+    category = "combat_midnight",
+    subcategory = "c_encounterwarnings",
+    func = _G["C_EncounterWarnings"] and _G["C_EncounterWarnings"]["SetPlayCustomSoundsWhenHidden"],
+    funcPath = "C_EncounterWarnings.SetPlayCustomSoundsWhenHidden",
+    params = { { name = "play", type = "bool", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=NotAllowed",
+}
+
+APIDefs["C_EncounterWarnings.SetWarningsShown"] = {
+    key = "C_EncounterWarnings.SetWarningsShown",
+    name = "SetWarningsShown",
+    category = "combat_midnight",
+    subcategory = "c_encounterwarnings",
+    func = _G["C_EncounterWarnings"] and _G["C_EncounterWarnings"]["SetWarningsShown"],
+    funcPath = "C_EncounterWarnings.SetWarningsShown",
+    params = { { name = "shown", type = "bool", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=NotAllowed",
 }

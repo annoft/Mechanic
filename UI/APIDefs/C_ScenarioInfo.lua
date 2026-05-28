@@ -30,6 +30,18 @@ APIDefs["C_ScenarioInfo.GetCriteriaInfoByStep"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_ScenarioInfo.GetDisplayInfo"] = {
+    key = "C_ScenarioInfo.GetDisplayInfo",
+    name = "GetDisplayInfo",
+    category = "general",
+    subcategory = "c_scenarioinfo",
+    func = _G["C_ScenarioInfo"] and _G["C_ScenarioInfo"]["GetDisplayInfo"],
+    funcPath = "C_ScenarioInfo.GetDisplayInfo",
+    params = {  },
+    returns = { { name = "info", type = "ScenarioDisplayInfo", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_ScenarioInfo.GetJailersTowerTypeString"] = {
     key = "C_ScenarioInfo.GetJailersTowerTypeString",
     name = "GetJailersTowerTypeString",
@@ -68,4 +80,41 @@ APIDefs["C_ScenarioInfo.GetScenarioStepInfo"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_ScenarioInfo.GetTieredEntranceActiveSpells"] = {
+    key = "C_ScenarioInfo.GetTieredEntranceActiveSpells",
+    name = "GetTieredEntranceActiveSpells",
+    category = "general",
+    subcategory = "c_scenarioinfo",
+    func = _G["C_ScenarioInfo"] and _G["C_ScenarioInfo"]["GetTieredEntranceActiveSpells"],
+    funcPath = "C_ScenarioInfo.GetTieredEntranceActiveSpells",
+    params = {  },
+    returns = { { name = "spellIDs", type = "table", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_ScenarioInfo.GetUnitCriteriaProgressValues"] = {
+    key = "C_ScenarioInfo.GetUnitCriteriaProgressValues",
+    name = "GetUnitCriteriaProgressValues",
+    category = "combat_midnight",
+    subcategory = "c_scenarioinfo",
+    func = _G["C_ScenarioInfo"] and _G["C_ScenarioInfo"]["GetUnitCriteriaProgressValues"],
+    funcPath = "C_ScenarioInfo.GetUnitCriteriaProgressValues",
+    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    returns = { { name = "actualValue", type = "number", canBeSecret = false }, { name = "percentValue", type = "number", canBeSecret = false }, { name = "percentValueString", type = "string", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretWhenUnitIdentityRestricted, SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_ScenarioInfo.IsTieredEntranceScenario"] = {
+    key = "C_ScenarioInfo.IsTieredEntranceScenario",
+    name = "IsTieredEntranceScenario",
+    category = "general",
+    subcategory = "c_scenarioinfo",
+    func = _G["C_ScenarioInfo"] and _G["C_ScenarioInfo"]["IsTieredEntranceScenario"],
+    funcPath = "C_ScenarioInfo.IsTieredEntranceScenario",
+    params = {  },
+    returns = { { name = "isTieredEntrance", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
 }

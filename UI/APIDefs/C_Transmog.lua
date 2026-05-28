@@ -58,20 +58,6 @@ APIDefs["C_Transmog.GetItemIDForSource"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
-APIDefs["C_Transmog.GetSlotEffectiveCategory"] = {
-    key = "C_Transmog.GetSlotEffectiveCategory",
-    name = "GetSlotEffectiveCategory",
-    category = "combat_midnight",
-    subcategory = "c_transmog",
-    func = _G["C_Transmog"] and _G["C_Transmog"]["GetSlotEffectiveCategory"],
-    funcPath = "C_Transmog.GetSlotEffectiveCategory",
-    params = { { name = "transmogLocation", type = "TransmogLocation", default = nil } },
-    returns = { { name = "categoryID", type = "TransmogCollectionType", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
-}
-
 APIDefs["C_Transmog.GetSlotForInventoryType"] = {
     key = "C_Transmog.GetSlotForInventoryType",
     name = "GetSlotForInventoryType",

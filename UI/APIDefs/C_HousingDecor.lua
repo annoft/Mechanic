@@ -62,6 +62,20 @@ APIDefs["C_HousingDecor.GetAllPlacedDecor"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["C_HousingDecor.GetDecorHyperlink"] = {
+    key = "C_HousingDecor.GetDecorHyperlink",
+    name = "GetDecorHyperlink",
+    category = "combat_midnight",
+    subcategory = "c_housingdecor",
+    func = _G["C_HousingDecor"] and _G["C_HousingDecor"]["GetDecorHyperlink"],
+    funcPath = "C_HousingDecor.GetDecorHyperlink",
+    params = { { name = "decorID", type = "number", default = nil } },
+    returns = { { name = "hyperLink", type = "string", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_HousingDecor.GetDecorIcon"] = {
     key = "C_HousingDecor.GetDecorIcon",
     name = "GetDecorIcon",

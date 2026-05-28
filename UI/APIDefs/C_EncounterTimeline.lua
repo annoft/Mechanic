@@ -106,6 +106,18 @@ APIDefs["C_EncounterTimeline.GetEventCountBySource"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_EncounterTimeline.GetEventHighlightTime"] = {
+    key = "C_EncounterTimeline.GetEventHighlightTime",
+    name = "GetEventHighlightTime",
+    category = "general",
+    subcategory = "c_encountertimeline",
+    func = _G["C_EncounterTimeline"] and _G["C_EncounterTimeline"]["GetEventHighlightTime"],
+    funcPath = "C_EncounterTimeline.GetEventHighlightTime",
+    params = {  },
+    returns = { { name = "highlightTime", type = "DurationSeconds", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_EncounterTimeline.GetEventInfo"] = {
     key = "C_EncounterTimeline.GetEventInfo",
     name = "GetEventInfo",
@@ -115,9 +127,8 @@ APIDefs["C_EncounterTimeline.GetEventInfo"] = {
     funcPath = "C_EncounterTimeline.GetEventInfo",
     params = { { name = "eventID", type = "EncounterTimelineEventID", default = nil } },
     returns = { { name = "info", type = "EncounterTimelineEventInfo", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=NotAllowed",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=NotAllowed, SecretWhenEncounterEvent",
 }
 
 APIDefs["C_EncounterTimeline.GetEventList"] = {
@@ -174,6 +185,20 @@ APIDefs["C_EncounterTimeline.GetEventTimeRemaining"] = {
     midnightNote = "Secret behavior: SecretArguments=NotAllowed",
 }
 
+APIDefs["C_EncounterTimeline.GetEventTimer"] = {
+    key = "C_EncounterTimeline.GetEventTimer",
+    name = "GetEventTimer",
+    category = "combat_midnight",
+    subcategory = "c_encountertimeline",
+    func = _G["C_EncounterTimeline"] and _G["C_EncounterTimeline"]["GetEventTimer"],
+    funcPath = "C_EncounterTimeline.GetEventTimer",
+    params = { { name = "eventID", type = "EncounterTimelineEventID", default = nil } },
+    returns = { { name = "duration", type = "LuaDurationObject", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=NotAllowed",
+}
+
 APIDefs["C_EncounterTimeline.GetEventTrack"] = {
     key = "C_EncounterTimeline.GetEventTrack",
     name = "GetEventTrack",
@@ -183,6 +208,20 @@ APIDefs["C_EncounterTimeline.GetEventTrack"] = {
     funcPath = "C_EncounterTimeline.GetEventTrack",
     params = { { name = "eventID", type = "EncounterTimelineEventID", default = nil } },
     returns = { { name = "track", type = "EncounterTimelineTrack", canBeSecret = false }, { name = "trackSortIndex", type = "luaIndex", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=NotAllowed",
+}
+
+APIDefs["C_EncounterTimeline.GetSortedEventList"] = {
+    key = "C_EncounterTimeline.GetSortedEventList",
+    name = "GetSortedEventList",
+    category = "combat_midnight",
+    subcategory = "c_encountertimeline",
+    func = _G["C_EncounterTimeline"] and _G["C_EncounterTimeline"]["GetSortedEventList"],
+    funcPath = "C_EncounterTimeline.GetSortedEventList",
+    params = { { name = "maxEventCount", type = "number", default = nil }, { name = "maxEventDuration", type = "DurationSeconds", default = nil }, { name = "excludeTerminalStates", type = "bool", default = true }, { name = "excludeHiddenEvents", type = "bool", default = true } },
+    returns = { { name = "events", type = "table", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=NotAllowed",
@@ -211,6 +250,46 @@ APIDefs["C_EncounterTimeline.GetTrackList"] = {
     funcPath = "C_EncounterTimeline.GetTrackList",
     params = {  },
     returns = { { name = "tracks", type = "table", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_EncounterTimeline.GetTrackMaxEventDuration"] = {
+    key = "C_EncounterTimeline.GetTrackMaxEventDuration",
+    name = "GetTrackMaxEventDuration",
+    category = "combat_midnight",
+    subcategory = "c_encountertimeline",
+    func = _G["C_EncounterTimeline"] and _G["C_EncounterTimeline"]["GetTrackMaxEventDuration"],
+    funcPath = "C_EncounterTimeline.GetTrackMaxEventDuration",
+    params = { { name = "track", type = "EncounterTimelineTrack", default = nil } },
+    returns = { { name = "maxEventDuration", type = "DurationSeconds", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=NotAllowed",
+}
+
+APIDefs["C_EncounterTimeline.GetTrackType"] = {
+    key = "C_EncounterTimeline.GetTrackType",
+    name = "GetTrackType",
+    category = "combat_midnight",
+    subcategory = "c_encountertimeline",
+    func = _G["C_EncounterTimeline"] and _G["C_EncounterTimeline"]["GetTrackType"],
+    funcPath = "C_EncounterTimeline.GetTrackType",
+    params = { { name = "track", type = "EncounterTimelineTrack", default = nil } },
+    returns = { { name = "trackType", type = "EncounterTimelineTrackType", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=NotAllowed",
+}
+
+APIDefs["C_EncounterTimeline.GetViewType"] = {
+    key = "C_EncounterTimeline.GetViewType",
+    name = "GetViewType",
+    category = "general",
+    subcategory = "c_encountertimeline",
+    func = _G["C_EncounterTimeline"] and _G["C_EncounterTimeline"]["GetViewType"],
+    funcPath = "C_EncounterTimeline.GetViewType",
+    params = {  },
+    returns = { { name = "viewType", type = "EncounterTimelineViewType", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
@@ -340,4 +419,18 @@ APIDefs["C_EncounterTimeline.SetEventIconTextures"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_EncounterTimeline.SetViewType"] = {
+    key = "C_EncounterTimeline.SetViewType",
+    name = "SetViewType",
+    category = "combat_midnight",
+    subcategory = "c_encountertimeline",
+    func = _G["C_EncounterTimeline"] and _G["C_EncounterTimeline"]["SetViewType"],
+    funcPath = "C_EncounterTimeline.SetViewType",
+    params = { { name = "viewType", type = "EncounterTimelineViewType", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=NotAllowed",
 }

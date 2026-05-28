@@ -306,6 +306,18 @@ APIDefs["C_PartyInfo.GetLootMethod"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["C_PartyInfo.GetLootMethodStyle"] = {
+    key = "C_PartyInfo.GetLootMethodStyle",
+    name = "GetLootMethodStyle",
+    category = "unit",
+    subcategory = "c_partyinfo",
+    func = _G["C_PartyInfo"] and _G["C_PartyInfo"]["GetLootMethodStyle"],
+    funcPath = "C_PartyInfo.GetLootMethodStyle",
+    params = {  },
+    returns = { { name = "methodStyle", type = "LootMethodStyles", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_PartyInfo.GetMinItemLevel"] = {
     key = "C_PartyInfo.GetMinItemLevel",
     name = "GetMinItemLevel",
@@ -432,6 +444,20 @@ APIDefs["C_PartyInfo.IsDelveInProgress"] = {
     params = {  },
     returns = { { name = "isDelveComplete", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
+}
+
+APIDefs["C_PartyInfo.IsLootMethodAvailable"] = {
+    key = "C_PartyInfo.IsLootMethodAvailable",
+    name = "IsLootMethodAvailable",
+    category = "combat_midnight",
+    subcategory = "c_partyinfo",
+    func = _G["C_PartyInfo"] and _G["C_PartyInfo"]["IsLootMethodAvailable"],
+    funcPath = "C_PartyInfo.IsLootMethodAvailable",
+    params = { { name = "method", type = "LootMethod", default = nil } },
+    returns = { { name = "available", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["C_PartyInfo.IsPartyFull"] = {

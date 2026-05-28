@@ -2,6 +2,76 @@
 local _, ns = ...
 local APIDefs = ns.APIDefinitions
 
+APIDefs["C_Secrets.CanCompareUnitTokens"] = {
+    key = "C_Secrets.CanCompareUnitTokens",
+    name = "CanCompareUnitTokens",
+    category = "combat_midnight",
+    subcategory = "c_secrets",
+    func = _G["C_Secrets"] and _G["C_Secrets"]["CanCompareUnitTokens"],
+    funcPath = "C_Secrets.CanCompareUnitTokens",
+    params = { { name = "unit1", type = "UnitToken", default = "player" }, { name = "unit2", type = "UnitToken", default = "player" } },
+    returns = { { name = "isUnitComparisonPermitted", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_Secrets.GetPowerTypeSecrecy"] = {
+    key = "C_Secrets.GetPowerTypeSecrecy",
+    name = "GetPowerTypeSecrecy",
+    category = "combat_midnight",
+    subcategory = "c_secrets",
+    func = _G["C_Secrets"] and _G["C_Secrets"]["GetPowerTypeSecrecy"],
+    funcPath = "C_Secrets.GetPowerTypeSecrecy",
+    params = { { name = "powerType", type = "PowerType", default = nil } },
+    returns = { { name = "secrecy", type = "SecrecyLevel", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_Secrets.GetSpellAuraSecrecy"] = {
+    key = "C_Secrets.GetSpellAuraSecrecy",
+    name = "GetSpellAuraSecrecy",
+    category = "combat_midnight",
+    subcategory = "c_secrets",
+    func = _G["C_Secrets"] and _G["C_Secrets"]["GetSpellAuraSecrecy"],
+    funcPath = "C_Secrets.GetSpellAuraSecrecy",
+    params = { { name = "spellIdentifier", type = "SpellIdentifier", default = nil } },
+    returns = { { name = "secrecy", type = "SecrecyLevel", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_Secrets.GetSpellCastSecrecy"] = {
+    key = "C_Secrets.GetSpellCastSecrecy",
+    name = "GetSpellCastSecrecy",
+    category = "combat_midnight",
+    subcategory = "c_secrets",
+    func = _G["C_Secrets"] and _G["C_Secrets"]["GetSpellCastSecrecy"],
+    funcPath = "C_Secrets.GetSpellCastSecrecy",
+    params = { { name = "spellIdentifier", type = "SpellIdentifier", default = nil } },
+    returns = { { name = "secrecy", type = "SecrecyLevel", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_Secrets.GetSpellCooldownSecrecy"] = {
+    key = "C_Secrets.GetSpellCooldownSecrecy",
+    name = "GetSpellCooldownSecrecy",
+    category = "combat_midnight",
+    subcategory = "c_secrets",
+    func = _G["C_Secrets"] and _G["C_Secrets"]["GetSpellCooldownSecrecy"],
+    funcPath = "C_Secrets.GetSpellCooldownSecrecy",
+    params = { { name = "spellIdentifier", type = "SpellIdentifier", default = nil } },
+    returns = { { name = "secrecy", type = "SecrecyLevel", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_Secrets.HasSecretRestrictions"] = {
     key = "C_Secrets.HasSecretRestrictions",
     name = "HasSecretRestrictions",
@@ -94,6 +164,34 @@ APIDefs["C_Secrets.ShouldSpellCooldownBeSecret"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_Secrets.ShouldTotemSlotBeSecret"] = {
+    key = "C_Secrets.ShouldTotemSlotBeSecret",
+    name = "ShouldTotemSlotBeSecret",
+    category = "combat_midnight",
+    subcategory = "c_secrets",
+    func = _G["C_Secrets"] and _G["C_Secrets"]["ShouldTotemSlotBeSecret"],
+    funcPath = "C_Secrets.ShouldTotemSlotBeSecret",
+    params = { { name = "slot", type = "luaIndex", default = nil } },
+    returns = { { name = "isTotemSecret", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_Secrets.ShouldTotemSpellBeSecret"] = {
+    key = "C_Secrets.ShouldTotemSpellBeSecret",
+    name = "ShouldTotemSpellBeSecret",
+    category = "combat_midnight",
+    subcategory = "c_secrets",
+    func = _G["C_Secrets"] and _G["C_Secrets"]["ShouldTotemSpellBeSecret"],
+    funcPath = "C_Secrets.ShouldTotemSpellBeSecret",
+    params = { { name = "spellID", type = "number", default = nil } },
+    returns = { { name = "isTotemSecret", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_Secrets.ShouldUnitAuraIndexBeSecret"] = {
     key = "C_Secrets.ShouldUnitAuraIndexBeSecret",
     name = "ShouldUnitAuraIndexBeSecret",
@@ -145,6 +243,20 @@ APIDefs["C_Secrets.ShouldUnitComparisonBeSecret"] = {
     funcPath = "C_Secrets.ShouldUnitComparisonBeSecret",
     params = { { name = "unit1", type = "UnitToken", default = "player" }, { name = "unit2", type = "UnitToken", default = "player" } },
     returns = { { name = "isUnitComparisonSecret", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_Secrets.ShouldUnitHealthMaxBeSecret"] = {
+    key = "C_Secrets.ShouldUnitHealthMaxBeSecret",
+    name = "ShouldUnitHealthMaxBeSecret",
+    category = "combat_midnight",
+    subcategory = "c_secrets",
+    func = _G["C_Secrets"] and _G["C_Secrets"]["ShouldUnitHealthMaxBeSecret"],
+    funcPath = "C_Secrets.ShouldUnitHealthMaxBeSecret",
+    params = { { name = "unit", type = "UnitToken", default = "player" } },
+    returns = { { name = "isUnitHealthMaxSecret", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -215,6 +327,46 @@ APIDefs["C_Secrets.ShouldUnitSpellCastingBeSecret"] = {
     funcPath = "C_Secrets.ShouldUnitSpellCastingBeSecret",
     params = { { name = "unit", type = "UnitToken", default = "player" } },
     returns = { { name = "isSpellCastingSecret", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_Secrets.ShouldUnitStatsBeSecret"] = {
+    key = "C_Secrets.ShouldUnitStatsBeSecret",
+    name = "ShouldUnitStatsBeSecret",
+    category = "general",
+    subcategory = "c_secrets",
+    func = _G["C_Secrets"] and _G["C_Secrets"]["ShouldUnitStatsBeSecret"],
+    funcPath = "C_Secrets.ShouldUnitStatsBeSecret",
+    params = {  },
+    returns = { { name = "hasSecretStats", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_Secrets.ShouldUnitThreatStateBeSecret"] = {
+    key = "C_Secrets.ShouldUnitThreatStateBeSecret",
+    name = "ShouldUnitThreatStateBeSecret",
+    category = "combat_midnight",
+    subcategory = "c_secrets",
+    func = _G["C_Secrets"] and _G["C_Secrets"]["ShouldUnitThreatStateBeSecret"],
+    funcPath = "C_Secrets.ShouldUnitThreatStateBeSecret",
+    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "mobUnit", type = "UnitToken", default = "player" } },
+    returns = { { name = "isUnitThreatSecret", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_Secrets.ShouldUnitThreatValuesBeSecret"] = {
+    key = "C_Secrets.ShouldUnitThreatValuesBeSecret",
+    name = "ShouldUnitThreatValuesBeSecret",
+    category = "combat_midnight",
+    subcategory = "c_secrets",
+    func = _G["C_Secrets"] and _G["C_Secrets"]["ShouldUnitThreatValuesBeSecret"],
+    funcPath = "C_Secrets.ShouldUnitThreatValuesBeSecret",
+    params = { { name = "unit", type = "UnitToken", default = "player" }, { name = "mobUnit", type = "UnitToken", default = "player" } },
+    returns = { { name = "isUnitThreatSecret", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",

@@ -2,6 +2,56 @@
 local _, ns = ...
 local APIDefs = ns.APIDefinitions
 
+APIDefs["C_StringUtil.CreateAbbreviatedNumberFormatter"] = {
+    key = "C_StringUtil.CreateAbbreviatedNumberFormatter",
+    name = "CreateAbbreviatedNumberFormatter",
+    category = "general",
+    subcategory = "c_stringutil",
+    func = _G["C_StringUtil"] and _G["C_StringUtil"]["CreateAbbreviatedNumberFormatter"],
+    funcPath = "C_StringUtil.CreateAbbreviatedNumberFormatter",
+    params = {  },
+    returns = { { name = "formatter", type = "AbbreviatedNumberFormatter", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_StringUtil.CreateNumericRuleFormatter"] = {
+    key = "C_StringUtil.CreateNumericRuleFormatter",
+    name = "CreateNumericRuleFormatter",
+    category = "general",
+    subcategory = "c_stringutil",
+    func = _G["C_StringUtil"] and _G["C_StringUtil"]["CreateNumericRuleFormatter"],
+    funcPath = "C_StringUtil.CreateNumericRuleFormatter",
+    params = {  },
+    returns = { { name = "formatter", type = "NumericRuleFormatter", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_StringUtil.CreateSecondsFormatter"] = {
+    key = "C_StringUtil.CreateSecondsFormatter",
+    name = "CreateSecondsFormatter",
+    category = "general",
+    subcategory = "c_stringutil",
+    func = _G["C_StringUtil"] and _G["C_StringUtil"]["CreateSecondsFormatter"],
+    funcPath = "C_StringUtil.CreateSecondsFormatter",
+    params = {  },
+    returns = { { name = "formatter", type = "SecondsFormatter", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_StringUtil.EscapeLuaFormatString"] = {
+    key = "C_StringUtil.EscapeLuaFormatString",
+    name = "EscapeLuaFormatString",
+    category = "combat_midnight",
+    subcategory = "c_stringutil",
+    func = _G["C_StringUtil"] and _G["C_StringUtil"]["EscapeLuaFormatString"],
+    funcPath = "C_StringUtil.EscapeLuaFormatString",
+    params = { { name = "text", type = "string", default = nil } },
+    returns = { { name = "escapedText", type = "stringView", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+}
+
 APIDefs["C_StringUtil.EscapeLuaPatterns"] = {
     key = "C_StringUtil.EscapeLuaPatterns",
     name = "EscapeLuaPatterns",
@@ -79,7 +129,21 @@ APIDefs["C_StringUtil.StripHyperlinks"] = {
     subcategory = "c_stringutil",
     func = _G["C_StringUtil"] and _G["C_StringUtil"]["StripHyperlinks"],
     funcPath = "C_StringUtil.StripHyperlinks",
-    params = { { name = "text", type = "string", default = nil }, { name = "maintainColor", type = "bool", default = false }, { name = "maintainBrackets", type = "bool", default = false }, { name = "stripNewlines", type = "bool", default = false }, { name = "maintainAtlases", type = "bool", default = false } },
+    params = { { name = "text", type = "string", default = nil }, { name = "maintainColor", type = "bool", default = false }, { name = "maintainBrackets", type = "bool", default = false }, { name = "stripNewlines", type = "bool", default = false }, { name = "maintainAtlases", type = "bool", default = false }, { name = "maintainTextures", type = "bool", default = false } },
+    returns = { { name = "stripped", type = "stringView", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+}
+
+APIDefs["C_StringUtil.StripTextureMarkupForLooseFiles"] = {
+    key = "C_StringUtil.StripTextureMarkupForLooseFiles",
+    name = "StripTextureMarkupForLooseFiles",
+    category = "combat_midnight",
+    subcategory = "c_stringutil",
+    func = _G["C_StringUtil"] and _G["C_StringUtil"]["StripTextureMarkupForLooseFiles"],
+    funcPath = "C_StringUtil.StripTextureMarkupForLooseFiles",
+    params = { { name = "text", type = "string", default = nil } },
     returns = { { name = "stripped", type = "stringView", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -121,7 +185,7 @@ APIDefs["C_StringUtil.trim"] = {
     subcategory = "c_stringutil",
     func = _G["C_StringUtil"] and _G["C_StringUtil"]["trim"],
     funcPath = "C_StringUtil.trim",
-    params = { { name = "str", type = "stringView", default = nil }, { name = "characters", type = "stringView", default = " \\\\r\\\\n\\\\t" } },
+    params = { { name = "str", type = "stringView", default = nil }, { name = "characters", type = "stringView", default = " \\r\\n\\t" } },
     returns = { { name = "trimmed", type = "stringView", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,

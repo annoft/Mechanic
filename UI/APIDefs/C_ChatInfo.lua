@@ -2,6 +2,18 @@
 local _, ns = ...
 local APIDefs = ns.APIDefinitions
 
+APIDefs["C_ChatInfo.AreOutgoingAddonChatMessagesRestricted"] = {
+    key = "C_ChatInfo.AreOutgoingAddonChatMessagesRestricted",
+    name = "AreOutgoingAddonChatMessagesRestricted",
+    category = "social",
+    subcategory = "c_chatinfo",
+    func = _G["C_ChatInfo"] and _G["C_ChatInfo"]["AreOutgoingAddonChatMessagesRestricted"],
+    funcPath = "C_ChatInfo.AreOutgoingAddonChatMessagesRestricted",
+    params = {  },
+    returns = { { name = "isRestricted", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_ChatInfo.CanPlayerSpeakLanguage"] = {
     key = "C_ChatInfo.CanPlayerSpeakLanguage",
     name = "CanPlayerSpeakLanguage",
@@ -137,7 +149,7 @@ APIDefs["C_ChatInfo.GetChatLineSenderGUID"] = {
     returns = { { name = "guid", type = "WOWGUID", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_ChatInfo.GetChatLineSenderName"] = {
@@ -151,7 +163,7 @@ APIDefs["C_ChatInfo.GetChatLineSenderName"] = {
     returns = { { name = "name", type = "string", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_ChatInfo.GetChatLineText"] = {
@@ -165,7 +177,7 @@ APIDefs["C_ChatInfo.GetChatLineText"] = {
     returns = { { name = "text", type = "string", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_ChatInfo.GetChatTypeName"] = {
@@ -290,7 +302,7 @@ APIDefs["C_ChatInfo.InChatMessagingLockdown"] = {
     func = _G["C_ChatInfo"] and _G["C_ChatInfo"]["InChatMessagingLockdown"],
     funcPath = "C_ChatInfo.InChatMessagingLockdown",
     params = {  },
-    returns = { { name = "isRestricted", type = "bool", canBeSecret = false }, { name = "lockdownReason", type = "ChatMessagingLockdownReason", canBeSecret = false } },
+    returns = { { name = "isRestricted", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 

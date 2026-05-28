@@ -332,6 +332,62 @@ APIDefs["C_ClassTalents.SetUsesSharedActionBars"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_ClassTalents.SwitchToLoadoutByIndex"] = {
+    key = "C_ClassTalents.SwitchToLoadoutByIndex",
+    name = "SwitchToLoadoutByIndex",
+    category = "combat_midnight",
+    subcategory = "c_classtalents",
+    func = _G["C_ClassTalents"] and _G["C_ClassTalents"]["SwitchToLoadoutByIndex"],
+    funcPath = "C_ClassTalents.SwitchToLoadoutByIndex",
+    params = { { name = "loadoutIndex", type = "number", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_ClassTalents.SwitchToLoadoutByName"] = {
+    key = "C_ClassTalents.SwitchToLoadoutByName",
+    name = "SwitchToLoadoutByName",
+    category = "combat_midnight",
+    subcategory = "c_classtalents",
+    func = _G["C_ClassTalents"] and _G["C_ClassTalents"]["SwitchToLoadoutByName"],
+    funcPath = "C_ClassTalents.SwitchToLoadoutByName",
+    params = { { name = "loadoutName", type = "cstring", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_ClassTalents.SwitchToSpecializationByIndex"] = {
+    key = "C_ClassTalents.SwitchToSpecializationByIndex",
+    name = "SwitchToSpecializationByIndex",
+    category = "combat_midnight",
+    subcategory = "c_classtalents",
+    func = _G["C_ClassTalents"] and _G["C_ClassTalents"]["SwitchToSpecializationByIndex"],
+    funcPath = "C_ClassTalents.SwitchToSpecializationByIndex",
+    params = { { name = "specIndex", type = "number", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_ClassTalents.SwitchToSpecializationByName"] = {
+    key = "C_ClassTalents.SwitchToSpecializationByName",
+    name = "SwitchToSpecializationByName",
+    category = "combat_midnight",
+    subcategory = "c_classtalents",
+    func = _G["C_ClassTalents"] and _G["C_ClassTalents"]["SwitchToSpecializationByName"],
+    funcPath = "C_ClassTalents.SwitchToSpecializationByName",
+    params = { { name = "specName", type = "cstring", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_ClassTalents.UpdateLastSelectedSavedConfigID"] = {
     key = "C_ClassTalents.UpdateLastSelectedSavedConfigID",
     name = "UpdateLastSelectedSavedConfigID",

@@ -154,6 +154,20 @@ APIDefs["C_BattleNet.SendWhisper"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_BattleNet.SetAFK"] = {
+    key = "C_BattleNet.SetAFK",
+    name = "SetAFK",
+    category = "combat_midnight",
+    subcategory = "c_battlenet",
+    func = _G["C_BattleNet"] and _G["C_BattleNet"]["SetAFK"],
+    funcPath = "C_BattleNet.SetAFK",
+    params = { { name = "isAFK", type = "bool", default = true } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_BattleNet.SetCustomMessage"] = {
     key = "C_BattleNet.SetCustomMessage",
     name = "SetCustomMessage",
@@ -163,6 +177,20 @@ APIDefs["C_BattleNet.SetCustomMessage"] = {
     funcPath = "C_BattleNet.SetCustomMessage",
     params = { { name = "text", type = "cstring", default = nil } },
     returns = { { name = "success", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_BattleNet.SetDND"] = {
+    key = "C_BattleNet.SetDND",
+    name = "SetDND",
+    category = "combat_midnight",
+    subcategory = "c_battlenet",
+    func = _G["C_BattleNet"] and _G["C_BattleNet"]["SetDND"],
+    funcPath = "C_BattleNet.SetDND",
+    params = { { name = "isDND", type = "bool", default = true } },
+    returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",

@@ -26,18 +26,6 @@ APIDefs["C_GossipInfo.ForceGossip"] = {
     midnightImpact = "NORMAL",
 }
 
-APIDefs["C_GossipInfo.GetActiveDelveGossip"] = {
-    key = "C_GossipInfo.GetActiveDelveGossip",
-    name = "GetActiveDelveGossip",
-    category = "general",
-    subcategory = "c_gossipinfo",
-    func = _G["C_GossipInfo"] and _G["C_GossipInfo"]["GetActiveDelveGossip"],
-    funcPath = "C_GossipInfo.GetActiveDelveGossip",
-    params = {  },
-    returns = { { name = "gossip", type = "GossipOptionUIInfo", canBeSecret = false } },
-    midnightImpact = "NORMAL",
-}
-
 APIDefs["C_GossipInfo.GetActiveQuests"] = {
     key = "C_GossipInfo.GetActiveQuests",
     name = "GetActiveQuests",
@@ -112,18 +100,6 @@ APIDefs["C_GossipInfo.GetFriendshipReputationRanks"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
-}
-
-APIDefs["C_GossipInfo.GetGossipDelveMapID"] = {
-    key = "C_GossipInfo.GetGossipDelveMapID",
-    name = "GetGossipDelveMapID",
-    category = "general",
-    subcategory = "c_gossipinfo",
-    func = _G["C_GossipInfo"] and _G["C_GossipInfo"]["GetGossipDelveMapID"],
-    funcPath = "C_GossipInfo.GetGossipDelveMapID",
-    params = {  },
-    returns = { { name = "mapID", type = "number", canBeSecret = false } },
-    midnightImpact = "NORMAL",
 }
 
 APIDefs["C_GossipInfo.GetNumActiveQuests"] = {

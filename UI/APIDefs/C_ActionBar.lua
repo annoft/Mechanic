@@ -63,7 +63,7 @@ APIDefs["C_ActionBar.FindSpellActionButtons"] = {
     subcategory = "c_actionbar",
     func = _G["C_ActionBar"] and _G["C_ActionBar"]["FindSpellActionButtons"],
     funcPath = "C_ActionBar.FindSpellActionButtons",
-    params = { { name = "spellID", type = "number", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "slots", type = "table", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -132,10 +132,9 @@ APIDefs["C_ActionBar.GetActionCharges"] = {
     func = _G["C_ActionBar"] and _G["C_ActionBar"]["GetActionCharges"],
     funcPath = "C_ActionBar.GetActionCharges",
     params = { { name = "actionID", type = "luaIndex", default = nil } },
-    returns = { { name = "chargeInfo", type = "ActionBarChargeInfo", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    returns = { { name = "chargeInfo", type = "SpellChargeInfo", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCooldownsRestricted",
 }
 
 APIDefs["C_ActionBar.GetActionCooldown"] = {
@@ -146,10 +145,9 @@ APIDefs["C_ActionBar.GetActionCooldown"] = {
     func = _G["C_ActionBar"] and _G["C_ActionBar"]["GetActionCooldown"],
     funcPath = "C_ActionBar.GetActionCooldown",
     params = { { name = "actionID", type = "luaIndex", default = nil } },
-    returns = { { name = "cooldownInfo", type = "ActionBarCooldownInfo", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    returns = { { name = "cooldownInfo", type = "SpellCooldownInfo", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCooldownsRestricted",
 }
 
 APIDefs["C_ActionBar.GetActionCooldownDuration"] = {
@@ -159,38 +157,11 @@ APIDefs["C_ActionBar.GetActionCooldownDuration"] = {
     subcategory = "c_actionbar",
     func = _G["C_ActionBar"] and _G["C_ActionBar"]["GetActionCooldownDuration"],
     funcPath = "C_ActionBar.GetActionCooldownDuration",
-    params = { { name = "actionID", type = "luaIndex", default = nil } },
+    params = { { name = "actionID", type = "luaIndex", default = nil }, { name = "ignoreGCD", type = "bool", default = false } },
     returns = { { name = "duration", type = "LuaDurationObject", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
-}
-
-APIDefs["C_ActionBar.GetActionCooldownRemaining"] = {
-    key = "C_ActionBar.GetActionCooldownRemaining",
-    name = "GetActionCooldownRemaining",
-    category = "combat_midnight",
-    subcategory = "c_actionbar",
-    func = _G["C_ActionBar"] and _G["C_ActionBar"]["GetActionCooldownRemaining"],
-    funcPath = "C_ActionBar.GetActionCooldownRemaining",
-    params = { { name = "actionID", type = "luaIndex", default = nil } },
-    returns = { { name = "remainingSeconds", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
-}
-
-APIDefs["C_ActionBar.GetActionCooldownRemainingPercent"] = {
-    key = "C_ActionBar.GetActionCooldownRemainingPercent",
-    name = "GetActionCooldownRemainingPercent",
-    category = "combat_midnight",
-    subcategory = "c_actionbar",
-    func = _G["C_ActionBar"] and _G["C_ActionBar"]["GetActionCooldownRemainingPercent"],
-    funcPath = "C_ActionBar.GetActionCooldownRemainingPercent",
-    params = { { name = "actionID", type = "luaIndex", default = nil }, { name = "curve", type = "LuaCurveObjectBase", default = nil } },
-    returns = { { name = "result", type = "LuaCurveEvaluatedResult", canBeSecret = false } },
-    midnightImpact = "CONDITIONAL",
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCurveSecret",
 }
 
 APIDefs["C_ActionBar.GetActionDisplayCount"] = {
@@ -202,23 +173,8 @@ APIDefs["C_ActionBar.GetActionDisplayCount"] = {
     funcPath = "C_ActionBar.GetActionDisplayCount",
     params = { { name = "actionID", type = "luaIndex", default = nil }, { name = "maxDisplayCount", type = "number", default = 9999 }, { name = "replacementString", type = "cstring", default = "*" } },
     returns = { { name = "displayCount", type = "string", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
-}
-
-APIDefs["C_ActionBar.GetActionLossOfControlCooldown"] = {
-    key = "C_ActionBar.GetActionLossOfControlCooldown",
-    name = "GetActionLossOfControlCooldown",
-    category = "combat_midnight",
-    subcategory = "c_actionbar",
-    func = _G["C_ActionBar"] and _G["C_ActionBar"]["GetActionLossOfControlCooldown"],
-    funcPath = "C_ActionBar.GetActionLossOfControlCooldown",
-    params = { { name = "actionID", type = "luaIndex", default = nil } },
-    returns = { { name = "startTime", type = "number", canBeSecret = false }, { name = "duration", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCooldownsRestricted",
 }
 
 APIDefs["C_ActionBar.GetActionLossOfControlCooldownDuration"] = {
@@ -233,6 +189,19 @@ APIDefs["C_ActionBar.GetActionLossOfControlCooldownDuration"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_ActionBar.GetActionLossOfControlCooldownInfo"] = {
+    key = "C_ActionBar.GetActionLossOfControlCooldownInfo",
+    name = "GetActionLossOfControlCooldownInfo",
+    category = "combat_midnight",
+    subcategory = "c_actionbar",
+    func = _G["C_ActionBar"] and _G["C_ActionBar"]["GetActionLossOfControlCooldownInfo"],
+    funcPath = "C_ActionBar.GetActionLossOfControlCooldownInfo",
+    params = { { name = "actionID", type = "luaIndex", default = nil } },
+    returns = { { name = "lossOfControlInfo", type = "SpellLossOfControlInfo", canBeSecret = false } },
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCooldownsRestricted",
 }
 
 APIDefs["C_ActionBar.GetActionText"] = {
@@ -272,9 +241,8 @@ APIDefs["C_ActionBar.GetActionUseCount"] = {
     funcPath = "C_ActionBar.GetActionUseCount",
     params = { { name = "actionID", type = "luaIndex", default = nil } },
     returns = { { name = "count", type = "number", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightImpact = "CONDITIONAL",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretWhenCooldownsRestricted",
 }
 
 APIDefs["C_ActionBar.GetBonusBarIndex"] = {
@@ -582,7 +550,7 @@ APIDefs["C_ActionBar.HasSpellActionButtons"] = {
     subcategory = "c_actionbar",
     func = _G["C_ActionBar"] and _G["C_ActionBar"]["HasSpellActionButtons"],
     funcPath = "C_ActionBar.HasSpellActionButtons",
-    params = { { name = "spellID", type = "number", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "hasSpellActionButtons", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -816,7 +784,7 @@ APIDefs["C_ActionBar.IsOnBarOrSpecialBar"] = {
     subcategory = "c_actionbar",
     func = _G["C_ActionBar"] and _G["C_ActionBar"]["IsOnBarOrSpecialBar"],
     funcPath = "C_ActionBar.IsOnBarOrSpecialBar",
-    params = { { name = "spellID", type = "number", default = nil } },
+    params = { { name = "spellID", type = "SpellIdentifier", default = nil } },
     returns = { { name = "isOnBarOrSpecialBar", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -952,6 +920,20 @@ APIDefs["C_ActionBar.UnregisterActionUIButton"] = {
     funcPath = "C_ActionBar.UnregisterActionUIButton",
     params = { { name = "checkboxFrame", type = "SimpleCheckbox", default = nil } },
     returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_ActionBar.UsesActionText"] = {
+    key = "C_ActionBar.UsesActionText",
+    name = "UsesActionText",
+    category = "combat_midnight",
+    subcategory = "c_actionbar",
+    func = _G["C_ActionBar"] and _G["C_ActionBar"]["UsesActionText"],
+    funcPath = "C_ActionBar.UsesActionText",
+    params = { { name = "actionID", type = "luaIndex", default = nil } },
+    returns = { { name = "usesActionText", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",

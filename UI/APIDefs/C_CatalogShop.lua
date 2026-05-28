@@ -16,6 +16,20 @@ APIDefs["C_CatalogShop.BulkPurchaseProducts"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_CatalogShop.BulkRefundDecors"] = {
+    key = "C_CatalogShop.BulkRefundDecors",
+    name = "BulkRefundDecors",
+    category = "combat_midnight",
+    subcategory = "c_catalogshop",
+    func = _G["C_CatalogShop"] and _G["C_CatalogShop"]["BulkRefundDecors"],
+    funcPath = "C_CatalogShop.BulkRefundDecors",
+    params = { { name = "decorGUIDs", type = "table", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_CatalogShop.CloseCatalogShopInteraction"] = {
     key = "C_CatalogShop.CloseCatalogShopInteraction",
     name = "CloseCatalogShopInteraction",
@@ -37,6 +51,20 @@ APIDefs["C_CatalogShop.ConfirmHousingPurchase"] = {
     funcPath = "C_CatalogShop.ConfirmHousingPurchase",
     params = { { name = "productIDs", type = "table", default = nil } },
     returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_CatalogShop.FindBestCurrencyProductForNeededAmount"] = {
+    key = "C_CatalogShop.FindBestCurrencyProductForNeededAmount",
+    name = "FindBestCurrencyProductForNeededAmount",
+    category = "combat_midnight",
+    subcategory = "c_catalogshop",
+    func = _G["C_CatalogShop"] and _G["C_CatalogShop"]["FindBestCurrencyProductForNeededAmount"],
+    funcPath = "C_CatalogShop.FindBestCurrencyProductForNeededAmount",
+    params = { { name = "vcCurrencyCode", type = "string", default = nil }, { name = "amountNeeded", type = "number", default = nil } },
+    returns = { { name = "vcProductID", type = "number", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -237,8 +265,8 @@ APIDefs["C_CatalogShop.GetRefundableDecors"] = {
     subcategory = "c_catalogshop",
     func = _G["C_CatalogShop"] and _G["C_CatalogShop"]["GetRefundableDecors"],
     funcPath = "C_CatalogShop.GetRefundableDecors",
-    params = { { name = "productIDOpt", type = "number", default = nil } },
-    returns = { { name = "refundableDecorInfos", type = "table", canBeSecret = false } },
+    params = { { name = "productIdFilterOpt", type = "number", default = nil } },
+    returns = { { name = "refundableDecorInfos", type = "table", canBeSecret = false }, { name = "minTimeRemainingSeconds", type = "time_t", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -272,6 +300,18 @@ APIDefs["C_CatalogShop.GetSpellVisualInfoForMount"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_CatalogShop.GetVCProductInfos"] = {
+    key = "C_CatalogShop.GetVCProductInfos",
+    name = "GetVCProductInfos",
+    category = "general",
+    subcategory = "c_catalogshop",
+    func = _G["C_CatalogShop"] and _G["C_CatalogShop"]["GetVCProductInfos"],
+    funcPath = "C_CatalogShop.GetVCProductInfos",
+    params = {  },
+    returns = { { name = "vcProductInfos", type = "table", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_CatalogShop.GetVirtualCurrencyBalance"] = {
     key = "C_CatalogShop.GetVirtualCurrencyBalance",
     name = "GetVirtualCurrencyBalance",
@@ -298,6 +338,20 @@ APIDefs["C_CatalogShop.HasNewProducts"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["C_CatalogShop.IsProductIncludedInAnyBundle"] = {
+    key = "C_CatalogShop.IsProductIncludedInAnyBundle",
+    name = "IsProductIncludedInAnyBundle",
+    category = "combat_midnight",
+    subcategory = "c_catalogshop",
+    func = _G["C_CatalogShop"] and _G["C_CatalogShop"]["IsProductIncludedInAnyBundle"],
+    funcPath = "C_CatalogShop.IsProductIncludedInAnyBundle",
+    params = { { name = "productID", type = "number", default = nil } },
+    returns = { { name = "isIncludedInAnyBundle", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_CatalogShop.IsShop2Enabled"] = {
     key = "C_CatalogShop.IsShop2Enabled",
     name = "IsShop2Enabled",
@@ -322,6 +376,18 @@ APIDefs["C_CatalogShop.OnLegalDisclaimerClicked"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_CatalogShop.OnLegalPersonalizedOptOutClicked"] = {
+    key = "C_CatalogShop.OnLegalPersonalizedOptOutClicked",
+    name = "OnLegalPersonalizedOptOutClicked",
+    category = "general",
+    subcategory = "c_catalogshop",
+    func = _G["C_CatalogShop"] and _G["C_CatalogShop"]["OnLegalPersonalizedOptOutClicked"],
+    funcPath = "C_CatalogShop.OnLegalPersonalizedOptOutClicked",
+    params = {  },
+    returns = {  },
+    midnightImpact = "NORMAL",
 }
 
 APIDefs["C_CatalogShop.OpenCatalogShopInteractionFromHouse"] = {
@@ -410,6 +476,32 @@ APIDefs["C_CatalogShop.RefreshVirtualCurrencyBalance"] = {
     func = _G["C_CatalogShop"] and _G["C_CatalogShop"]["RefreshVirtualCurrencyBalance"],
     funcPath = "C_CatalogShop.RefreshVirtualCurrencyBalance",
     params = { { name = "currencyCode", type = "string", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_CatalogShop.ShouldShowHousingWarning"] = {
+    key = "C_CatalogShop.ShouldShowHousingWarning",
+    name = "ShouldShowHousingWarning",
+    category = "general",
+    subcategory = "c_catalogshop",
+    func = _G["C_CatalogShop"] and _G["C_CatalogShop"]["ShouldShowHousingWarning"],
+    funcPath = "C_CatalogShop.ShouldShowHousingWarning",
+    params = {  },
+    returns = { { name = "shouldShowHousingWarning", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_CatalogShop.StartHousingVCPurchaseConfirmation"] = {
+    key = "C_CatalogShop.StartHousingVCPurchaseConfirmation",
+    name = "StartHousingVCPurchaseConfirmation",
+    category = "combat_midnight",
+    subcategory = "c_catalogshop",
+    func = _G["C_CatalogShop"] and _G["C_CatalogShop"]["StartHousingVCPurchaseConfirmation"],
+    funcPath = "C_CatalogShop.StartHousingVCPurchaseConfirmation",
+    params = { { name = "productID", type = "number", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,

@@ -181,7 +181,7 @@ APIDefs["C_VoiceChat.GetChannel"] = {
     returns = { { name = "channel", type = "VoiceChatChannel", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_VoiceChat.GetChannelForChannelType"] = {
@@ -195,7 +195,7 @@ APIDefs["C_VoiceChat.GetChannelForChannelType"] = {
     returns = { { name = "channel", type = "VoiceChatChannel", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_VoiceChat.GetChannelForCommunityStream"] = {
@@ -209,7 +209,7 @@ APIDefs["C_VoiceChat.GetChannelForCommunityStream"] = {
     returns = { { name = "channel", type = "VoiceChatChannel", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_VoiceChat.GetCommunicationMode"] = {
@@ -311,7 +311,7 @@ APIDefs["C_VoiceChat.GetMemberGUID"] = {
     returns = { { name = "memberGUID", type = "WOWGUID", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_VoiceChat.GetMemberID"] = {
@@ -325,7 +325,7 @@ APIDefs["C_VoiceChat.GetMemberID"] = {
     returns = { { name = "memberID", type = "number", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_VoiceChat.GetMemberInfo"] = {
@@ -339,7 +339,7 @@ APIDefs["C_VoiceChat.GetMemberInfo"] = {
     returns = { { name = "memberInfo", type = "VoiceChatMember", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_VoiceChat.GetMemberName"] = {
@@ -353,7 +353,7 @@ APIDefs["C_VoiceChat.GetMemberName"] = {
     returns = { { name = "memberName", type = "string", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_VoiceChat.GetMemberVolume"] = {
@@ -543,7 +543,7 @@ APIDefs["C_VoiceChat.IsMemberMutedForAll"] = {
     returns = { { name = "mutedForAll", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_VoiceChat.IsMemberSilenced"] = {
@@ -557,7 +557,7 @@ APIDefs["C_VoiceChat.IsMemberSilenced"] = {
     returns = { { name = "silenced", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_VoiceChat.IsMuted"] = {

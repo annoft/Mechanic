@@ -26,6 +26,34 @@ APIDefs["C_CurveUtil.CreateCurve"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["C_CurveUtil.EvaluateColorFromBoolean"] = {
+    key = "C_CurveUtil.EvaluateColorFromBoolean",
+    name = "EvaluateColorFromBoolean",
+    category = "combat_midnight",
+    subcategory = "c_curveutil",
+    func = _G["C_CurveUtil"] and _G["C_CurveUtil"]["EvaluateColorFromBoolean"],
+    funcPath = "C_CurveUtil.EvaluateColorFromBoolean",
+    params = { { name = "boolean", type = "bool", default = nil }, { name = "valueIfTrue", type = "colorRGBA", default = nil }, { name = "valueIfFalse", type = "colorRGBA", default = nil } },
+    returns = { { name = "value", type = "colorRGBA", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+}
+
+APIDefs["C_CurveUtil.EvaluateColorValueFromBoolean"] = {
+    key = "C_CurveUtil.EvaluateColorValueFromBoolean",
+    name = "EvaluateColorValueFromBoolean",
+    category = "combat_midnight",
+    subcategory = "c_curveutil",
+    func = _G["C_CurveUtil"] and _G["C_CurveUtil"]["EvaluateColorValueFromBoolean"],
+    funcPath = "C_CurveUtil.EvaluateColorValueFromBoolean",
+    params = { { name = "boolean", type = "bool", default = nil }, { name = "valueIfTrue", type = "SingleColorValue", default = nil }, { name = "valueIfFalse", type = "SingleColorValue", default = nil } },
+    returns = { { name = "value", type = "SingleColorValue", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenTainted",
+}
+
 APIDefs["C_CurveUtil.EvaluateGameCurve"] = {
     key = "C_CurveUtil.EvaluateGameCurve",
     name = "EvaluateGameCurve",

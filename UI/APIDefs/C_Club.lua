@@ -407,7 +407,7 @@ APIDefs["C_Club.GetClubInfo"] = {
     returns = { { name = "info", type = "ClubInfo", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Club.GetClubLimits"] = {
@@ -435,7 +435,7 @@ APIDefs["C_Club.GetClubMembers"] = {
     returns = { { name = "members", type = "table", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Club.GetClubPrivileges"] = {
@@ -502,6 +502,7 @@ APIDefs["C_Club.GetInfoFromLastCommunityChatLine"] = {
     params = {  },
     returns = { { name = "messageInfo", type = "ClubMessageInfo", canBeSecret = false }, { name = "clubId", type = "ClubId", canBeSecret = false }, { name = "streamId", type = "ClubStreamId", canBeSecret = false }, { name = "clubType", type = "ClubType", canBeSecret = false } },
     midnightImpact = "NORMAL",
+    midnightNote = "Secret behavior: SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Club.GetInvitationCandidates"] = {
@@ -583,7 +584,7 @@ APIDefs["C_Club.GetMemberInfo"] = {
     returns = { { name = "info", type = "ClubMemberInfo", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Club.GetMemberInfoForSelf"] = {
@@ -611,7 +612,7 @@ APIDefs["C_Club.GetMessageInfo"] = {
     returns = { { name = "message", type = "ClubMessageInfo", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Club.GetMessageRanges"] = {
@@ -625,7 +626,7 @@ APIDefs["C_Club.GetMessageRanges"] = {
     returns = { { name = "ranges", type = "table", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Club.GetMessagesBefore"] = {
@@ -639,7 +640,7 @@ APIDefs["C_Club.GetMessagesBefore"] = {
     returns = { { name = "messages", type = "table", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Club.GetMessagesInRange"] = {
@@ -653,7 +654,7 @@ APIDefs["C_Club.GetMessagesInRange"] = {
     returns = { { name = "messages", type = "table", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Club.GetStreamInfo"] = {
@@ -667,7 +668,7 @@ APIDefs["C_Club.GetStreamInfo"] = {
     returns = { { name = "streamInfo", type = "ClubStreamInfo", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Club.GetStreamViewMarker"] = {
@@ -695,7 +696,7 @@ APIDefs["C_Club.GetStreams"] = {
     returns = { { name = "streams", type = "table", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Club.GetSubscribedClubs"] = {
@@ -708,6 +709,7 @@ APIDefs["C_Club.GetSubscribedClubs"] = {
     params = {  },
     returns = { { name = "clubs", type = "table", canBeSecret = false } },
     midnightImpact = "NORMAL",
+    midnightNote = "Secret behavior: SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Club.GetTickets"] = {
@@ -749,7 +751,7 @@ APIDefs["C_Club.IsBeginningOfStream"] = {
     returns = { { name = "isBeginningOfStream", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Club.IsEnabled"] = {
@@ -857,7 +859,7 @@ APIDefs["C_Club.RequestMoreMessagesBefore"] = {
     returns = { { name = "alreadyHasMessages", type = "bool", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_Club.RequestTicket"] = {

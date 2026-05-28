@@ -142,6 +142,7 @@ APIDefs["C_LFGList.GetActiveEntryInfo"] = {
     params = {  },
     returns = { { name = "entryData", type = "LfgEntryData", canBeSecret = false } },
     midnightImpact = "NORMAL",
+    midnightNote = "Secret behavior: SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_LFGList.GetActivityFullName"] = {
@@ -237,7 +238,7 @@ APIDefs["C_LFGList.GetApplicantInfo"] = {
     returns = { { name = "applicantData", type = "LfgApplicantData", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_LFGList.GetApplicantPvpRatingInfoForListing"] = {
@@ -371,7 +372,7 @@ APIDefs["C_LFGList.GetSearchResultInfo"] = {
     returns = { { name = "searchResultData", type = "LfgSearchResultData", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_LFGList.GetSearchResultLeaderInfo"] = {
@@ -385,7 +386,7 @@ APIDefs["C_LFGList.GetSearchResultLeaderInfo"] = {
     returns = { { name = "leaderInfo", type = "LfgSearchResultPlayerInfo", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_LFGList.GetSearchResultPlayerInfo"] = {
@@ -399,7 +400,7 @@ APIDefs["C_LFGList.GetSearchResultPlayerInfo"] = {
     returns = { { name = "playerInfo", type = "LfgSearchResultPlayerInfo", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted, SecretInChatMessagingLockdown",
 }
 
 APIDefs["C_LFGList.GetSearchResults"] = {
@@ -454,6 +455,18 @@ APIDefs["C_LFGList.IsPlayerAuthenticatedForLFG"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_LFGList.IsPlayerValidForEndgameFieldEdits"] = {
+    key = "C_LFGList.IsPlayerValidForEndgameFieldEdits",
+    name = "IsPlayerValidForEndgameFieldEdits",
+    category = "general",
+    subcategory = "c_lfglist",
+    func = _G["C_LFGList"] and _G["C_LFGList"]["IsPlayerValidForEndgameFieldEdits"],
+    funcPath = "C_LFGList.IsPlayerValidForEndgameFieldEdits",
+    params = {  },
+    returns = { { name = "isValid", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_LFGList.IsPremadeGroupFinderEnabled"] = {
     key = "C_LFGList.IsPremadeGroupFinderEnabled",
     name = "IsPremadeGroupFinderEnabled",
@@ -464,6 +477,20 @@ APIDefs["C_LFGList.IsPremadeGroupFinderEnabled"] = {
     params = {  },
     returns = { { name = "enabled", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
+}
+
+APIDefs["C_LFGList.ListingUsesEndgameEditRestrictions"] = {
+    key = "C_LFGList.ListingUsesEndgameEditRestrictions",
+    name = "ListingUsesEndgameEditRestrictions",
+    category = "combat_midnight",
+    subcategory = "c_lfglist",
+    func = _G["C_LFGList"] and _G["C_LFGList"]["ListingUsesEndgameEditRestrictions"],
+    funcPath = "C_LFGList.ListingUsesEndgameEditRestrictions",
+    params = { { name = "activityID", type = "number", default = nil } },
+    returns = { { name = "isEndgameListing", type = "bool", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["C_LFGList.ReportGroupAsAdvertisement"] = {

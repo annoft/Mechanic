@@ -344,6 +344,18 @@ APIDefs["C_TransmogSets.GetVariantSets"] = {
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
+APIDefs["C_TransmogSets.HasAvailableSets"] = {
+    key = "C_TransmogSets.HasAvailableSets",
+    name = "HasAvailableSets",
+    category = "general",
+    subcategory = "c_transmogsets",
+    func = _G["C_TransmogSets"] and _G["C_TransmogSets"]["HasAvailableSets"],
+    funcPath = "C_TransmogSets.HasAvailableSets",
+    params = {  },
+    returns = { { name = "hasAvailableSets", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_TransmogSets.HasUsableSets"] = {
     key = "C_TransmogSets.HasUsableSets",
     name = "HasUsableSets",

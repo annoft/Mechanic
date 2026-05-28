@@ -262,6 +262,18 @@ APIDefs["C_HousingNeighborhood.OnBulletinBoardClosed"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["C_HousingNeighborhood.OnCornerstoneClosed"] = {
+    key = "C_HousingNeighborhood.OnCornerstoneClosed",
+    name = "OnCornerstoneClosed",
+    category = "general",
+    subcategory = "c_housingneighborhood",
+    func = _G["C_HousingNeighborhood"] and _G["C_HousingNeighborhood"]["OnCornerstoneClosed"],
+    funcPath = "C_HousingNeighborhood.OnCornerstoneClosed",
+    params = {  },
+    returns = {  },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_HousingNeighborhood.PromoteToManager"] = {
     key = "C_HousingNeighborhood.PromoteToManager",
     name = "PromoteToManager",

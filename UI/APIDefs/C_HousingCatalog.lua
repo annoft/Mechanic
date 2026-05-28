@@ -2,20 +2,6 @@
 local _, ns = ...
 local APIDefs = ns.APIDefinitions
 
-APIDefs["C_HousingCatalog.CanDestroyEntry"] = {
-    key = "C_HousingCatalog.CanDestroyEntry",
-    name = "CanDestroyEntry",
-    category = "combat_midnight",
-    subcategory = "c_housingcatalog",
-    func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["CanDestroyEntry"],
-    funcPath = "C_HousingCatalog.CanDestroyEntry",
-    params = { { name = "entryID", type = "HousingCatalogEntryID", default = nil } },
-    returns = { { name = "canDelete", type = "bool", canBeSecret = false } },
-    midnightImpact = "RESTRICTED",
-    protected = true,
-    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
-}
-
 APIDefs["C_HousingCatalog.CreateCatalogSearcher"] = {
     key = "C_HousingCatalog.CreateCatalogSearcher",
     name = "CreateCatalogSearcher",
@@ -49,7 +35,7 @@ APIDefs["C_HousingCatalog.DestroyEntry"] = {
     subcategory = "c_housingcatalog",
     func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["DestroyEntry"],
     funcPath = "C_HousingCatalog.DestroyEntry",
-    params = { { name = "entryID", type = "HousingCatalogEntryID", default = nil }, { name = "destroyAll", type = "bool", default = nil } },
+    params = { { name = "entryVariantID", type = "HousingCatalogEntryVariantID", default = nil }, { name = "destroyAll", type = "bool", default = nil } },
     returns = {  },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -68,6 +54,20 @@ APIDefs["C_HousingCatalog.GetAllFilterTagGroups"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["C_HousingCatalog.GetAllVariantInfosForEntry"] = {
+    key = "C_HousingCatalog.GetAllVariantInfosForEntry",
+    name = "GetAllVariantInfosForEntry",
+    category = "combat_midnight",
+    subcategory = "c_housingcatalog",
+    func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["GetAllVariantInfosForEntry"],
+    funcPath = "C_HousingCatalog.GetAllVariantInfosForEntry",
+    params = { { name = "entryID", type = "HousingCatalogEntryID", default = nil } },
+    returns = { { name = "variantInfos", type = "table", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_HousingCatalog.GetBundleInfo"] = {
     key = "C_HousingCatalog.GetBundleInfo",
     name = "GetBundleInfo",
@@ -80,6 +80,18 @@ APIDefs["C_HousingCatalog.GetBundleInfo"] = {
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_HousingCatalog.GetCartSizeLimit"] = {
+    key = "C_HousingCatalog.GetCartSizeLimit",
+    name = "GetCartSizeLimit",
+    category = "general",
+    subcategory = "c_housingcatalog",
+    func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["GetCartSizeLimit"],
+    funcPath = "C_HousingCatalog.GetCartSizeLimit",
+    params = {  },
+    returns = { { name = "cartSizeLimit", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
 }
 
 APIDefs["C_HousingCatalog.GetCatalogCategoryInfo"] = {
@@ -117,7 +129,7 @@ APIDefs["C_HousingCatalog.GetCatalogEntryInfoByItem"] = {
     subcategory = "c_housingcatalog",
     func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["GetCatalogEntryInfoByItem"],
     funcPath = "C_HousingCatalog.GetCatalogEntryInfoByItem",
-    params = { { name = "itemInfo", type = "ItemInfo", default = nil }, { name = "tryGetOwnedInfo", type = "bool", default = nil } },
+    params = { { name = "itemInfo", type = "ItemInfo", default = nil } },
     returns = { { name = "info", type = "HousingCatalogEntryInfo", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -131,7 +143,7 @@ APIDefs["C_HousingCatalog.GetCatalogEntryInfoByRecordID"] = {
     subcategory = "c_housingcatalog",
     func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["GetCatalogEntryInfoByRecordID"],
     funcPath = "C_HousingCatalog.GetCatalogEntryInfoByRecordID",
-    params = { { name = "entryType", type = "HousingCatalogEntryType", default = nil }, { name = "recordID", type = "number", default = nil }, { name = "tryGetOwnedInfo", type = "bool", default = nil } },
+    params = { { name = "entryType", type = "HousingCatalogEntryType", default = nil }, { name = "recordID", type = "number", default = nil } },
     returns = { { name = "info", type = "HousingCatalogEntryInfo", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
@@ -147,6 +159,20 @@ APIDefs["C_HousingCatalog.GetCatalogEntryRefundTimeStampByRecordID"] = {
     funcPath = "C_HousingCatalog.GetCatalogEntryRefundTimeStampByRecordID",
     params = { { name = "entryType", type = "HousingCatalogEntryType", default = nil }, { name = "recordID", type = "number", default = nil } },
     returns = { { name = "refundTimeStamp", type = "time_t", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_HousingCatalog.GetCatalogEntryVariantInfo"] = {
+    key = "C_HousingCatalog.GetCatalogEntryVariantInfo",
+    name = "GetCatalogEntryVariantInfo",
+    category = "combat_midnight",
+    subcategory = "c_housingcatalog",
+    func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["GetCatalogEntryVariantInfo"],
+    funcPath = "C_HousingCatalog.GetCatalogEntryVariantInfo",
+    params = { { name = "entryVariantID", type = "HousingCatalogEntryVariantID", default = nil } },
+    returns = { { name = "info", type = "HousingCatalogEntryVariantInfo", canBeSecret = false } },
     midnightImpact = "RESTRICTED",
     protected = true,
     midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
@@ -190,6 +216,20 @@ APIDefs["C_HousingCatalog.GetDecorTotalOwnedCount"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["C_HousingCatalog.GetDestroyableInstanceCount"] = {
+    key = "C_HousingCatalog.GetDestroyableInstanceCount",
+    name = "GetDestroyableInstanceCount",
+    category = "combat_midnight",
+    subcategory = "c_housingcatalog",
+    func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["GetDestroyableInstanceCount"],
+    funcPath = "C_HousingCatalog.GetDestroyableInstanceCount",
+    params = { { name = "entryVariantID", type = "HousingCatalogEntryVariantID", default = nil } },
+    returns = { { name = "destroyableInstanceCount", type = "number", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
 APIDefs["C_HousingCatalog.GetFeaturedBundles"] = {
     key = "C_HousingCatalog.GetFeaturedBundles",
     name = "GetFeaturedBundles",
@@ -202,16 +242,30 @@ APIDefs["C_HousingCatalog.GetFeaturedBundles"] = {
     midnightImpact = "NORMAL",
 }
 
-APIDefs["C_HousingCatalog.GetFeaturedDecor"] = {
-    key = "C_HousingCatalog.GetFeaturedDecor",
-    name = "GetFeaturedDecor",
+APIDefs["C_HousingCatalog.GetFeaturedSmallProducts"] = {
+    key = "C_HousingCatalog.GetFeaturedSmallProducts",
+    name = "GetFeaturedSmallProducts",
     category = "general",
     subcategory = "c_housingcatalog",
-    func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["GetFeaturedDecor"],
-    funcPath = "C_HousingCatalog.GetFeaturedDecor",
+    func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["GetFeaturedSmallProducts"],
+    funcPath = "C_HousingCatalog.GetFeaturedSmallProducts",
     params = {  },
-    returns = { { name = "entryInfos", type = "table", canBeSecret = false } },
+    returns = { { name = "infos", type = "table", canBeSecret = false } },
     midnightImpact = "NORMAL",
+}
+
+APIDefs["C_HousingCatalog.GetMarketInfoForDecor"] = {
+    key = "C_HousingCatalog.GetMarketInfoForDecor",
+    name = "GetMarketInfoForDecor",
+    category = "combat_midnight",
+    subcategory = "c_housingcatalog",
+    func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["GetMarketInfoForDecor"],
+    funcPath = "C_HousingCatalog.GetMarketInfoForDecor",
+    params = { { name = "decorID", type = "number", default = nil } },
+    returns = { { name = "marketInfo", type = "HousingMarketInfo", canBeSecret = false } },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["C_HousingCatalog.HasFeaturedEntries"] = {
@@ -224,6 +278,74 @@ APIDefs["C_HousingCatalog.HasFeaturedEntries"] = {
     params = {  },
     returns = { { name = "hasEntries", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
+}
+
+APIDefs["C_HousingCatalog.HousingMarketActionAddToCart"] = {
+    key = "C_HousingCatalog.HousingMarketActionAddToCart",
+    name = "HousingMarketActionAddToCart",
+    category = "combat_midnight",
+    subcategory = "c_housingcatalog",
+    func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["HousingMarketActionAddToCart"],
+    funcPath = "C_HousingCatalog.HousingMarketActionAddToCart",
+    params = { { name = "productID", type = "number", default = nil }, { name = "withPreview", type = "bool", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_HousingCatalog.HousingMarketActionClearCart"] = {
+    key = "C_HousingCatalog.HousingMarketActionClearCart",
+    name = "HousingMarketActionClearCart",
+    category = "general",
+    subcategory = "c_housingcatalog",
+    func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["HousingMarketActionClearCart"],
+    funcPath = "C_HousingCatalog.HousingMarketActionClearCart",
+    params = {  },
+    returns = {  },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_HousingCatalog.HousingMarketActionRemoveFromCart"] = {
+    key = "C_HousingCatalog.HousingMarketActionRemoveFromCart",
+    name = "HousingMarketActionRemoveFromCart",
+    category = "combat_midnight",
+    subcategory = "c_housingcatalog",
+    func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["HousingMarketActionRemoveFromCart"],
+    funcPath = "C_HousingCatalog.HousingMarketActionRemoveFromCart",
+    params = { { name = "productID", type = "number", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_HousingCatalog.HousingMarketActionViewBundle"] = {
+    key = "C_HousingCatalog.HousingMarketActionViewBundle",
+    name = "HousingMarketActionViewBundle",
+    category = "combat_midnight",
+    subcategory = "c_housingcatalog",
+    func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["HousingMarketActionViewBundle"],
+    funcPath = "C_HousingCatalog.HousingMarketActionViewBundle",
+    params = { { name = "productID", type = "number", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
+}
+
+APIDefs["C_HousingCatalog.HousingMarketActionViewInStore"] = {
+    key = "C_HousingCatalog.HousingMarketActionViewInStore",
+    name = "HousingMarketActionViewInStore",
+    category = "combat_midnight",
+    subcategory = "c_housingcatalog",
+    func = _G["C_HousingCatalog"] and _G["C_HousingCatalog"]["HousingMarketActionViewInStore"],
+    funcPath = "C_HousingCatalog.HousingMarketActionViewInStore",
+    params = { { name = "productID", type = "number", default = nil } },
+    returns = {  },
+    midnightImpact = "RESTRICTED",
+    protected = true,
+    midnightNote = "Secret behavior: SecretArguments=AllowedWhenUntainted",
 }
 
 APIDefs["C_HousingCatalog.IsPreviewCartItemShown"] = {

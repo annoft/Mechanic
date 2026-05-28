@@ -78,6 +78,18 @@ APIDefs["C_HousingLayout.GetNumActiveRooms"] = {
     midnightImpact = "NORMAL",
 }
 
+APIDefs["C_HousingLayout.GetNumFloors"] = {
+    key = "C_HousingLayout.GetNumFloors",
+    name = "GetNumFloors",
+    category = "general",
+    subcategory = "c_housinglayout",
+    func = _G["C_HousingLayout"] and _G["C_HousingLayout"]["GetNumFloors"],
+    funcPath = "C_HousingLayout.GetNumFloors",
+    params = {  },
+    returns = { { name = "numFloors", type = "number", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
 APIDefs["C_HousingLayout.GetRoomPlacementBudget"] = {
     key = "C_HousingLayout.GetRoomPlacementBudget",
     name = "GetRoomPlacementBudget",
@@ -273,6 +285,18 @@ APIDefs["C_HousingLayout.IsDraggingRoom"] = {
     funcPath = "C_HousingLayout.IsDraggingRoom",
     params = {  },
     returns = { { name = "isDragging", type = "bool", canBeSecret = false }, { name = "isAccessibleDrag", type = "bool", canBeSecret = false } },
+    midnightImpact = "NORMAL",
+}
+
+APIDefs["C_HousingLayout.IsDraggingStairwell"] = {
+    key = "C_HousingLayout.IsDraggingStairwell",
+    name = "IsDraggingStairwell",
+    category = "general",
+    subcategory = "c_housinglayout",
+    func = _G["C_HousingLayout"] and _G["C_HousingLayout"]["IsDraggingStairwell"],
+    funcPath = "C_HousingLayout.IsDraggingStairwell",
+    params = {  },
+    returns = { { name = "isDraggingStairwell", type = "bool", canBeSecret = false } },
     midnightImpact = "NORMAL",
 }
 
