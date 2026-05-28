@@ -45,7 +45,7 @@ class ValidationResult(BaseModel):
 # ═══════════════════════════════════════════════════════════════════════════════
 
 # Current valid interface versions for WoW 12.0 (Midnight)
-VALID_INTERFACE_VERSIONS = ["120001", "120000", "110105", "110100"]
+VALID_INTERFACE_VERSIONS = ["120005", "120001", "120000", "110105", "110100"]
 
 # Required and recommended metadata fields
 REQUIRED_FIELDS = ["Title", "Version"]
