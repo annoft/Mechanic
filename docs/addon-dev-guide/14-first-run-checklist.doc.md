@@ -18,10 +18,10 @@ Use this checklist before releasing or after major changes to ensure your addon 
 
 Before individual addon validation, ensure your overall development environment is healthy.
 
-- [ ] **Doctor**: `addon-dev doctor` reports all systems OK
-- [ ] **Workspace Status**: `addon-dev status` shows all addons are passing basic checks
-- [ ] **Visual Dashboard**: `addon-dev dashboard` shows a clean report for the entire workspace
-- [ ] **Setup**: If binaries are missing, run `addon-dev setup`
+- [ ] **Environment**: `mech call env.status` reports active clients and a complete Mechanic runtime (`!Mechanic` and `Mechanic`)
+- [ ] **Tools**: `mech call tools.status` reports required tools available
+- [ ] **Sandbox**: `mech call sandbox.status` reports generated stubs at `sandbox/generated/wow_stubs.lua` (run `mech call sandbox.generate` if needed)
+- [ ] **Dashboard**: `mech dashboard` starts without port or SavedVariables errors
 
 ---
 
@@ -29,8 +29,8 @@ Before individual addon validation, ensure your overall development environment 
 
 ### Environment and Setup
 
-- [ ] `addon-dev doctor` reports all systems OK
-- [ ] Required binaries (`lua.exe`, `luacheck.exe`, `stylua.exe`) are in `Tools/bin/`
+- [ ] `mech call env.status` reports the expected WoW root and Mechanic runtime
+- [ ] Required binaries (`lua.exe`, `luacheck.exe`, `stylua.exe`) are available through `mech call tools.status`
 - [ ] API keys (e.g., `GEMINI_API_KEY`) are set in `.env`
 
 ### TOC and Loading
