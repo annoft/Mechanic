@@ -4,7 +4,7 @@ Documentation generation commands.
 Generates CLI reference documentation from registered AFD commands.
 """
 
-from afd import CommandResult, success, error
+from afd import CommandResult, success
 from afd.core.metadata import create_source
 from pydantic import BaseModel, Field
 from typing import Any, List, Optional
@@ -45,11 +45,16 @@ def get_param_fields(parameters) -> List[dict]:
 
     fields = []
     for param in parameters:
+        description = param.description or ""
+        field_type = param.type or "any"
+        if field_type == "string" and "labels for each snippet" in description.lower():
+            field_type = "array"
+
         field_data = {
             "name": param.name,
-            "type": param.type or "any",
+            "type": field_type,
             "required": param.required,
-            "description": param.description or "",
+            "description": description,
             "default": repr(param.default) if param.default is not None else None,
         }
         fields.append(field_data)
@@ -76,6 +81,75 @@ def categorize_command(name: str) -> str:
         "docs": "Documentation",
     }
     return categories.get(prefix, "Other")
+
+
+def example_value_for_field(field: dict) -> Any:
+    """Return a JSON placeholder with the same broad shape as the schema."""
+    if field["type"] == "array":
+        return [f"<{field['name']}>"]
+    if field["type"] == "object":
+        return {}
+    return f"<{field['name']}>"
+
+
+def powershell_json_argument(payload: dict) -> str:
+    """Format JSON for Windows PowerShell native-command argument passing."""
+    return "'" + json.dumps(payload).replace('"', '\\"') + "'"
+
+
+def append_command_example(lines: List[str], cmd: dict) -> None:
+    """Append shell-safe command examples to generated markdown."""
+    lines.extend(["**Example:**", ""])
+
+    if cmd["name"] == "lua.queue":
+        lines.extend(
+            [
+                "Payload (`payload.json`):",
+                "",
+                "```json",
+                json.dumps(
+                    {"code": ["<code>"], "labels": ["<label>"]},
+                    indent=2,
+                ),
+                "```",
+                "",
+                "```bash",
+                "mech call lua.queue @payload.json",
+                "```",
+                "",
+                "```powershell",
+                "mech call lua.queue '@payload.json'",
+                "```",
+            ]
+        )
+        return
+
+    required_params = {
+        field["name"]: example_value_for_field(field)
+        for field in cmd["parameters"]
+        if field["required"]
+    }
+
+    if required_params:
+        bash_json = json.dumps(required_params)
+        lines.extend(
+            [
+                "Bash/Zsh:",
+                "",
+                "```bash",
+                f"mech call {cmd['name']} '{bash_json}'",
+                "```",
+                "",
+                "PowerShell:",
+                "",
+                "```powershell",
+                f"mech call {cmd['name']} {powershell_json_argument(required_params)}",
+                "```",
+            ]
+        )
+        return
+
+    lines.extend(["```bash", f"mech call {cmd['name']}", "```"])
 
 
 def generate_markdown(
@@ -167,34 +241,8 @@ def generate_markdown(
             else:
                 lines.extend(["**Parameters:** None", ""])
 
-            # Example
-            lines.extend(
-                [
-                    "**Example:**",
-                    "",
-                    "```bash",
-                ]
-            )
-
-            # Build example: use short form when no params, call form when params needed
-            if cmd["parameters"]:
-                example_input = {}
-                for field in cmd["parameters"]:
-                    if field["required"]:
-                        example_input[field["name"]] = f"<{field['name']}>"
-                if example_input:
-                    # Required params: must use 'call' with -i
-                    lines.append(
-                        f"mech call {cmd['name']} -i '{json.dumps(example_input)}'"
-                    )
-                else:
-                    # Optional params only: use short form
-                    lines.append(f"mech {cmd['name']}")
-            else:
-                # No params: use short form
-                lines.append(f"mech {cmd['name']}")
-
-            lines.extend(["```", "", "---", ""])
+            append_command_example(lines, cmd)
+            lines.extend(["", "---", ""])
 
     # Footer
     lines.extend(
@@ -212,8 +260,24 @@ def generate_markdown(
             "### Calling Commands",
             "",
             "```bash",
-            "# Standard call with input",
-            'mech call <command> -i \'{"param": "value"}\'',
+            "# Bash/Zsh: inline JSON",
+            'mech call <command> \'{"param": "value"}\'',
+            "",
+            "# Bash/Zsh: file input",
+            "mech call <command> @payload.json",
+            "```",
+            "",
+            "```powershell",
+            "# PowerShell: inline JSON",
+            'mech call <command> \'{\\"param\\": \\"value\\"}\'',
+            "",
+            "# PowerShell: quote @file args to avoid splatting",
+            "mech call <command> '@payload.json'",
+            "```",
+            "",
+            "```bash",
+            "# File payloads are recommended for array inputs such as lua.queue",
+            "mech call lua.queue @payload.json",
             "",
             "# Shorthand for common commands",
             "mech addon.output  # Direct command shortcut",

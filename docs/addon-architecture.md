@@ -348,7 +348,7 @@ WoW uses Lua 5.1. Your Core layer must avoid:
 mech call sandbox.generate
 
 # Run tests
-mech call sandbox.test -i '{"addon": "MyAddon"}'
+mech call sandbox.test '{"addon": "MyAddon"}'
 ```
 
 See [Test Integration](./integration/testing.md) for full testing documentation.

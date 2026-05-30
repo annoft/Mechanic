@@ -16,7 +16,7 @@ import json
 from pathlib import Path
 import os
 import sys
-from typing import Any, Optional
+from typing import Any
 
 from .server import app
 from .watcher import SVWatcher
@@ -25,6 +25,32 @@ from .watcher import SVWatcher
 # ═══════════════════════════════════════════════════════════════════════════════
 # OUTPUT HELPERS
 # ═══════════════════════════════════════════════════════════════════════════════
+
+
+def load_json_argument(args: str) -> Any:
+    """Load JSON from a positional argument or @file token."""
+    source = "argument"
+    raw_json = args
+
+    if args.startswith("@"):
+        file_token = args[1:]
+        if not file_token:
+            raise ValueError("JSON file token '@' must include a path")
+
+        path = Path(file_token).expanduser()
+        if not path.is_absolute():
+            path = Path.cwd() / path
+        source = str(path)
+
+        try:
+            raw_json = path.read_text(encoding="utf-8-sig")
+        except OSError as e:
+            raise ValueError(f"Could not read JSON file {source}: {e}") from e
+
+    try:
+        return json.loads(raw_json)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON in {source}: {e}") from e
 
 
 def print_result(result: Any, json_output: bool = False, quiet: bool = False) -> None:
@@ -223,10 +249,12 @@ def main(ctx, json_output, quiet, agent):
 
     \b
     Command Patterns:
-      mechanic call <cmd> '<json>'   Call command with JSON args
-      mechanic --json call ...       Get raw JSON output
-      mechanic --agent call ...      Agent-optimized output
-      mechanic shell                 Interactive command shell
+      mechanic call <cmd> '<json>'     Bash/Zsh JSON args
+      mechanic call <cmd> '{\"x\": 1}' PowerShell JSON args
+      mechanic call <cmd> '@file.json' Load JSON from a file
+      mechanic --json call ...         Get raw JSON output
+      mechanic --agent call ...        Agent-optimized output
+      mechanic shell                   Interactive command shell
     """
     ctx.ensure_object(dict)
     ctx.obj["json_output"] = json_output
@@ -319,12 +347,14 @@ def call(ctx, command_name, args):
     """Call a command.
 
     COMMAND_NAME is the command to call (e.g., sv.discover, libs.check).
-    ARGS is a JSON string of arguments (default: {}).
+    ARGS is a JSON string of arguments or @path/to/payload.json (default: {}).
 
     \b
     Examples:
       mechanic call sv.discover
       mechanic call libs.check '{"addon": "!Mechanic"}'
+      mechanic call libs.check '{\"addon\": \"!Mechanic\"}'  # PowerShell
+      mechanic call lua.queue '@payload.json'
       mechanic --json call addon.validate '{"addon": "Weekly"}'
     """
     from .commands.core import get_server
@@ -334,11 +364,10 @@ def call(ctx, command_name, args):
     agent = ctx.obj.get("agent", False)
     server = get_server()
 
-    # Parse args
     try:
-        input_data = json.loads(args)
-    except json.JSONDecodeError as e:
-        click.secho(f"[X] Invalid JSON: {e}", fg="red")
+        input_data = load_json_argument(args)
+    except ValueError as e:
+        click.secho(f"[X] {e}", fg="red")
         sys.exit(1)
 
     # Inject agent_mode when --agent flag is set
@@ -405,7 +434,7 @@ Commands:
             if line.startswith("call "):
                 parts = line[5:].strip().split(maxsplit=1)
                 cmd_name = parts[0]
-                cmd_args = json.loads(parts[1]) if len(parts) > 1 else {}
+                cmd_args = load_json_argument(parts[1]) if len(parts) > 1 else {}
 
                 result = await server.execute(cmd_name, cmd_args)
                 print_result(result, json_output=json_output)
@@ -414,7 +443,7 @@ Commands:
             # Try as direct command call
             parts = line.split(maxsplit=1)
             cmd_name = parts[0]
-            cmd_args = json.loads(parts[1]) if len(parts) > 1 else {}
+            cmd_args = load_json_argument(parts[1]) if len(parts) > 1 else {}
 
             result = await server.execute(cmd_name, cmd_args)
             print_result(result, json_output=json_output)

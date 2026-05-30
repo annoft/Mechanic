@@ -258,7 +258,7 @@ addon-dev inspect-sv MyAddon --diff "pre_patch"
 
 For a holistic view of your development environment, use the Workspace Dashboard.
 
-- **Action**: Run `addon-dev dashboard`.
+- **Action**: Run `mech dashboard`.
 - **Features**:
   - **Live Feedback**: Enable **Auto-Refresh** to keep health data current while you work.
   - **Background Alerts**: Enable **System Toasts** to receive OS-level notifications if a background lint or test fails while the dashboard is off-screen.

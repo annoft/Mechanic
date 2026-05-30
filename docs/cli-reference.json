@@ -252,7 +252,7 @@
   },
   {
     "name": "addon.sync",
-    "description": "Create junction links from development addon to WoW client folders",
+    "description": "Create junction links from development addon to WoW client folders. For !Mechanic or Mechanic, syncs both runtime addons.",
     "parameters": [
       {
         "name": "addon",
@@ -678,7 +678,7 @@
   },
   {
     "name": "env.status",
-    "description": "Get Mechanic environment configuration and status",
+    "description": "Get Mechanic environment configuration and runtime installation status",
     "parameters": []
   },
   {
@@ -860,7 +860,7 @@
       },
       {
         "name": "labels",
-        "type": "string",
+        "type": "array",
         "required": false,
         "description": "Optional labels for each snippet (for easier identification in results)",
         "default": null

@@ -1,6 +1,6 @@
 # CLI Reference
 
-> Auto-generated from `mechanic-desktop` v0.1.0 on 2026-01-07
+> Auto-generated from `mechanic-desktop` v0.1.0 on 2026-05-31
 
 This document lists all available Mechanic CLI commands with their inputs and outputs.
 
@@ -46,7 +46,7 @@ This document lists all available Mechanic CLI commands with their inputs and ou
 | `api.stats` | Get statistics about available WoW APIs |
 | `assets.list` | List asset files in an addon's assets_source and assets fold... |
 | `assets.sync` | Sync addon assets: convert PNG to TGA and copy other files f... |
-| `env.status` | Get Mechanic environment configuration and status |
+| `env.status` | Get Mechanic environment configuration and runtime installat... |
 | `fencore-catalog` | Get full catalog of FenCore logic domains and functions |
 | `fencore-info` | Get detailed info about a specific FenCore function |
 | `fencore-search` | Search FenCore functions by name or description |
@@ -76,7 +76,7 @@ Get the latest reload and test metrics from the local history
 **Example:**
 
 ```bash
-mech dashboard.metrics
+mech call dashboard.metrics
 ```
 
 ---
@@ -90,7 +90,7 @@ Gracefully shut down the Mechanic Desktop server
 **Example:**
 
 ```bash
-mech server.shutdown
+mech call server.shutdown
 ```
 
 ---
@@ -104,7 +104,7 @@ Automatically discover SavedVariables paths for all WoW flavors
 **Example:**
 
 ```bash
-mech sv.discover
+mech call sv.discover
 ```
 
 ---
@@ -121,8 +121,16 @@ Parse a WoW SavedVariables file and extract !Mechanic data
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call sv.parse -i '{"file_path": "<file_path>"}'
+mech call sv.parse '{"file_path": "<file_path>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call sv.parse '{\"file_path\": \"<file_path>\"}'
 ```
 
 ---
@@ -146,8 +154,16 @@ Detect code complexity issues in a WoW addon (nesting, long functions, magic num
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call addon.complexity -i '{"addon": "<addon>"}'
+mech call addon.complexity '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call addon.complexity '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -166,8 +182,16 @@ Create a new WoW addon from a template
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call addon.create -i '{"name": "<name>"}'
+mech call addon.create '{"name": "<name>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call addon.create '{\"name\": \"<name>\"}'
 ```
 
 ---
@@ -187,8 +211,16 @@ Detect dead code in a WoW addon (unused functions, orphaned files, etc.)
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call addon.deadcode -i '{"addon": "<addon>"}'
+mech call addon.deadcode '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call addon.deadcode '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -209,8 +241,16 @@ Scan a WoW addon for deprecated API calls (100+ APIs, 11.0-12.0)
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call addon.deprecations -i '{"addon": "<addon>"}'
+mech call addon.deprecations '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call addon.deprecations '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -229,8 +269,16 @@ Run StyLua formatter on a WoW addon
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call addon.format -i '{"addon": "<addon>"}'
+mech call addon.format '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call addon.format '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -249,8 +297,16 @@ Run Luacheck linter on a WoW addon
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call addon.lint -i '{"addon": "<addon>"}'
+mech call addon.lint '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call addon.lint '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -268,7 +324,7 @@ Get all addon output (errors, tests, console) for agent consumption. Use agent_m
 **Example:**
 
 ```bash
-mech addon.output
+mech call addon.output
 ```
 
 ---
@@ -288,15 +344,23 @@ Detect security issues in a WoW addon (combat lockdown, secret values, taint)
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call addon.security -i '{"addon": "<addon>"}'
+mech call addon.security '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call addon.security '{\"addon\": \"<addon>\"}'
 ```
 
 ---
 
 ### `addon.sync`
 
-Create junction links from development addon to WoW client folders
+Create junction links from development addon to WoW client folders. For !Mechanic or Mechanic, syncs both runtime addons.
 
 **Parameters:**
 
@@ -307,8 +371,16 @@ Create junction links from development addon to WoW client folders
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call addon.sync -i '{"addon": "<addon>"}'
+mech call addon.sync '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call addon.sync '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -327,8 +399,16 @@ Run Busted unit tests on a WoW addon
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call addon.test -i '{"addon": "<addon>"}'
+mech call addon.test '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call addon.test '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -346,8 +426,16 @@ Validate a WoW addon's .toc file for common issues
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call addon.validate -i '{"addon": "<addon>"}'
+mech call addon.validate '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call addon.validate '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -370,8 +458,16 @@ Add an entry to the addon's CHANGELOG.md
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call changelog.add -i '{"addon": "<addon>", "version": "<version>", "message": "<message>"}'
+mech call changelog.add '{"addon": "<addon>", "version": "<version>", "message": "<message>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call changelog.add '{\"addon\": \"<addon>\", \"version\": \"<version>\", \"message\": \"<message>\"}'
 ```
 
 ---
@@ -390,8 +486,16 @@ Update the version in a WoW addon's .toc file
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call version.bump -i '{"addon": "<addon>", "version": "<version>"}'
+mech call version.bump '{"addon": "<addon>", "version": "<version>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call version.bump '{\"addon\": \"<addon>\", \"version\": \"<version>\"}'
 ```
 
 ---
@@ -411,8 +515,16 @@ Scan wow-ui-source for atlas icons and generate searchable index
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call atlas.scan -i '{"source_path": "<source_path>"}'
+mech call atlas.scan '{"source_path": "<source_path>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call atlas.scan '{\"source_path\": \"<source_path>\"}'
 ```
 
 ---
@@ -431,8 +543,16 @@ Search Blizzard UI atlas icons by name pattern (supports wildcards)
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call atlas.search -i '{"query": "<query>"}'
+mech call atlas.search '{"query": "<query>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call atlas.search '{\"query\": \"<query>\"}'
 ```
 
 ---
@@ -450,8 +570,16 @@ Extract potential localizable strings from addon code
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call locale.extract -i '{"addon": "<addon>"}'
+mech call locale.extract '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call locale.extract '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -469,8 +597,16 @@ Validate locale coverage against the enUS baseline
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call locale.validate -i '{"addon": "<addon>"}'
+mech call locale.validate '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call locale.validate '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -489,8 +625,16 @@ Check addon library status against libs.json config
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call libs.check -i '{"addon": "<addon>"}'
+mech call libs.check '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call libs.check '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -509,8 +653,16 @@ Creates a libs.json config file from currently installed libraries. ⚠️ Will 
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call libs.init -i '{"addon": "<addon>"}'
+mech call libs.init '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call libs.init '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -531,8 +683,16 @@ Sync addon libraries based on libs.json config
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call libs.sync -i '{"addon": "<addon>"}'
+mech call libs.sync '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call libs.sync '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -548,7 +708,7 @@ Check the status of development tools (luacheck, stylua, etc.)
 **Example:**
 
 ```bash
-mech tools.status
+mech call tools.status
 ```
 
 ---
@@ -569,7 +729,7 @@ Generate CLI reference documentation from registered commands
 **Example:**
 
 ```bash
-mech docs.generate
+mech call docs.generate
 ```
 
 ---
@@ -589,8 +749,16 @@ Detect stale or broken documentation in a WoW addon
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call docs.stale -i '{"addon": "<addon>"}'
+mech call docs.stale '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call docs.stale '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -612,7 +780,7 @@ Download FrameXML from Townlong Yak and optionally refresh API definitions
 **Example:**
 
 ```bash
-mech api.download
+mech call api.download
 ```
 
 ---
@@ -631,7 +799,7 @@ Generate APIDefs Lua files from api_database.json for Mechanic
 **Example:**
 
 ```bash
-mech api.generate
+mech call api.generate
 ```
 
 ---
@@ -648,8 +816,16 @@ Get detailed information about a specific WoW API
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call api.info -i '{"api_name": "<api_name>"}'
+mech call api.info '{"api_name": "<api_name>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call api.info '{\"api_name\": \"<api_name>\"}'
 ```
 
 ---
@@ -669,7 +845,7 @@ List APIs by namespace or category
 **Example:**
 
 ```bash
-mech api.list
+mech call api.list
 ```
 
 ---
@@ -687,8 +863,16 @@ Parse Blizzard API documentation and generate api_database.json
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call api.populate -i '{"source_path": "<source_path>"}'
+mech call api.populate '{"source_path": "<source_path>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call api.populate '{\"source_path\": \"<source_path>\"}'
 ```
 
 ---
@@ -706,8 +890,16 @@ Queue API tests for in-game execution. After running this, /reload in WoW to exe
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call api.queue -i '{"apis": "<apis>"}'
+mech call api.queue '{"apis": ["<apis>"]}'
+```
+
+PowerShell:
+
+```powershell
+mech call api.queue '{\"apis\": [\"<apis>\"]}'
 ```
 
 ---
@@ -724,8 +916,16 @@ Full refresh: parse Blizzard docs and regenerate all APIDefs in one step
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call api.refresh -i '{"source_path": "<source_path>"}'
+mech call api.refresh '{"source_path": "<source_path>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call api.refresh '{\"source_path\": \"<source_path>\"}'
 ```
 
 ---
@@ -745,8 +945,16 @@ Search WoW APIs by name pattern. Works offline (reads static definitions).
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call api.search -i '{"query": "<query>"}'
+mech call api.search '{"query": "<query>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call api.search '{\"query\": \"<query>\"}'
 ```
 
 ---
@@ -760,7 +968,7 @@ Get statistics about available WoW APIs
 **Example:**
 
 ```bash
-mech api.stats
+mech call api.stats
 ```
 
 ---
@@ -777,8 +985,16 @@ List asset files in an addon's assets_source and assets folders
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call assets.list -i '{"addon": "<addon>"}'
+mech call assets.list '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call assets.list '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -796,22 +1012,30 @@ Sync addon assets: convert PNG to TGA and copy other files from assets_source to
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call assets.sync -i '{"addon": "<addon>"}'
+mech call assets.sync '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call assets.sync '{\"addon\": \"<addon>\"}'
 ```
 
 ---
 
 ### `env.status`
 
-Get Mechanic environment configuration and status
+Get Mechanic environment configuration and runtime installation status
 
 **Parameters:** None
 
 **Example:**
 
 ```bash
-mech env.status
+mech call env.status
 ```
 
 ---
@@ -825,7 +1049,7 @@ Get full catalog of FenCore logic domains and functions
 **Example:**
 
 ```bash
-mech fencore-catalog
+mech call fencore-catalog
 ```
 
 ---
@@ -843,8 +1067,16 @@ Get detailed info about a specific FenCore function
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call fencore-info -i '{"domain": "<domain>", "function": "<function>"}'
+mech call fencore-info '{"domain": "<domain>", "function": "<function>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call fencore-info '{\"domain\": \"<domain>\", \"function\": \"<function>\"}'
 ```
 
 ---
@@ -862,8 +1094,16 @@ Search FenCore functions by name or description
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call fencore-search -i '{"query": "<query>"}'
+mech call fencore-search '{"query": "<query>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call fencore-search '{\"query\": \"<query>\"}'
 ```
 
 ---
@@ -877,12 +1117,29 @@ Queue Lua code snippets for in-game execution. After running this, /reload in Wo
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `code` | `array` | Yes | List of Lua code snippets to execute. Each snippet should return a value. |
-| `labels` | `string` | No (default: `None`) | Optional labels for each snippet (for easier identification in results) |
+| `labels` | `array` | No (default: `None`) | Optional labels for each snippet (for easier identification in results) |
 
 **Example:**
 
+Payload (`payload.json`):
+
+```json
+{
+  "code": [
+    "<code>"
+  ],
+  "labels": [
+    "<label>"
+  ]
+}
+```
+
 ```bash
-mech call lua.queue -i '{"code": "<code>"}'
+mech call lua.queue @payload.json
+```
+
+```powershell
+mech call lua.queue '@payload.json'
 ```
 
 ---
@@ -896,7 +1153,7 @@ Get results from the last Lua eval queue execution
 **Example:**
 
 ```bash
-mech lua.results
+mech call lua.results
 ```
 
 ---
@@ -916,8 +1173,16 @@ Record a performance baseline measurement for an addon
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call perf.baseline -i '{"addon": "<addon>", "version": "<version>", "memory_kb": "<memory_kb>", "cpu_ms": "<cpu_ms>"}'
+mech call perf.baseline '{"addon": "<addon>", "version": "<version>", "memory_kb": "<memory_kb>", "cpu_ms": "<cpu_ms>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call perf.baseline '{\"addon\": \"<addon>\", \"version\": \"<version>\", \"memory_kb\": \"<memory_kb>\", \"cpu_ms\": \"<cpu_ms>\"}'
 ```
 
 ---
@@ -938,8 +1203,16 @@ Compare current performance against baseline and detect regressions
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call perf.compare -i '{"addon": "<addon>", "memory_kb": "<memory_kb>", "cpu_ms": "<cpu_ms>"}'
+mech call perf.compare '{"addon": "<addon>", "memory_kb": "<memory_kb>", "cpu_ms": "<cpu_ms>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call perf.compare '{\"addon\": \"<addon>\", \"memory_kb\": \"<memory_kb>\", \"cpu_ms\": \"<cpu_ms>\"}'
 ```
 
 ---
@@ -953,7 +1226,7 @@ List all addons with performance baselines
 **Example:**
 
 ```bash
-mech perf.list
+mech call perf.list
 ```
 
 ---
@@ -971,8 +1244,16 @@ Generate a performance report showing history and trends
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call perf.report -i '{"addon": "<addon>"}'
+mech call perf.report '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call perf.report '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -991,8 +1272,16 @@ Search the web for addon development information using Gemini with Google Search
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call research.query -i '{"query": "<query>"}'
+mech call research.query '{"query": "<query>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call research.query '{\"query\": \"<query>\"}'
 ```
 
 ---
@@ -1011,8 +1300,16 @@ Execute Lua code in sandbox environment with WoW API stubs
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call sandbox.exec -i '{"code": "<code>"}'
+mech call sandbox.exec '{"code": "<code>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call sandbox.exec '{\"code\": \"<code>\"}'
 ```
 
 ---
@@ -1031,7 +1328,7 @@ Generate WoW API stubs from APIDefs database for sandbox testing
 **Example:**
 
 ```bash
-mech sandbox.generate
+mech call sandbox.generate
 ```
 
 ---
@@ -1045,7 +1342,7 @@ Get status of generated WoW API stubs
 **Example:**
 
 ```bash
-mech sandbox.status
+mech call sandbox.status
 ```
 
 ---
@@ -1063,8 +1360,16 @@ Run Busted tests for an addon's Core layer with WoW API stubs
 
 **Example:**
 
+Bash/Zsh:
+
 ```bash
-mech call sandbox.test -i '{"addon": "<addon>"}'
+mech call sandbox.test '{"addon": "<addon>"}'
+```
+
+PowerShell:
+
+```powershell
+mech call sandbox.test '{\"addon\": \"<addon>\"}'
 ```
 
 ---
@@ -1083,7 +1388,7 @@ Open a native file picker dialog to select a file
 **Example:**
 
 ```bash
-mech system.pick_file
+mech call system.pick_file
 ```
 
 ---
@@ -1101,8 +1406,24 @@ mech system.pick_file
 ### Calling Commands
 
 ```bash
-# Standard call with input
-mech call <command> -i '{"param": "value"}'
+# Bash/Zsh: inline JSON
+mech call <command> '{"param": "value"}'
+
+# Bash/Zsh: file input
+mech call <command> @payload.json
+```
+
+```powershell
+# PowerShell: inline JSON
+mech call <command> '{\"param\": \"value\"}'
+
+# PowerShell: quote @file args to avoid splatting
+mech call <command> '@payload.json'
+```
+
+```bash
+# File payloads are recommended for array inputs such as lua.queue
+mech call lua.queue @payload.json
 
 # Shorthand for common commands
 mech addon.output  # Direct command shortcut

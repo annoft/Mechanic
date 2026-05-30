@@ -24,16 +24,10 @@ This runs:
 
 ```bash
 # Just bump version
-mech call version.bump -i '{"addon": "MyAddon", "version": "1.2.0"}'
+mech call version.bump '{"addon": "MyAddon", "version": "1.2.0"}'
 
 # Just add changelog entry
-mech call changelog.add -i '{"addon": "MyAddon", "version": "1.2.0", "message": "Added feature"}'
-
-# Just commit
-mech call git.commit -i '{"addon": "MyAddon", "message": "Release 1.2.0"}'
-
-# Just tag
-mech call git.tag -i '{"addon": "MyAddon", "version": "1.2.0"}'
+mech call changelog.add '{"addon": "MyAddon", "version": "1.2.0", "message": "Added feature"}'
 ```
 
 ---
@@ -73,17 +67,17 @@ Before running `mech release`:
 
 1. **Run validation**
    ```bash
-   mech call addon.validate -i '{"addon": "MyAddon"}'
+   mech call addon.validate '{"addon": "MyAddon"}'
    ```
 
 2. **Run tests**
    ```bash
-   mech call addon.test -i '{"addon": "MyAddon"}'
+   mech call addon.test '{"addon": "MyAddon"}'
    ```
 
 3. **Check for deprecations**
    ```bash
-   mech call addon.deprecations -i '{"addon": "MyAddon"}'
+   mech call addon.deprecations '{"addon": "MyAddon"}'
    ```
 
 4. **Update Interface version** (if new WoW patch)

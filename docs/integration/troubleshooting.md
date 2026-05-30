@@ -8,7 +8,7 @@ Common issues and solutions for Mechanic integration.
 
 ```bash
 # Check if Mechanic can find your addon
-mech call addon.validate -i '{"addon": "MyAddon"}'
+mech call addon.validate '{"addon": "MyAddon"}'
 ```
 
 **If not found, ensure:**
@@ -41,7 +41,7 @@ mech call addon.validate -i '{"addon": "MyAddon"}'
 2. Check that your addon prints to default output (not a custom frame)
 3. Reload UI to sync:
    ```bash
-   mech reload
+   # /reload in-game
    ```
 
 ---
@@ -51,9 +51,9 @@ mech call addon.validate -i '{"addon": "MyAddon"}'
 1. **Check file watcher is running** — Terminal should show activity on reload
 2. **Verify SavedVariables path:**
    ```bash
-   mech call env.info
+   mech call env.status
    ```
-3. **Try manual reload:** Click "Reload" button in dashboard
+3. **Try manual reload:** Run `/reload` in-game
 
 ---
 
@@ -66,7 +66,7 @@ On Windows, junction creation requires either:
 
 ```bash
 # Check current links
-mech call addon.sync -i '{"addon": "MyAddon"}' 
+mech call addon.sync '{"addon": "MyAddon"}'
 ```
 
 ---
@@ -79,11 +79,31 @@ mech call addon.sync -i '{"addon": "MyAddon"}'
 
 ---
 
+## "No addon data available" after `/reload`
+
+Check the runtime install first:
+
+```bash
+mech call env.status
+```
+
+Each active WoW flavor should show both `!Mechanic` and `Mechanic` with
+`status: healthy`. If the main `Mechanic` hub is missing, install both runtime
+addons together:
+
+```bash
+mech call addon.sync '{"addon": "!Mechanic"}'
+```
+
+Then enable both addons in-game and run `/reload`.
+
+---
+
 ## "Performance metrics not showing"
 
 1. Ensure you've registered the `performance` hook with MechanicLib
 2. Check that `GetPerformanceSubMetrics()` returns valid data
-3. Reload WoW to sync: `mech reload`
+3. Reload WoW to sync: `/reload`
 
 ---
 

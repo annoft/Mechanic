@@ -455,11 +455,11 @@ These are the most important facts across all guides that agents should internal
 
 ### CLI Quick Reference
 ```
-addon-dev setup                        - Download/verify dev binaries
-addon-dev watch "Addon"                - Real-time lint/test on file change
-addon-dev test "Addon" --coverage      - Run tests with coverage report
-addon-dev fix-deprecations "Addon"     - Scan/fix deprecated APIs
-addon-dev doctor                       - Check environment health
+mech setup                             - Download/verify dev binaries
+mech dashboard --auto-reload --src PATH - Watch files and trigger reload key
+mech call addon.test '{"addon": "Addon", "coverage": true}' - Run tests with coverage report
+mech call addon.deprecations '{"addon": "Addon"}' - Scan deprecated APIs
+mech call env.status                   - Check environment and runtime health
 ```
 
 ---

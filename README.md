@@ -72,14 +72,16 @@ Here's where it gets powerful: **everything in the dashboard is available via CL
 # Get a full snapshot of addon state (errors, tests, console)
 mech addon.output
 
-# Trigger an in-game reload from terminal
-mech reload
+# After code changes, reload in-game to flush SavedVariables
+# /reload
 
 # Validate, lint, format, test — all in one command
 mech call addon.validate '{"addon": "MyAddon"}'
 
 # Execute Lua code in-game and get results (round-trip)
 mech call lua.queue '{"code": ["GetMoney()/10000"], "labels": ["gold"]}'
+# PowerShell-friendly form for array payloads:
+mech call lua.queue '@payload.json'
 # Then /reload in WoW, and read results:
 mech call lua.results
 
@@ -126,7 +128,7 @@ See the [Testing Guide](docs/integration/testing.md) for test file conventions a
 
 ```bash
 # 1. Install (one time)
-cd "!Mechanic/desktop"
+cd desktop
 pip install -e .
 mech setup
 
@@ -180,7 +182,7 @@ Beyond the live development loop, Mechanic includes a full suite of quality tool
 | `mech call api.queue` | Queue API tests for in-game execution |
 | `mech call sandbox.exec` | Execute Lua in sandbox with API stubs |
 | `mech call tools.status` | Check dev tools installation status |
-| `mech call env.status` | Get environment configuration |
+| `mech call env.status` | Get environment and Mechanic runtime status |
 | `mech call system.pick_file` | Open native file picker dialog |
 
 ### Release Automation
@@ -194,10 +196,8 @@ Beyond the live development loop, Mechanic includes a full suite of quality tool
 mech release MyAddon 1.2.0 "Added new feature"
 
 # Or run individual steps:
-mech call version.bump --addon MyAddon --version 1.2.0
-mech call changelog.add --addon MyAddon --version 1.2.0 --message "Added new feature"
-mech call git.commit --addon MyAddon --message "Release v1.2.0"
-mech call git.tag --addon MyAddon --version 1.2.0
+mech call version.bump '{"addon": "MyAddon", "version": "1.2.0"}'
+mech call changelog.add '{"addon": "MyAddon", "version": "1.2.0", "message": "Added new feature"}'
 ```
 
 ### Localization
@@ -265,6 +265,10 @@ Mechanic is built with a structured command architecture where every feature is 
 - Optional for `addon.test`: Visual Studio Build Tools C++ workload plus
   LuaRocks/Busted. See [desktop setup](desktop/README.md#windows-busted-toolchain).
 
+Mechanic's own setup documentation is the source of truth for installing and
+repairing the toolchain. Addon templates such as WoWDevTemplate should only
+preflight or call Mechanic, not duplicate its setup steps.
+
 ### First-Time Setup
 
 ```bash
@@ -292,7 +296,8 @@ Mechanic registers these in-game keybindings (Key Bindings → Mechanic):
 | Reload UI (Dev) | `CTRL+SHIFT+R` | Triggers `/reload` |
 | Toggle Mechanic | `CTRL+SHIFT+M` | Opens/closes panel |
 
-The desktop can trigger these remotely via `mech reload`.
+For automated reload during file watching, start the dashboard with
+`mech dashboard --auto-reload --src "C:\Path\To\Addon"`.
 
 ---
 

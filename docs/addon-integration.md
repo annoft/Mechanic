@@ -71,10 +71,10 @@ Mechanic creates junction links from your dev folder to each WoW client:
 
 ```bash
 # Create links to all detected clients (_retail_, _beta_, _ptr_)
-mech call addon.sync -i '{"addon": "MyAddon"}'
+mech call addon.sync '{"addon": "MyAddon"}'
 
 # Specify specific flavors
-mech call addon.sync -i '{"addon": "MyAddon", "flavors": ["_retail_", "_beta_"]}'
+mech call addon.sync '{"addon": "MyAddon", "flavors": ["_retail_", "_beta_"]}'
 ```
 
 ### TOC File Requirements
@@ -90,7 +90,7 @@ mech call addon.sync -i '{"addon": "MyAddon", "flavors": ["_retail_", "_beta_"]}
 Validate your TOC:
 
 ```bash
-mech call addon.validate -i '{"addon": "MyAddon"}'
+mech call addon.validate '{"addon": "MyAddon"}'
 ```
 
 ---

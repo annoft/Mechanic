@@ -11,7 +11,8 @@ Tests verify all CLI commands and wrappers:
 import json
 from click.testing import CliRunner
 from mechanic.cli import main
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
+from afd import success
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -45,6 +46,16 @@ def test_cli_version():
 
     assert result.exit_code == 0
     assert 'version' in result.output.lower() or '.' in result.output
+
+
+def test_cli_call_help_quotes_file_payload_example():
+    """Test call help shows PowerShell-safe @file examples."""
+    runner = CliRunner()
+    result = runner.invoke(main, ['call', '--help'])
+
+    assert result.exit_code == 0
+    assert "mechanic call lua.queue '@payload.json'" in result.output
+    assert "PowerShell" in result.output
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -136,6 +147,35 @@ def test_cli_call_with_args():
 
     assert result.exit_code == 0
     assert 'Calling addon.output' in result.output
+
+
+def test_cli_call_with_file_args():
+    """Test call can load JSON arguments from @file."""
+    runner = CliRunner()
+
+    class FakeServer:
+        async def execute(self, command_name, input_data):
+            assert command_name == 'lua.queue'
+            assert input_data == {
+                'code': ['return 1 + 1'],
+                'labels': ['sum'],
+            }
+            return success(data={'queued': 1}, reasoning='queued')
+
+    with runner.isolated_filesystem():
+        with open('payload.json', 'w', encoding='utf-8-sig') as f:
+            json.dump({'code': ['return 1 + 1'], 'labels': ['sum']}, f)
+
+        with patch('mechanic.commands.core.get_server', return_value=FakeServer()):
+            result = runner.invoke(
+                main,
+                ['--json', 'call', 'lua.queue', '@payload.json'],
+            )
+
+    assert result.exit_code == 0
+    data = json.loads(result.output)
+    assert data['success'] is True
+    assert data['data']['queued'] == 1
 
 
 def test_cli_call_invalid_command():

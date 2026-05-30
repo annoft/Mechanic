@@ -7,7 +7,7 @@ Local companion tool for World of Warcraft addon development with structured com
 - **Real-time Dashboard** - WebSocket-powered UI showing addon health, test results, and development metrics
 - **SavedVariables Watcher** - Monitors your WTF folder and broadcasts changes instantly
 - **Command Registry** - 21+ commands for linting, testing, formatting, releasing, and more
-- **Hot Reload** - Trigger in-game `/reload` from the command line or dashboard
+- **Hot Reload** - Trigger in-game `/reload` from the dashboard while watching source files
 - **Cross-Platform** - Windows (full support) and macOS (partial support)
 
 ## Installation
@@ -50,6 +50,11 @@ The setup command will:
 3. Save configuration to `~/.mechanic/config.json`
 4. Download required tools (luacheck, stylua) and detect optional Lua 5.1
 5. Generate `busted.bat` if Busted is installed through LuaRocks
+
+This document is the source of truth for Mechanic toolchain setup. Addon
+templates should call `mech setup`, `mech setup --verify --skip-config`,
+`mech call env.status`, or `mech call tools.status` instead of duplicating
+tool installation steps.
 
 ### Windows Busted Toolchain
 
@@ -147,6 +152,9 @@ mech call addon.format '{"addon": "MyAddon"}'
 
 # Run tests
 mech call addon.test '{"addon": "MyAddon"}'
+
+# Queue Lua with a file payload (useful in PowerShell)
+mech call lua.queue '@payload.json'
 
 # Scan for deprecated APIs
 mech call addon.deprecations '{"addon": "MyAddon"}'
