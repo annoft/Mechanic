@@ -8,12 +8,18 @@ Philosophy:
 - Fast: Should complete in <100ms
 """
 
-from afd import CommandResult, success, error
-from afd.core.metadata import create_source
+from afd import CommandResult, success
+from afd.core.metadata import create_source, create_warning, WarningSeverity
 from pydantic import BaseModel, Field
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 import re
+
+from ..runtime_installation import (
+    format_runtime_issues,
+    inspect_mechanic_runtime,
+    mechanic_runtime_is_complete,
+)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -60,6 +66,12 @@ class AddonOutputResult(BaseModel):
     )
     lua_eval: Dict[str, Any] = Field(
         default_factory=dict, description="Lua eval queue results"
+    )
+    mechanic_runtime_healthy: bool = Field(
+        default=False, description="Whether !Mechanic and Mechanic are installed"
+    )
+    mechanic_runtime_issues: List[str] = Field(
+        default_factory=list, description="Mechanic runtime installation diagnostics"
     )
 
 
@@ -341,6 +353,14 @@ def parse_hub_performance_from_mechanic_db(addon_data: dict) -> dict:
     return perf_map
 
 
+def hub_addon_data_is_registered(addon_data: Any) -> bool:
+    """Return whether the in-game hub has registered addonData entries."""
+    if not isinstance(addon_data, dict):
+        return False
+    hub = addon_data.get("addonData")
+    return isinstance(hub, dict) and bool(hub)
+
+
 def parse_api_tests_from_mechanic_db(addon_data: dict) -> dict:
     """Extract API test results from MechanicDB.
 
@@ -609,17 +629,15 @@ def register_commands(server):
         4. Format everything as markdown (compressed if agent_mode)
         """
         from ..server import storage
-        from ..config import discover_saved_variables
+        from ..config import discover_saved_variables, get_config
         from ..parsers import parse_savedvariables
-        from pathlib import Path
 
         # Extract agent_mode from input
         agent_mode = input.agent_mode if hasattr(input, "agent_mode") else False
 
         sources = []
         tests = []
-        hub_logs = []
-        hub_perf = {}  # NEW: Hub performance data
+        hub_data_registered = False
 
         # Get latest reload from database
         latest = storage.get_latest_metrics()
@@ -628,6 +646,21 @@ def register_commands(server):
         if latest and latest.get("timestamp"):
             timestamp_str = datetime.fromtimestamp(latest["timestamp"]).strftime(
                 "%Y-%m-%d %H:%M:%S"
+            )
+
+        config = get_config()
+        runtime_status = inspect_mechanic_runtime(config.wow_root, config.flavors)
+        runtime_healthy = mechanic_runtime_is_complete(runtime_status)
+        runtime_issues = format_runtime_issues(runtime_status)
+
+        if config.wow_root:
+            sources.append(
+                create_source(
+                    type="directory",
+                    id="mechanic-runtime",
+                    title="Mechanic Runtime AddOns",
+                    location=str(config.wow_root),
+                )
             )
 
         # Discover SavedVariables paths
@@ -695,6 +728,9 @@ def register_commands(server):
                             if profile_name:
                                 profile_data = profiles.get(profile_name, {})
 
+                    if hub_addon_data_is_registered(profile_data):
+                        hub_data_registered = True
+
                     console = parse_console_from_mechanic_db(profile_data)
                     libraries = parse_libraries_from_mechanic_db(profile_data)
 
@@ -738,6 +774,9 @@ def register_commands(server):
         if latest and latest.get("addons_data"):
             addons_data = latest["addons_data"]
             if isinstance(addons_data, dict):
+                if addons_data:
+                    hub_data_registered = True
+
                 # Use a map to merge with SV results (preferring latest broadcast)
                 test_map = {(t["addon"], t["name"]): t for t in tests}
 
@@ -766,6 +805,27 @@ def register_commands(server):
             lines.append(f"## Addon Output - {timestamp_str}\n")
         else:
             lines.append("## Addon Output - No reload data yet\n")
+
+        if not runtime_healthy:
+            lines.append("### Mechanic Runtime Diagnostic\n")
+            lines.append(
+                "Mechanic runtime is incomplete. Run "
+                '`mech call addon.sync \'{"addon": "!Mechanic"}\'` '
+                "or "
+                '`mech call addon.sync \'{"addon": "Mechanic"}\'` '
+                "to sync both runtime addons, then `/reload` in-game."
+            )
+            for issue in runtime_issues:
+                lines.append(f"- {issue}")
+            lines.append("")
+        elif not hub_data_registered:
+            lines.append("### Mechanic Hub Diagnostic\n")
+            lines.append(
+                "Mechanic runtime folders are installed, but the hub has not "
+                "registered addon data in `MechanicDB.addonData`. Verify the "
+                "main `Mechanic` addon is enabled in-game, then run `/reload`."
+            )
+            lines.append("")
 
         # Libraries section (show at top for quick reference)
         if libraries:
@@ -1032,6 +1092,8 @@ def register_commands(server):
             perf=hub_perf,
             api_tests=api_tests,
             lua_eval=lua_eval,
+            mechanic_runtime_healthy=runtime_healthy,
+            mechanic_runtime_issues=runtime_issues,
         )
 
         if (
@@ -1041,6 +1103,39 @@ def register_commands(server):
             and api_tests["total"] == 0
             and lua_eval["total"] == 0
         ):
+            if not runtime_healthy:
+                warning = create_warning(
+                    "MECHANIC_RUNTIME_INCOMPLETE",
+                    "; ".join(runtime_issues[:3]),
+                    WarningSeverity.CAUTION,
+                    details={"issues": runtime_issues},
+                )
+                return success(
+                    data=result,
+                    reasoning="Mechanic runtime incomplete. Sync both !Mechanic and Mechanic, then /reload in-game to generate data.",
+                    sources=sources,
+                    warnings=[warning],
+                    confidence=0.7,
+                )
+
+            if not hub_data_registered:
+                warning = create_warning(
+                    "MECHANIC_HUB_DATA_MISSING",
+                    "Mechanic hub has not registered addon data; verify the main "
+                    "Mechanic addon is enabled and /reload in-game.",
+                    WarningSeverity.CAUTION,
+                    details={"mechanic_runtime_healthy": runtime_healthy},
+                )
+                return success(
+                    data=result,
+                    reasoning="Mechanic runtime is installed, but the hub has not "
+                    "registered addon data. Verify the main Mechanic addon is "
+                    "enabled and /reload in-game.",
+                    sources=sources,
+                    warnings=[warning],
+                    confidence=0.75,
+                )
+
             return success(
                 data=result,
                 reasoning="No addon data available. Do /reload in-game to generate data.",
@@ -1048,9 +1143,31 @@ def register_commands(server):
                 confidence=0.8,
             )
 
+        warnings = None
+        if not runtime_healthy:
+            warnings = [
+                create_warning(
+                    "MECHANIC_RUNTIME_INCOMPLETE",
+                    "; ".join(runtime_issues[:3]),
+                    WarningSeverity.CAUTION,
+                    details={"issues": runtime_issues},
+                )
+            ]
+        elif not hub_data_registered:
+            warnings = [
+                create_warning(
+                    "MECHANIC_HUB_DATA_MISSING",
+                    "Mechanic hub has not registered addon data; verify the main "
+                    "Mechanic addon is enabled and /reload in-game.",
+                    WarningSeverity.CAUTION,
+                    details={"mechanic_runtime_healthy": runtime_healthy},
+                )
+            ]
+
         return success(
             data=result,
             reasoning=f"Addon output: {len(errors)} errors, {len(tests)} tests, {len(console)} console, {api_tests['total']} API tests, {lua_eval['total']} Lua evals",
             sources=sources,
+            warnings=warnings,
             confidence=0.95,
         )

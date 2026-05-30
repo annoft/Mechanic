@@ -12,6 +12,8 @@ import asyncio
 import tempfile
 import os
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 from mechanic.commands.core import get_server
 from afd.testing.assertions import assert_success, assert_error, assert_has_reasoning, assert_has_sources
 
@@ -104,6 +106,50 @@ async def test_addon_output_agent_mode():
     assert hasattr(data, 'output')
     # Agent mode should still produce valid output
     assert "## Addon Output" in data.output
+
+
+@pytest.mark.asyncio
+async def test_addon_output_reports_missing_hub_data_when_runtime_healthy(tmp_path):
+    """Runtime is installed, but MechanicDB.addonData is absent/empty."""
+    server = get_server()
+    mechanic_sv = tmp_path / "!Mechanic.lua"
+    mechanic_sv.write_text("MechanicDB = {}", encoding="utf-8")
+
+    config = SimpleNamespace(wow_root=tmp_path, flavors=["_retail_"])
+    parsed_sv = {
+        "MechanicDB": {
+            "profiles": {
+                "Default": {
+                    "addonData": {},
+                    "consoleBuffer": {},
+                    "loadedLibraries": {},
+                    "testResults": {},
+                }
+            }
+        }
+    }
+
+    with (
+        patch("mechanic.server.storage.get_latest_metrics", return_value=None),
+        patch("mechanic.config.get_config", return_value=config),
+        patch("mechanic.config.discover_saved_variables", return_value=[tmp_path]),
+        patch("mechanic.parsers.parse_savedvariables", return_value=parsed_sv),
+        patch("mechanic.commands.output.inspect_mechanic_runtime", return_value=[]),
+        patch(
+            "mechanic.commands.output.mechanic_runtime_is_complete",
+            return_value=True,
+        ),
+        patch("mechanic.commands.output.format_runtime_issues", return_value=[]),
+    ):
+        result = await server.execute("addon.output", {})
+
+    data = assert_success(result)
+    warnings = result.warnings or []
+
+    assert "Mechanic Hub Diagnostic" in data.output
+    assert "hub has not registered addon data" in data.output
+    assert "hub has not registered addon data" in result.reasoning
+    assert any(w.code == "MECHANIC_HUB_DATA_MISSING" for w in warnings)
 
 
 @pytest.mark.asyncio
@@ -502,6 +548,30 @@ async def test_docs_generate_json():
     result = await server.execute("docs.generate", {"format": "json"})
 
     data = assert_success(result)
+
+
+@pytest.mark.asyncio
+async def test_docs_generate_uses_shell_safe_payload_examples(tmp_path):
+    """Generated docs distinguish Bash and PowerShell payload forms."""
+    server = get_server()
+    output_path = tmp_path / "cli-reference.md"
+
+    result = await server.execute(
+        "docs.generate",
+        {"format": "markdown", "output_path": str(output_path)},
+    )
+
+    assert_success(result)
+    text = output_path.read_text(encoding="utf-8")
+
+    assert "```powershell" in text
+    assert 'mech call <command> \'{\\"param\\": \\"value\\"}\'' in text
+    assert "mech call <command> '@payload.json'" in text
+    assert "Payload (`payload.json`):" in text
+    assert '"code": [' in text
+    assert '"labels": [' in text
+    assert "mech call lua.queue '@payload.json'" in text
+    assert 'mech call lua.queue \'{"code": "<code>"}\'' not in text
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

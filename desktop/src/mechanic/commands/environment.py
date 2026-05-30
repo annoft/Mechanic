@@ -13,6 +13,12 @@ import shutil
 
 # Use centralized config
 from ..config import get_config, find_addon_path
+from ..runtime_installation import (
+    MECHANIC_RUNTIME_ADDONS,
+    format_runtime_issues,
+    inspect_mechanic_runtime,
+    mechanic_runtime_is_complete,
+)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -157,8 +163,8 @@ def register_commands(server):
                 path=str(addon_path),
                 files_created=files_created,
                 next_steps=[
-                    f'Run: mech call addon.sync -i \'{{"addon": "{input.name}"}}\'',
-                    f'Run: mech call addon.validate -i \'{{"addon": "{input.name}"}}\'',
+                    f'Run: mech call addon.sync \'{{"addon": "{input.name}"}}\'',
+                    f'Run: mech call addon.validate \'{{"addon": "{input.name}"}}\'',
                     f"Edit {input.name}/Core.lua to add your addon logic",
                 ],
             ),
@@ -178,19 +184,146 @@ def register_commands(server):
         )
 
     class SyncLink(BaseModel):
+        addon: str
         flavor: str
         target: str
         status: str
 
     class AddonSyncResult(BaseModel):
         addon: str
+        addons: List[str] = []
         links: List[SyncLink] = []
         success_count: int = 0
         error_count: int = 0
+        diagnostics: List[str] = []
+        mechanic_runtime_healthy: Optional[bool] = None
+
+    def _resolve_sync_sources(addons: List[str]) -> tuple[Dict[str, Path], List[str]]:
+        sources = {}
+        diagnostics = []
+
+        for addon_name in addons:
+            source_path = find_addon_path(addon_name)
+            if not source_path:
+                diagnostics.append(f"{addon_name}: source addon not found")
+                continue
+
+            toc_path = source_path / f"{addon_name}.toc"
+            if not toc_path.exists():
+                diagnostics.append(
+                    f"{addon_name}: source exists at {source_path} but {addon_name}.toc is missing"
+                )
+                continue
+
+            sources[addon_name] = source_path
+
+        return sources, diagnostics
+
+    def _sync_one_addon_to_flavor(
+        addon_name: str, source_path: Path, wow_base: Path, flavor: str
+    ) -> tuple[SyncLink, bool, Optional[str]]:
+        addons_path = wow_base / flavor / "Interface" / "AddOns" / addon_name
+
+        if addons_path.exists():
+            toc_path = addons_path / f"{addon_name}.toc"
+            if toc_path.exists():
+                return (
+                    SyncLink(
+                        addon=addon_name,
+                        flavor=flavor,
+                        target=str(addons_path),
+                        status="exists",
+                    ),
+                    True,
+                    None,
+                )
+
+            diagnostic = (
+                f"{flavor}: {addon_name} exists at {addons_path} but "
+                f"{addon_name}.toc is missing; existing folder was not replaced"
+            )
+            return (
+                SyncLink(
+                    addon=addon_name,
+                    flavor=flavor,
+                    target=str(addons_path),
+                    status="exists_missing_toc",
+                ),
+                False,
+                diagnostic,
+            )
+
+        try:
+            addons_path.parent.mkdir(parents=True, exist_ok=True)
+
+            if subprocess.sys.platform == "win32":
+                result = subprocess.run(
+                    [
+                        "cmd",
+                        "/c",
+                        "mklink",
+                        "/J",
+                        str(addons_path),
+                        str(source_path),
+                    ],
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                )
+                if result.returncode == 0:
+                    return (
+                        SyncLink(
+                            addon=addon_name,
+                            flavor=flavor,
+                            target=str(addons_path),
+                            status="created",
+                        ),
+                        True,
+                        None,
+                    )
+
+                detail = (
+                    result.stderr.strip()
+                    or result.stdout.strip()
+                    or "mklink failed"
+                )
+                return (
+                    SyncLink(
+                        addon=addon_name,
+                        flavor=flavor,
+                        target=str(addons_path),
+                        status=f"failed: {detail}",
+                    ),
+                    False,
+                    f"{flavor}: failed to sync {addon_name}: {detail}",
+                )
+
+            addons_path.symlink_to(source_path)
+            return (
+                SyncLink(
+                    addon=addon_name,
+                    flavor=flavor,
+                    target=str(addons_path),
+                    status="created",
+                ),
+                True,
+                None,
+            )
+        except Exception as e:
+            return (
+                SyncLink(
+                    addon=addon_name,
+                    flavor=flavor,
+                    target=str(addons_path),
+                    status=f"error: {e}",
+                ),
+                False,
+                f"{flavor}: failed to sync {addon_name}: {e}",
+            )
 
     @server.command(
         name="addon.sync",
-        description="Create junction links from development addon to WoW client folders",
+        description="Create junction links from development addon to WoW client folders. For !Mechanic or Mechanic, syncs both runtime addons.",
         input_schema=AddonSyncInput,
         output_schema=AddonSyncResult,
     )
@@ -207,98 +340,116 @@ def register_commands(server):
                 suggestion="Set MECHANIC_WOW_ROOT environment variable or create ~/.mechanic/config.json",
             )
 
-        # Find source addon using centralized path resolution
-        source_path = find_addon_path(input.addon)
-        if not source_path:
+        runtime_sync = input.addon in MECHANIC_RUNTIME_ADDONS
+        addons_to_sync = (
+            list(MECHANIC_RUNTIME_ADDONS) if runtime_sync else [input.addon]
+        )
+
+        source_paths, source_diagnostics = _resolve_sync_sources(addons_to_sync)
+        if not source_paths:
             return error(
                 code="ADDON_NOT_FOUND",
-                message=f"Addon '{input.addon}' not found",
-                suggestion="Check the addon name or create it first with addon.create",
+                message=f"Addon '{input.addon}' not found or missing required .toc",
+                suggestion="Check the addon name or run this from a Mechanic checkout that contains both !Mechanic and Mechanic.",
+                details={"diagnostics": source_diagnostics},
             )
 
         flavors = input.flavors or config.flavors
         links = []
         success_count = 0
-        error_count = 0
+        error_count = len(source_diagnostics)
+        diagnostics = list(source_diagnostics)
 
-        for flavor in flavors:
-            addons_path = wow_base / flavor / "Interface" / "AddOns" / input.addon
-
-            if addons_path.exists():
-                links.append(
-                    SyncLink(flavor=flavor, target=str(addons_path), status="exists")
-                )
-                success_count += 1
-                continue
-
-            # Create parent directory if needed
-            addons_path.parent.mkdir(parents=True, exist_ok=True)
-
-            # Create junction (Windows) or symlink
-            try:
-                if subprocess.sys.platform == "win32":
-                    # Use mklink /J for junction
-                    result = subprocess.run(
-                        [
-                            "cmd",
-                            "/c",
-                            "mklink",
-                            "/J",
-                            str(addons_path),
-                            str(source_path),
-                        ],
-                        capture_output=True,
-                        text=True,
-                        timeout=10,
+        for addon_name, source_path in source_paths.items():
+            for flavor in flavors:
+                flavor_path = wow_base / flavor
+                if runtime_sync and not flavor_path.exists():
+                    target_path = (
+                        flavor_path / "Interface" / "AddOns" / addon_name
                     )
-                    if result.returncode == 0:
-                        links.append(
-                            SyncLink(
-                                flavor=flavor, target=str(addons_path), status="created"
-                            )
-                        )
-                        success_count += 1
-                    else:
-                        links.append(
-                            SyncLink(
-                                flavor=flavor,
-                                target=str(addons_path),
-                                status=f"failed: {result.stderr}",
-                            )
-                        )
-                        error_count += 1
-                else:
-                    addons_path.symlink_to(source_path)
                     links.append(
                         SyncLink(
-                            flavor=flavor, target=str(addons_path), status="created"
+                            addon=addon_name,
+                            flavor=flavor,
+                            target=str(target_path),
+                            status="client_missing",
                         )
                     )
-                    success_count += 1
-            except Exception as e:
-                links.append(
-                    SyncLink(
-                        flavor=flavor, target=str(addons_path), status=f"error: {e}"
-                    )
-                )
-                error_count += 1
+                    if input.flavors is not None:
+                        diagnostics.append(
+                            f"{flavor}: WoW client folder missing at {flavor_path}; skipped {addon_name}"
+                        )
+                        error_count += 1
+                    continue
 
-        src = create_source(
-            type="junction",
-            id=f"sync-{input.addon}",
-            title=f"Junction Links for {input.addon}",
-            location=str(source_path),
-        )
+                link, link_ok, diagnostic = _sync_one_addon_to_flavor(
+                    addon_name, source_path, wow_base, flavor
+                )
+                links.append(link)
+                if link_ok:
+                    success_count += 1
+                else:
+                    error_count += 1
+                    if diagnostic:
+                        diagnostics.append(diagnostic)
+
+        mechanic_runtime_healthy = None
+        if runtime_sync:
+            runtime_status = inspect_mechanic_runtime(wow_base, flavors)
+            mechanic_runtime_healthy = mechanic_runtime_is_complete(runtime_status)
+            if not mechanic_runtime_healthy:
+                for issue in format_runtime_issues(runtime_status):
+                    if issue not in diagnostics:
+                        diagnostics.append(issue)
+
+        sources = [
+            create_source(
+                type="junction",
+                id=f"sync-{addon_name}",
+                title=f"Junction Links for {addon_name}",
+                location=str(source_path),
+            )
+            for addon_name, source_path in source_paths.items()
+        ]
+
+        warnings = []
+        if diagnostics:
+            warnings.append(
+                create_warning(
+                    "MECHANIC_RUNTIME_INCOMPLETE"
+                    if runtime_sync
+                    else "ADDON_SYNC_INCOMPLETE",
+                    "; ".join(diagnostics[:3]),
+                    WarningSeverity.CAUTION,
+                    details={"diagnostics": diagnostics},
+                )
+            )
+
+        if runtime_sync:
+            reasoning = (
+                f"Synced Mechanic runtime addons {', '.join(addons_to_sync)}: "
+                f"{success_count} links healthy/created, {error_count} issues. "
+                "After resolving issues, run /reload in-game."
+            )
+        else:
+            reasoning = (
+                f"Synced {input.addon} to {success_count} clients "
+                f"({error_count} issues)"
+            )
 
         return success(
             data=AddonSyncResult(
                 addon=input.addon,
+                addons=addons_to_sync,
                 links=links,
                 success_count=success_count,
                 error_count=error_count,
+                diagnostics=diagnostics,
+                mechanic_runtime_healthy=mechanic_runtime_healthy,
             ),
-            reasoning=f"Synced {input.addon} to {success_count} clients ({error_count} errors)",
-            sources=[src],
+            reasoning=reasoning,
+            sources=sources,
+            warnings=warnings or None,
             confidence=1.0,
         )
 
@@ -910,6 +1061,25 @@ def register_commands(server):
         path: str
         exists: bool
 
+    class RuntimeAddonInfo(BaseModel):
+        addon: str
+        path: str
+        present: bool
+        toc_path: str
+        toc_present: bool
+        healthy: bool
+        status: str
+
+    class RuntimeFlavorInfo(BaseModel):
+        flavor: str
+        path: str
+        exists: bool
+        addons_path: str
+        addons_path_exists: bool
+        addons: List[RuntimeAddonInfo]
+        healthy: bool
+        status: str
+
     class EnvStatusInput(BaseModel):
         """Empty input for env.status"""
 
@@ -920,10 +1090,13 @@ def register_commands(server):
         dev_path: Optional[str]
         data_dir: str
         flavors: List[FlavorInfo]
+        mechanic_runtime: List[RuntimeFlavorInfo]
+        mechanic_runtime_healthy: bool
+        mechanic_runtime_issues: List[str]
 
     @server.command(
         name="env.status",
-        description="Get Mechanic environment configuration and status",
+        description="Get Mechanic environment configuration and runtime installation status",
         input_schema=EnvStatusInput,
         output_schema=EnvStatusResult,
     )
@@ -944,14 +1117,36 @@ def register_commands(server):
                 )
             )
 
+        runtime_status = inspect_mechanic_runtime(config.wow_root, config.flavors)
+        runtime_healthy = mechanic_runtime_is_complete(runtime_status)
+        runtime_issues = format_runtime_issues(runtime_status)
+        runtime_info = [
+            RuntimeFlavorInfo(**status.to_dict()) for status in runtime_status
+        ]
+
+        warnings = None
+        if not runtime_healthy:
+            warnings = [
+                create_warning(
+                    "MECHANIC_RUNTIME_INCOMPLETE",
+                    "; ".join(runtime_issues[:3]),
+                    WarningSeverity.CAUTION,
+                    details={"issues": runtime_issues},
+                )
+            ]
+
         return success(
             data=EnvStatusResult(
                 wow_root=str(config.wow_root) if config.wow_root else None,
                 dev_path=str(config.dev_path) if config.dev_path else None,
                 data_dir=str(config.data_dir),
                 flavors=flavors,
+                mechanic_runtime=runtime_info,
+                mechanic_runtime_healthy=runtime_healthy,
+                mechanic_runtime_issues=runtime_issues,
             ),
-            reasoning=f"Environment configured with {len([f for f in flavors if f.exists])} active WoW clients",
+            reasoning=f"Environment configured with {len([f for f in flavors if f.exists])} active WoW clients; Mechanic runtime {'complete' if runtime_healthy else 'incomplete'}",
+            warnings=warnings,
             confidence=1.0,
         )
 
