@@ -214,8 +214,12 @@ Current test status: **9 tests passing**
 If an agent encounters `TOOL_NOT_FOUND` errors:
 1. Check if the tool exists in `desktop/bin/`.
 2. Check if it's a `.bat` file (Mechanic supports both `.exe` and `.bat`).
-3. For **Busted**: It requires C compilation. Run `desktop/scripts/setup_dev_env.bat`.
-4. Ensure `luarocks` is in the system PATH.
+3. Run `mech setup --verify --skip-config`; tools must execute, not merely exist.
+4. For **Busted**: it requires LuaRocks plus C compilation for dependencies such
+   as `luasystem`. Follow `desktop/README.md#windows-busted-toolchain`, then run
+   `mech setup-busted`.
+5. Ensure LuaRocks is in PATH when installing dependencies. The generated
+   `desktop/bin/busted.bat` is machine-local and must not be committed.
 
 ### Wrong Language Displayed (Locale Overwrite Hazard)
 If users report seeing Chinese/Russian/etc. instead of English:

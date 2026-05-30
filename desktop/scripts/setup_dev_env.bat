@@ -1,82 +1,91 @@
 @echo off
-setlocal
+setlocal EnableExtensions
+
 echo ==========================================
 echo   Mechanic Developer Environment Setup
 echo ==========================================
-
-REM 1. Find Visual Studio Build Tools Environment
 echo.
-echo [1/4] Finding Visual Studio Build Tools...
-set "VS_PATH="
+echo This script prepares the Windows Lua/Busted toolchain used by
+echo "mech call addon.test" and "mech setup-busted".
+echo.
 
-if exist "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat" (
-    set "VS_PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
-) else if exist "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat" (
-    set "VS_PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
-) else if exist "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat" (
-    set "VS_PATH=C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
-) else if exist "C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat" (
-    set "VS_PATH=C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
+REM 1. Find an x86 Visual Studio C++ toolchain.
+echo [1/4] Finding Visual Studio Build Tools x86 environment...
+set "VCVARS="
+set "VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
+
+if exist "%VSWHERE%" (
+    for /f "usebackq tokens=*" %%i in (`"%VSWHERE%" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -find VC\Auxiliary\Build\vcvars32.bat`) do (
+        if not defined VCVARS set "VCVARS=%%i"
+    )
 )
 
-if "%VS_PATH%"=="" (
-    echo [ERROR] Could not find Visual Studio Build Tools (vcvars64.bat).
-    echo Please install VS Build Tools with "Desktop development with C++".
+if not defined VCVARS (
+    for %%P in (
+        "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools"
+        "C:\Program Files (x86)\Microsoft Visual Studio\18\Community"
+        "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools"
+        "C:\Program Files (x86)\Microsoft Visual Studio\2022\Community"
+        "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools"
+        "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community"
+    ) do (
+        if not defined VCVARS if exist "%%~P\VC\Auxiliary\Build\vcvars32.bat" set "VCVARS=%%~P\VC\Auxiliary\Build\vcvars32.bat"
+    )
+)
+
+if not defined VCVARS (
+    echo [ERROR] Could not find vcvars32.bat.
+    echo Install "Visual Studio Build Tools" with "Desktop development with C++".
+    echo The x86 toolchain is required because the recommended LuaRocks bundle
+    echo installs a 32-bit Lua 5.1 runtime.
     exit /b 1
 )
 
-echo Found at: %VS_PATH%
-call "%VS_PATH%" >NUL
+echo Found: %VCVARS%
+call "%VCVARS%" >NUL
 echo Environment initialized.
 
-REM 2. Verify Directories
+REM 2. Verify LuaRocks.
 echo.
-echo [2/4] Verifying Dependencies...
-set "SCRIPT_DIR=%~dp0"
-set "DESKTOP_DIR=%SCRIPT_DIR%.."
-pushd "%DESKTOP_DIR%"
-set "ABS_DESKTOP_DIR=%CD%"
-popd
-
-set "LUA_INC=%ABS_DESKTOP_DIR%\include\lua\5.1"
-set "LUA_LIB=%ABS_DESKTOP_DIR%\lib"
-
-if not exist "%LUA_INC%\lua.h" (
-    echo [ERROR] Lua headers not found at: %LUA_INC%
-    exit /b 1
-)
-if not exist "%LUA_LIB%\lua5.1.lib" (
-    echo [ERROR] Lua library not found at: %LUA_LIB%
-    exit /b 1
-)
-echo Dependencies found.
-
-REM 3. Configure Luarocks
-echo.
-echo [3/4] Configuring Luarocks...
-REM Check if luarocks is in PATH
+echo [2/4] Checking LuaRocks...
 where luarocks >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (
-    echo [ERROR] 'luarocks' command not found. Please install LuaRocks and add to PATH.
-    echo Download: https://luarocks.org/
+    echo [ERROR] 'luarocks' was not found in PATH.
+    echo.
+    echo Recommended install from a Visual Studio x86 command prompt:
+    echo   cd C:\luarocks-3.13.0-win32
+    echo   install.bat /P "%%LOCALAPPDATA%%\LuaRocks51" /SELFCONTAINED /L /NOADMIN /NOREG /Q /MSVC
+    echo   set PATH=%%LOCALAPPDATA%%\LuaRocks51;%%PATH%%
     exit /b 1
 )
 
-echo Setting variables.LUA_INCDIR...
-luarocks --lua-version=5.1 config variables.LUA_INCDIR "%LUA_INC%"
-echo Setting variables.LUA_LIBDIR...
-luarocks --lua-version=5.1 config variables.LUA_LIBDIR "%LUA_LIB%"
+luarocks --version
 
-REM 4. Install Busted
+REM 3. Configure LuaRocks for MSVC and a predictable user rock tree.
 echo.
-echo [4/4] Installing Busted...
-luarocks --lua-version=5.1 install busted
+echo [3/4] Configuring LuaRocks...
+set "ROCKTREE=%APPDATA%\luarocks"
+
+luarocks --lua-version=5.1 config variables.CC cl
+luarocks --lua-version=5.1 config variables.LD link
+luarocks --lua-version=5.1 config variables.MAKE nmake
+
+REM 4. Install Busted and native dependencies.
+echo.
+echo [4/4] Installing Busted 2.2.0-1 into %ROCKTREE%...
+luarocks --lua-version=5.1 --tree "%ROCKTREE%" install busted 2.2.0-1
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Failed to install Busted.
+    echo Ensure the Visual Studio x86 environment was initialized and try again.
+    exit /b 1
+)
 
 echo.
 echo ==========================================
-echo   SUCCESS! 
-echo   
-echo   You can now run:
-echo     mech call addon.test
+echo   SUCCESS
+echo.
+echo Next steps:
+echo   set LUAROCKS_HOME=%ROCKTREE%
+echo   mech setup-busted
+echo   .\bin\busted.bat --version
 echo ==========================================
-pause

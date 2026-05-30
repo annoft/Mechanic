@@ -109,7 +109,7 @@ end)
 mech call sandbox.generate
 
 # Run tests for an addon
-mech call sandbox.test -i '{"addon": "MyAddon"}'
+mech call sandbox.test '{"addon": "MyAddon"}'
 ```
 
 ### What Failures Look Like
@@ -131,7 +131,7 @@ Tests: 42 total, 41 passed, 1 failed
 - Check the line number in the stack trace
 - Look at what the test expected vs. what it got
 - Add `print()` statements temporarily to see intermediate values
-- Run with `--verbose` for more detail: `mech call sandbox.test -i '{"addon": "MyAddon", "verbose": true}'`
+- Use the `filter` field to narrow a run: `mech call sandbox.test '{"addon": "MyAddon", "filter": "Tracker"}'`
 
 ### How It Works
 
@@ -146,6 +146,11 @@ Tests: 42 total, 41 passed, 1 failed
 ---
 
 ## Desktop Tests (Busted)
+
+Desktop Busted tests require LuaRocks, Busted, and a working C compiler for
+native dependencies such as `luasystem` on Windows. Run the Windows toolchain
+steps in [Mechanic Desktop](../../desktop/README.md#windows-busted-toolchain)
+before using `addon.test`.
 
 Create a `Tests/` folder with Busted-style specs:
 
@@ -207,10 +212,10 @@ end)
 
 ```bash
 # Run all tests
-mech call addon.test -i '{"addon": "MyAddon"}'
+mech call addon.test '{"addon": "MyAddon"}'
 
 # With coverage
-mech call addon.test -i '{"addon": "MyAddon", "coverage": true}'
+mech call addon.test '{"addon": "MyAddon", "coverage": true}'
 ```
 
 ---

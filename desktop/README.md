@@ -17,6 +17,8 @@ Local companion tool for World of Warcraft addon development with structured com
 - Python 3.10 or higher
 - World of Warcraft installed
 - Git (for version control commands)
+- Windows testing tools: Visual Studio Build Tools with **Desktop development with C++**
+  and LuaRocks, if you want `addon.test`/Busted support
 
 ### Quick Start
 
@@ -29,6 +31,9 @@ pip install -e .
 
 # Run setup (auto-discovers paths + downloads tools)
 mech setup
+
+# Verify the downloaded/generated tools
+mech setup --verify --skip-config
 
 # Start the dashboard (auto-discovers SavedVariables)
 mech dashboard
@@ -43,8 +48,41 @@ The setup command will:
 1. Auto-detect your WoW installation and `_dev_` folder
 2. Show detected paths and ask for confirmation
 3. Save configuration to `~/.mechanic/config.json`
-4. Download required tools (luacheck, stylua)
-5. Generate `busted.bat` if LuaRocks is installed
+4. Download required tools (luacheck, stylua) and detect optional Lua 5.1
+5. Generate `busted.bat` if Busted is installed through LuaRocks
+
+### Windows Busted Toolchain
+
+`addon.test` uses Busted, and Busted depends on native Lua modules such as
+`luasystem`. On Windows that means LuaRocks must run from an initialized x86
+Visual Studio C++ environment.
+
+Recommended one-time setup from `cmd.exe`:
+
+```bat
+call "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Auxiliary\Build\vcvars32.bat"
+
+set LR=%LOCALAPPDATA%\LuaRocks51
+cd /d C:\luarocks-3.13.0-win32
+install.bat /P "%LR%" /SELFCONTAINED /L /NOADMIN /NOREG /Q /MSVC
+
+set PATH=%LR%;%PATH%
+luarocks --lua-version=5.1 --tree "%APPDATA%\luarocks" install busted 2.2.0-1
+
+cd /d <path-to-mechanic>\desktop
+mech setup-busted
+bin\busted.bat --version
+```
+
+If your Visual Studio path differs, locate `vcvars32.bat` with:
+
+```bat
+"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -find VC\Auxiliary\Build\vcvars32.bat
+```
+
+You can also run `desktop\scripts\setup_dev_env.bat` after LuaRocks is on
+`PATH`; it initializes MSVC, installs `busted 2.2.0-1`, and prints the final
+`mech setup-busted` verification steps.
 
 ## Configuration
 
@@ -135,6 +173,9 @@ mech setup --skip-config
 # Regenerate busted.bat (after LuaRocks changes)
 mech setup-busted
 ```
+
+`mech setup --force` writes downloaded tools only after checksum verification,
+so a bad CDN or HTML download page cannot replace a known-good executable.
 
 ### MCP Server (for AI Agents)
 

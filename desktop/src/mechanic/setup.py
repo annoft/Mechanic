@@ -5,7 +5,10 @@ Supports Windows (direct download) and macOS (Homebrew/LuaRocks instructions).
 
 import hashlib
 import json
+import os
+import re
 import shutil
+import subprocess
 import sys
 import tempfile
 import zipfile
@@ -18,6 +21,7 @@ from urllib.error import URLError, HTTPError
 # Paths
 BIN_DIR = Path(__file__).parent.parent.parent / "bin"
 CHECKSUMS_FILE = BIN_DIR / "checksums.json"
+BUSTED_RECOMMENDED_VERSION = "2.2.0-1"
 
 
 def get_platform() -> str:
@@ -47,6 +51,14 @@ def verify_checksum(file_path: Path, expected_hash: str) -> bool:
         for chunk in iter(lambda: f.read(8192), b""):
             sha256.update(chunk)
     return sha256.hexdigest().lower() == expected_hash.lower()
+
+
+def verify_checksum_bytes(content: bytes, expected_hash: str) -> bool:
+    """Verify SHA256 checksum of in-memory content."""
+    if expected_hash == "skip" or expected_hash == "placeholder":
+        return True
+
+    return hashlib.sha256(content).hexdigest().lower() == expected_hash.lower()
 
 
 def download_file(url: str, timeout: int = 60) -> bytes:
@@ -100,6 +112,21 @@ def find_tool(name: str) -> Optional[Path]:
         if tool_path.exists():
             return tool_path
 
+    # Lua 5.1 Windows distributions often install lua5.1.exe rather than
+    # lua.exe. Treat it as the Lua tool so users do not need to create shims.
+    if name == "lua" and sys.platform == "win32":
+        lua_candidates = [BIN_DIR / "lua5.1.exe", Path("C:/Lua/lua5.1.exe")]
+        localappdata = os.environ.get("LOCALAPPDATA")
+        if localappdata:
+            lua_candidates.insert(1, Path(localappdata) / "LuaRocks51" / "lua5.1.exe")
+        for tool_path in lua_candidates:
+            if tool_path.exists():
+                return tool_path
+
+        result = shutil.which("lua5.1")
+        if result:
+            return Path(result)
+
     # 2. Check system PATH
     result = shutil.which(name)
     if result:
@@ -110,7 +137,12 @@ def find_tool(name: str) -> Optional[Path]:
 
 def get_tool_version(tool_path: Path, name: str) -> Optional[str]:
     """Try to get the version of an installed tool."""
-    import subprocess
+    ok, version, _message = probe_tool(tool_path, name)
+    return version if ok else None
+
+
+def probe_tool(tool_path: Path, name: str) -> Tuple[bool, Optional[str], Optional[str]]:
+    """Run a tool's version command and report whether it actually works."""
 
     version_flags = {
         "luacheck": ["--version"],
@@ -125,13 +157,20 @@ def get_tool_version(tool_path: Path, name: str) -> Optional[str]:
             [str(tool_path)] + flags, capture_output=True, text=True, timeout=5
         )
         output = result.stdout or result.stderr
-        # Extract version from first line
-        if output:
-            return output.strip().split("\n")[0]
-    except Exception:
-        pass
+        first_line = output.strip().split("\n")[0] if output else None
 
-    return None
+        if result.returncode != 0:
+            message = first_line or f"Exited with code {result.returncode}"
+            return False, first_line, message
+
+        if not first_line:
+            return False, None, "No version output"
+
+        return True, first_line, None
+    except Exception as e:
+        return False, None, str(e)
+
+    return False, None, "Unknown tool error"
 
 
 def download_tool_windows(
@@ -155,31 +194,62 @@ def download_tool_windows(
         if verify_checksum(target, platform_info.get("sha256", "skip")):
             return True, f"Already installed: {filename}"
 
-    url = platform_info["url"]
+    if not force:
+        existing_tool = find_tool(name)
+        if existing_tool and existing_tool != target:
+            ok, version, _message = probe_tool(existing_tool, name)
+            if ok:
+                return True, f"Already installed: {existing_tool} v{version}"
+
+    url = platform_info.get("url")
     archive_path = platform_info.get("archive_path")
+
+    if not url:
+        tool_path = find_tool(name)
+        message = platform_info.get("message") or f"Manual installation required for {name}"
+        if tool_path:
+            ok, version, error_message = probe_tool(tool_path, name)
+            if ok:
+                return True, f"Already installed: {tool_path.name} v{version}"
+            return False, f"{message}. Existing {tool_path.name} failed: {error_message}"
+        return False, message
 
     try:
         content = download_file(url)
 
-        # Handle zip archives
-        if archive_path and url.endswith(".zip"):
-            content = extract_from_zip(content, archive_path)
+        writes: List[Tuple[Path, bytes]] = []
 
-        # Write to target
-        BIN_DIR.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(content)
+        # Handle archives whenever archive_path is present. Some providers
+        # redirect from non-.zip URLs, so URL suffix is not reliable.
+        if archive_path:
+            archive_content = content
+            primary_content = extract_from_zip(archive_content, archive_path)
+            writes.append((target, primary_content))
 
-        # Verify checksum
-        expected_hash = platform_info.get("sha256", "skip")
-        if verify_checksum(target, expected_hash):
-            return True, f"Installed: {filename} v{info.get('version', '?')}"
+            for extra_file in platform_info.get("extra_files", []):
+                extra_content = extract_from_zip(archive_content, extra_file)
+                writes.append((BIN_DIR / Path(extra_file).name, extra_content))
         else:
+            writes.append((target, content))
+
+        # Verify checksum before touching the existing installation.
+        expected_hash = platform_info.get("sha256", "skip")
+        if not verify_checksum_bytes(writes[0][1], expected_hash):
             return False, f"Checksum mismatch for {filename}"
+
+        # Write only after the primary file is known-good.
+        BIN_DIR.mkdir(parents=True, exist_ok=True)
+        for write_path, write_content in writes:
+            write_path.write_bytes(write_content)
+
+        return True, f"Installed: {filename} v{info.get('version', '?')}"
 
     except HTTPError as e:
         return False, f"Download failed ({e.code}): {url}"
     except URLError as e:
         return False, f"Network error: {e.reason}"
+    except zipfile.BadZipFile:
+        return False, f"Downloaded archive was not a valid ZIP: {url}"
     except Exception as e:
         return False, f"Error: {str(e)}"
 
@@ -223,17 +293,18 @@ def setup_tools(force: bool = False, verify_only: bool = False) -> List[Dict[str
         required = info.get("required", True)
 
         if verify_only:
-            # Just check if tool exists
+            # Check that the tool exists and can run its version command.
             tool_path = find_tool(name)
             if tool_path:
-                version = get_tool_version(tool_path, name)
+                ok, version, message = probe_tool(tool_path, name)
                 results.append(
                     {
                         "name": name,
-                        "installed": True,
+                        "installed": ok,
                         "path": str(tool_path),
                         "version": version or info.get("version"),
                         "required": required,
+                        "message": None if ok else f"Found but failed to run: {message}",
                     }
                 )
             else:
@@ -324,7 +395,12 @@ def get_setup_summary(results: List[Dict[str, Any]]) -> Dict[str, Any]:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 
-def find_luarocks_paths() -> Optional[Dict[str, Path]]:
+def _version_key(path: Path) -> Tuple[int, ...]:
+    """Sort LuaRocks versions naturally enough for busted 2.x folders."""
+    return tuple(int(part) for part in re.findall(r"\d+", path.name))
+
+
+def find_luarocks_paths() -> Optional[Dict[str, Any]]:
     """
     Find LuaRocks installation and return relevant paths.
 
@@ -334,22 +410,27 @@ def find_luarocks_paths() -> Optional[Dict[str, Path]]:
         - lib_path: Native libraries path
         - busted_bin: Path to busted script
     """
-    import os
-
-    # Check common locations
     home = Path.home()
+    candidates: List[Path] = []
 
-    candidates = [
-        # User install (most common on Windows)
-        home / "AppData" / "Roaming" / "luarocks",
-        # System install
-        Path("C:/Program Files/luarocks"),
-        Path("C:/Program Files (x86)/luarocks"),
-    ]
+    def add_candidate(value: Optional[str | Path]) -> None:
+        if not value:
+            return
+        path = Path(value).expanduser()
+        if path not in candidates:
+            candidates.append(path)
 
-    # Also check LUAROCKS_HOME env var
-    if "LUAROCKS_HOME" in os.environ:
-        candidates.insert(0, Path(os.environ["LUAROCKS_HOME"]))
+    add_candidate(os.environ.get("LUAROCKS_HOME"))
+    add_candidate(os.environ.get("MECHANIC_LUAROCKS_TREE"))
+
+    appdata = os.environ.get("APPDATA")
+    localappdata = os.environ.get("LOCALAPPDATA")
+    add_candidate(Path(appdata) / "luarocks" if appdata else None)
+    add_candidate(home / "AppData" / "Roaming" / "luarocks")
+    add_candidate(Path(localappdata) / "LuaRocks51" if localappdata else None)
+    add_candidate(Path(localappdata) / "LuaRocks51" / "systree" if localappdata else None)
+    add_candidate("C:/Program Files/luarocks")
+    add_candidate("C:/Program Files (x86)/luarocks")
 
     for luarocks_home in candidates:
         if not luarocks_home.exists():
@@ -364,15 +445,20 @@ def find_luarocks_paths() -> Optional[Dict[str, Path]]:
             # Get highest version
             versions = list(rocks_dir.iterdir())
             if versions:
-                latest = sorted(versions)[-1]
-                busted_bin = latest / "bin" / "busted"
-                if busted_bin.exists():
-                    return {
-                        "luarocks_home": luarocks_home,
-                        "share_path": share_path,
-                        "lib_path": lib_path,
-                        "busted_bin": busted_bin,
-                    }
+                latest = sorted(versions, key=_version_key)[-1]
+                for busted_bin in (
+                    latest / "bin" / "busted",
+                    latest / "bin" / "busted.bat",
+                    latest / "bin" / "busted.lua",
+                ):
+                    if busted_bin.exists():
+                        return {
+                            "luarocks_home": luarocks_home,
+                            "share_path": share_path,
+                            "lib_path": lib_path,
+                            "busted_bin": busted_bin,
+                            "busted_version": latest.name,
+                        }
 
     return None
 
@@ -404,6 +490,7 @@ def generate_busted_bat(output_path: Optional[Path] = None) -> Tuple[bool, str]:
     share_path = paths["share_path"]
     lib_path = paths["lib_path"]
     busted_bin = paths["busted_bin"]
+    busted_version = paths.get("busted_version", BUSTED_RECOMMENDED_VERSION)
 
     # Escape backslashes for Lua string
     share_lua = str(share_path).replace("\\", "\\\\")
@@ -412,8 +499,7 @@ def generate_busted_bat(output_path: Optional[Path] = None) -> Tuple[bool, str]:
 
     bat_content = f'''@echo off
 setlocal
-set "LUAROCKS_SYSCONFDIR=C:\\Program Files\\luarocks"
-"{lua_path}" -e "package.path=\\"{share_lua}\\\\?.lua;{share_lua}\\\\?\\\\init.lua;\\"..package.path;package.cpath=\\"{lib_lua}\\\\?.dll;\\"..package.cpath;local k,l,_=pcall(require,'luarocks.loader') _=k and l.add_context('busted','2.2.0-1')" "{busted_lua}" %*
+"{lua_path}" -e "package.path=\\"{share_lua}\\\\?.lua;{share_lua}\\\\?\\\\init.lua;\\"..package.path;package.cpath=\\"{lib_lua}\\\\?.dll;\\"..package.cpath;local k,l=pcall(require,'luarocks.loader') if k and l.add_context then pcall(l.add_context,'busted','{busted_version}') end" "{busted_lua}" %*
 exit /b %ERRORLEVEL%
 '''
 

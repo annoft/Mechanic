@@ -839,8 +839,12 @@ def setup(ctx, verify, force, skip_config):
                 f"    [OK] {tool['name']} v{tool.get('version', '?')}", fg="green"
             )
         else:
+            required = tool.get("required", True)
+            marker = "[X]" if required else "[!]"
+            color = "red" if required else "yellow"
             click.secho(
-                f"    [X] {tool['name']}: {tool.get('message', 'missing')}", fg="red"
+                f"    {marker} {tool['name']}: {tool.get('message', 'missing')}",
+                fg=color,
             )
 
     # ── Phase 3: Busted Setup ───────────────────────────────────────────────────

@@ -76,18 +76,18 @@ mech addon.output
 mech reload
 
 # Validate, lint, format, test — all in one command
-mech call addon.validate -i '{"addon": "MyAddon"}'
+mech call addon.validate '{"addon": "MyAddon"}'
 
 # Execute Lua code in-game and get results (round-trip)
-mech call lua.queue -i '{"code": ["GetMoney()/10000"], "labels": ["gold"]}'
+mech call lua.queue '{"code": ["GetMoney()/10000"], "labels": ["gold"]}'
 # Then /reload in WoW, and read results:
 mech call lua.results
 
 # Search WoW APIs offline
-mech call api.search -i '{"query": "*Spell*", "limit": 10}'
+mech call api.search '{"query": "*Spell*", "limit": 10}'
 
 # Queue API tests to run in-game
-mech call api.queue -i '{"apis": ["C_Spell.GetSpellInfo"], "params": {"C_Spell.GetSpellInfo": {"spellID": 8690}}}'
+mech call api.queue '{"apis": ["C_Spell.GetSpellInfo"], "params": {"C_Spell.GetSpellInfo": {"spellID": 8690}}}'
 ```
 
 This means your AI coding assistant can:
@@ -111,7 +111,7 @@ Test your addon's Core logic without WoW running. The sandbox generates 5000+ AP
 mech call sandbox.generate
 
 # Run tests in ~30ms (vs. 30s reload cycles)
-mech call sandbox.test -i '{"addon": "MyAddon"}'
+mech call sandbox.test '{"addon": "MyAddon"}'
 ```
 
 - **Fast iteration** — 30ms test feedback vs. 30-second `/reload` cycles
@@ -128,11 +128,15 @@ See the [Testing Guide](docs/integration/testing.md) for test file conventions a
 # 1. Install (one time)
 cd "!Mechanic/desktop"
 pip install -e .
+mech setup
 
-# 2. Start the dashboard
+# 2. Verify tools
+mech setup --verify --skip-config
+
+# 3. Start the dashboard
 mech
 
-# 3. Open in browser
+# 4. Open in browser
 # → http://localhost:3100
 ```
 
@@ -258,14 +262,16 @@ Mechanic is built with a structured command architecture where every feature is 
 
 - Python 3.10+
 - WoW client with SavedVariables access
-- Optional: LuaRocks + Busted for unit testing
+- Optional for `addon.test`: Visual Studio Build Tools C++ workload plus
+  LuaRocks/Busted. See [desktop setup](desktop/README.md#windows-busted-toolchain).
 
 ### First-Time Setup
 
 ```bash
 cd desktop
 pip install -e .
-mech setup  # Downloads luacheck, stylua
+mech setup
+mech setup --verify --skip-config
 ```
 
 ### Running Tests

@@ -9,11 +9,10 @@
       "version": "5.1.5",
       "required": false,
       "windows": {
-        "url": "https://sourceforge.net/projects/luabinaries/files/5.1.5/Tools%20Executables/lua-5.1.5_Win64_bin.zip/download",
+        "url": null,
         "sha256": "a45f0f8376d3059a8bc79a4d6d07536cc1d9dec429852cfbc1f899ee96d6cd88",
         "filename": "lua.exe",
-        "archive_path": "lua.exe",
-        "extra_files": ["lua5.1.dll"]
+        "message": "Optional Lua 5.1 runtime not found. Install LuaRocks self-contained or add lua/lua5.1 to PATH; see desktop/README.md#windows-busted-toolchain"
       },
       "darwin": {
         "install_cmd": "brew install lua@5.1",

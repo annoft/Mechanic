@@ -41,6 +41,9 @@ venv/
 .venv/
 .env
 desktop/data/
+desktop/bin/*.dll
+desktop/bin/*.exe
+desktop/bin/busted.bat
 nul
 
 nul
