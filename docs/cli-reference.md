@@ -1,6 +1,6 @@
 # CLI Reference
 
-> Auto-generated from `mechanic-desktop` v0.1.0 on 2026-05-31
+> Auto-generated from `mechanic-desktop` v0.1.0 on 2026-06-01
 
 This document lists all available Mechanic CLI commands with their inputs and outputs.
 
@@ -50,8 +50,8 @@ This document lists all available Mechanic CLI commands with their inputs and ou
 | `fencore-catalog` | Get full catalog of FenCore logic domains and functions |
 | `fencore-info` | Get detailed info about a specific FenCore function |
 | `fencore-search` | Search FenCore functions by name or description |
-| `lua.queue` | Queue Lua code snippets for in-game execution. After running... |
-| `lua.results` | Get results from the last Lua eval queue execution |
+| `lua.queue` | Queue Lua snippets. First /reload executes them; second /rel... |
+| `lua.results` | Read Lua eval results already persisted to SavedVariables |
 | `perf.baseline` | Record a performance baseline measurement for an addon |
 | `perf.compare` | Compare current performance against baseline and detect regr... |
 | `perf.list` | List all addons with performance baselines |
@@ -510,21 +510,28 @@ Scan wow-ui-source for atlas icons and generate searchable index
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `source_path` | `string` | Yes | Path to wow-ui-source repository root |
+| `source_path` | `string` | No (default: `None`) | Optional path to wow-ui-source repository root or Interface/AddOns. If omitted, Mechanic tries MECHANIC_WOW_UI_SOURCE, config wow_ui_source, and common local source paths. |
 | `output_path` | `string` | No (default: `None`) | Output path for atlas_index.json (defaults to data_dir) |
 
 **Example:**
 
-Bash/Zsh:
+Auto-discover:
 
 ```bash
-mech call atlas.scan '{"source_path": "<source_path>"}'
+mech call atlas.scan '{}'
+```
+
+Explicit source path:
+
+```bash
+mech call atlas.scan '{"source_path": "C:/path/to/wow-ui-source"}'
 ```
 
 PowerShell:
 
 ```powershell
-mech call atlas.scan '{\"source_path\": \"<source_path>\"}'
+mech call atlas.scan '{}'
+mech call atlas.scan '{\"source_path\": \"C:/path/to/wow-ui-source\"}'
 ```
 
 ---
@@ -1110,7 +1117,7 @@ mech call fencore-search '{\"query\": \"<query>\"}'
 
 ### `lua.queue`
 
-Queue Lua code snippets for in-game execution. After running this, /reload in WoW to execute.
+Queue Lua snippets. First /reload executes them; second /reload or game exit persists results to SavedVariables for lua.results.
 
 **Parameters:**
 
@@ -1142,11 +1149,13 @@ mech call lua.queue @payload.json
 mech call lua.queue '@payload.json'
 ```
 
+Then in WoW: first `/reload` executes the queue; a second `/reload` or game exit/logout writes results to SavedVariables on disk for `mech call lua.results`.
+
 ---
 
 ### `lua.results`
 
-Get results from the last Lua eval queue execution
+Read Lua eval results already persisted to SavedVariables
 
 **Parameters:** None
 
@@ -1424,6 +1433,7 @@ mech call <command> '@payload.json'
 ```bash
 # File payloads are recommended for array inputs such as lua.queue
 mech call lua.queue @payload.json
+# First /reload executes; second /reload or game exit/logout writes results to SavedVariables on disk for lua.results
 
 # Shorthand for common commands
 mech addon.output  # Direct command shortcut

@@ -257,6 +257,245 @@ async def test_libs_sync_missing_addon():
     assert result.error is not None
 
 
+@pytest.mark.parametrize("manifest_name", ["lib.xml", "widget.xml"])
+@pytest.mark.asyncio
+async def test_libs_check_accepts_root_level_loadable_manifest(tmp_path, manifest_name):
+    """Root-level loadable files do not need to match the library folder name."""
+    addon_path = tmp_path / "TestAddon"
+    libs_path = addon_path / "Libs"
+    lib_path = libs_path / "ManifestLib-1.0"
+    lib_path.mkdir(parents=True)
+    (addon_path / "TestAddon.toc").write_text("## Interface: 120005\n", encoding="utf-8")
+    (libs_path / "libs.json").write_text(
+        '{"mode":"include","libraries":{"ManifestLib-1.0":"latest"}}',
+        encoding="utf-8",
+    )
+    (lib_path / manifest_name).write_text("<Ui></Ui>\n", encoding="utf-8")
+
+    server = get_server()
+    with patch("mechanic.commands.environment.find_addon_path", return_value=addon_path):
+        result = await server.execute("libs.check", {"addon": "TestAddon"})
+
+    data = assert_success(result)
+    lib_status = next(lib for lib in data.libraries if lib.name == "ManifestLib-1.0")
+    assert lib_status.status == "ok"
+    assert data.issues == []
+
+
+@pytest.mark.asyncio
+async def test_libs_check_reports_empty_configured_library(tmp_path):
+    """Configured library folders without loadable files are incomplete."""
+    addon_path = tmp_path / "TestAddon"
+    libs_path = addon_path / "Libs"
+    (libs_path / "EmptyLib-1.0").mkdir(parents=True)
+    (addon_path / "TestAddon.toc").write_text("## Interface: 120005\n", encoding="utf-8")
+    (libs_path / "libs.json").write_text(
+        '{"mode":"include","libraries":{"EmptyLib-1.0":"latest"}}',
+        encoding="utf-8",
+    )
+
+    server = get_server()
+    with patch("mechanic.commands.environment.find_addon_path", return_value=addon_path):
+        result = await server.execute("libs.check", {"addon": "TestAddon"})
+
+    data = assert_success(result)
+    lib_status = next(lib for lib in data.libraries if lib.name == "EmptyLib-1.0")
+    assert lib_status.status == "incomplete"
+    assert any("Incomplete: EmptyLib-1.0" in issue for issue in data.issues)
+
+
+@pytest.mark.asyncio
+async def test_libs_check_reports_non_loadable_only_configured_library(tmp_path):
+    """Configured library folders with only docs are incomplete."""
+    addon_path = tmp_path / "TestAddon"
+    libs_path = addon_path / "Libs"
+    lib_path = libs_path / "DocsOnlyLib-1.0"
+    lib_path.mkdir(parents=True)
+    (addon_path / "TestAddon.toc").write_text("## Interface: 120005\n", encoding="utf-8")
+    (libs_path / "libs.json").write_text(
+        '{"mode":"include","libraries":{"DocsOnlyLib-1.0":"latest"}}',
+        encoding="utf-8",
+    )
+    (lib_path / "README.md").write_text("# Docs only\n", encoding="utf-8")
+
+    server = get_server()
+    with patch("mechanic.commands.environment.find_addon_path", return_value=addon_path):
+        result = await server.execute("libs.check", {"addon": "TestAddon"})
+
+    data = assert_success(result)
+    lib_status = next(lib for lib in data.libraries if lib.name == "DocsOnlyLib-1.0")
+    assert lib_status.status == "incomplete"
+    assert any("Incomplete: DocsOnlyLib-1.0" in issue for issue in data.issues)
+
+
+@pytest.mark.asyncio
+async def test_libs_sync_repairs_incomplete_existing_library(tmp_path):
+    """Existing incomplete target directories are updated from a valid source."""
+    addon_path = tmp_path / "TestAddon"
+    libs_path = addon_path / "Libs"
+    target_path = libs_path / "RepairLib-1.0"
+    source_root = tmp_path / "SharedLibs"
+    source_path = source_root / "RepairLib-1.0"
+    target_path.mkdir(parents=True)
+    source_path.mkdir(parents=True)
+    (addon_path / "TestAddon.toc").write_text("## Interface: 120005\n", encoding="utf-8")
+    (libs_path / "libs.json").write_text(
+        '{"mode":"include","libraries":{"RepairLib-1.0":"latest"}}',
+        encoding="utf-8",
+    )
+    (source_path / "RepairLib-1.0.lua").write_text(
+        "local MAJOR, MINOR = 'RepairLib-1.0', 1\n", encoding="utf-8"
+    )
+    config = SimpleNamespace(dev_path=tmp_path, data_dir=tmp_path)
+
+    server = get_server()
+    with patch("mechanic.commands.environment.find_addon_path", return_value=addon_path), patch(
+        "mechanic.commands.environment.get_config", return_value=config
+    ):
+        result = await server.execute(
+            "libs.sync",
+            {"addon": "TestAddon", "source": str(source_root)},
+        )
+
+    data = assert_success(result)
+    action = next(action for action in data.actions if action.library == "RepairLib-1.0")
+    assert action.action == "update"
+    assert data.updated == 1
+    assert (target_path / "RepairLib-1.0.lua").exists()
+
+
+@pytest.mark.asyncio
+async def test_libs_sync_errors_when_incomplete_library_has_no_source(tmp_path):
+    """Incomplete target directories without a source are not silently skipped."""
+    addon_path = tmp_path / "TestAddon"
+    libs_path = addon_path / "Libs"
+    (libs_path / "MissingSource-1.0").mkdir(parents=True)
+    (addon_path / "TestAddon.toc").write_text("## Interface: 120005\n", encoding="utf-8")
+    (libs_path / "libs.json").write_text(
+        '{"mode":"include","libraries":{"MissingSource-1.0":"latest"}}',
+        encoding="utf-8",
+    )
+    config = SimpleNamespace(dev_path=tmp_path, data_dir=tmp_path)
+
+    server = get_server()
+    with patch("mechanic.commands.environment.find_addon_path", return_value=addon_path), patch(
+        "mechanic.commands.environment.get_config", return_value=config
+    ):
+        result = await server.execute("libs.sync", {"addon": "TestAddon"})
+
+    data = assert_success(result)
+    action = next(
+        action for action in data.actions if action.library == "MissingSource-1.0"
+    )
+    assert action.action == "error"
+    assert data.errors == 1
+    assert "incomplete" in action.reason
+
+
+@pytest.mark.asyncio
+async def test_libs_sync_invalid_library_source_does_not_use_sibling_addon(tmp_path):
+    """Invalid per-library source config is not masked by sibling addon Libs."""
+    addon_path = tmp_path / "TestAddon"
+    libs_path = addon_path / "Libs"
+    target_path = libs_path / "FallbackLib-1.0"
+    sibling_source = tmp_path / "SourceAddon" / "SourceAddon" / "Libs" / "FallbackLib-1.0"
+    libs_path.mkdir(parents=True)
+    sibling_source.mkdir(parents=True)
+    (addon_path / "TestAddon.toc").write_text("## Interface: 120005\n", encoding="utf-8")
+    (libs_path / "libs.json").write_text(
+        (
+            '{"mode":"include","libraries":'
+            '{"FallbackLib-1.0":{"version":"latest","source":"MissingLibs/FallbackLib-1.0"}}}'
+        ),
+        encoding="utf-8",
+    )
+    (sibling_source / "FallbackLib-1.0.lua").write_text("new\n", encoding="utf-8")
+    config = SimpleNamespace(dev_path=tmp_path, data_dir=tmp_path)
+
+    server = get_server()
+    with patch("mechanic.commands.environment.find_addon_path", return_value=addon_path), patch(
+        "mechanic.commands.environment.get_config", return_value=config
+    ):
+        result = await server.execute("libs.sync", {"addon": "TestAddon"})
+
+    data = assert_success(result)
+    action = next(action for action in data.actions if action.library == "FallbackLib-1.0")
+    assert action.action == "error"
+    assert action.source is None
+    assert data.errors == 1
+    assert not target_path.exists()
+
+
+@pytest.mark.asyncio
+async def test_libs_sync_force_uses_external_source_not_target(tmp_path):
+    """Force sync excludes the installed target when finding a source."""
+    addon_path = tmp_path / "TestAddon"
+    libs_path = addon_path / "Libs"
+    target_path = libs_path / "ForceLib-1.0"
+    source_path = tmp_path / "ForceLib-1.0"
+    target_path.mkdir(parents=True)
+    source_path.mkdir(parents=True)
+    (addon_path / "TestAddon.toc").write_text("## Interface: 120005\n", encoding="utf-8")
+    (libs_path / "libs.json").write_text(
+        '{"mode":"include","libraries":{"ForceLib-1.0":"latest"}}',
+        encoding="utf-8",
+    )
+    (target_path / "ForceLib-1.0.lua").write_text("old\n", encoding="utf-8")
+    (source_path / "ForceLib-1.0.lua").write_text("new\n", encoding="utf-8")
+    config = SimpleNamespace(dev_path=tmp_path, data_dir=tmp_path)
+
+    server = get_server()
+    with patch("mechanic.commands.environment.find_addon_path", return_value=addon_path), patch(
+        "mechanic.commands.environment.get_config", return_value=config
+    ):
+        result = await server.execute(
+            "libs.sync",
+            {"addon": "TestAddon", "force": True},
+        )
+
+    data = assert_success(result)
+    action = next(action for action in data.actions if action.library == "ForceLib-1.0")
+    assert action.action == "update"
+    assert action.source == str(source_path)
+    assert (target_path / "ForceLib-1.0.lua").read_text(encoding="utf-8") == "new\n"
+
+
+@pytest.mark.asyncio
+async def test_libs_sync_dry_run_does_not_write_debug_file(tmp_path):
+    """Dry-run sync does not write troubleshooting files into data_dir."""
+    addon_path = tmp_path / "TestAddon"
+    libs_path = addon_path / "Libs"
+    source_root = tmp_path / "SharedLibs"
+    source_path = source_root / "DryRunLib-1.0"
+    data_dir = tmp_path / "data"
+    libs_path.mkdir(parents=True)
+    source_path.mkdir(parents=True)
+    data_dir.mkdir()
+    (addon_path / "TestAddon.toc").write_text("## Interface: 120005\n", encoding="utf-8")
+    (libs_path / "libs.json").write_text(
+        '{"mode":"include","libraries":{"DryRunLib-1.0":"latest"}}',
+        encoding="utf-8",
+    )
+    (source_path / "DryRunLib-1.0.lua").write_text("new\n", encoding="utf-8")
+    config = SimpleNamespace(dev_path=tmp_path, data_dir=data_dir)
+
+    server = get_server()
+    with patch("mechanic.commands.environment.find_addon_path", return_value=addon_path), patch(
+        "mechanic.commands.environment.get_config", return_value=config
+    ):
+        result = await server.execute(
+            "libs.sync",
+            {"addon": "TestAddon", "source": str(source_root), "dry_run": True},
+        )
+
+    data = assert_success(result)
+    action = next(action for action in data.actions if action.library == "DryRunLib-1.0")
+    assert action.action == "copy"
+    assert data.copied == 1
+    assert not (libs_path / "DryRunLib-1.0").exists()
+    assert not (data_dir / "libs_sync_debug.json").exists()
+
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # API Reference Commands (api.*)
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -318,10 +557,11 @@ async def test_api_list_by_namespace():
 
 
 @pytest.mark.asyncio
-async def test_api_queue():
+async def test_api_queue(tmp_path):
     """Test api.queue accepts API test requests."""
     server = get_server()
-    result = await server.execute("api.queue", {"apis": ["UnitHealth", "UnitName"]})
+    with patch("mechanic.commands.api.find_addon_path", return_value=tmp_path):
+        result = await server.execute("api.queue", {"apis": ["UnitHealth", "UnitName"]})
 
     if result.success:
         data = assert_success(result)
@@ -343,13 +583,14 @@ async def test_api_stats():
 # ═══════════════════════════════════════════════════════════════════════════════
 
 @pytest.mark.asyncio
-async def test_lua_queue():
+async def test_lua_queue(tmp_path):
     """Test lua.queue accepts Lua code for evaluation."""
     server = get_server()
     # lua.queue expects a list of code strings
-    result = await server.execute("lua.queue", {
-        "code": ["return 1 + 1"]
-    })
+    with patch("mechanic.commands.lua.find_addon_path", return_value=tmp_path):
+        result = await server.execute("lua.queue", {
+            "code": ["return 1 + 1"]
+        })
 
     data = assert_success(result)
     assert_has_reasoning(result)
@@ -563,6 +804,9 @@ async def test_docs_generate_uses_shell_safe_payload_examples(tmp_path):
 
     assert_success(result)
     text = output_path.read_text(encoding="utf-8")
+    from mechanic.commands.atlas import DEFAULT_WOW_UI_SOURCE
+
+    private_fallback = str(DEFAULT_WOW_UI_SOURCE).replace("\\", "/")
 
     assert "```powershell" in text
     assert 'mech call <command> \'{\\"param\\": \\"value\\"}\'' in text
@@ -571,6 +815,11 @@ async def test_docs_generate_uses_shell_safe_payload_examples(tmp_path):
     assert '"code": [' in text
     assert '"labels": [' in text
     assert "mech call lua.queue '@payload.json'" in text
+    assert "second `/reload` or game exit/logout writes results to SavedVariables on disk" in text
+    assert "mech call atlas.scan '{}'" in text
+    assert "C:/path/to/wow-ui-source" in text
+    assert private_fallback not in text
+    assert 'mech call atlas.search \'{"query": "<query>"}\'' in text
     assert 'mech call lua.queue \'{"code": "<code>"}\'' not in text
 
 
@@ -785,14 +1034,104 @@ async def test_atlas_scan_missing_source():
 
 
 @pytest.mark.asyncio
+async def test_atlas_scan_without_source_reports_discovery_hint():
+    """atlas.scan {} returns an actionable error when no source can be found."""
+    server = get_server()
+
+    with patch("mechanic.commands.atlas._get_wow_ui_source_candidates", return_value=[]):
+        result = await server.execute("atlas.scan", {})
+
+    err = assert_error(result, "SOURCE_NOT_DISCOVERED")
+    assert err.code != "COMMAND_EXECUTION_ERROR"
+    assert "mech call atlas.scan" in err.suggestion
+    assert "source_path" in err.suggestion
+    assert "MECHANIC_WOW_UI_SOURCE" in err.suggestion
+    assert "C:/path/to/wow-ui-source" in err.suggestion
+    from mechanic.commands.atlas import DEFAULT_WOW_UI_SOURCE
+
+    assert str(DEFAULT_WOW_UI_SOURCE).replace("\\", "/") not in err.suggestion
+
+
+@pytest.mark.asyncio
+async def test_atlas_scan_without_source_uses_discovered_candidate(tmp_path):
+    """atlas.scan {} can use an auto-discovered valid wow-ui-source tree."""
+    source_root = tmp_path / "wow-ui-source"
+    blizzard_path = source_root / "Interface" / "AddOns" / "Blizzard_ActionBar"
+    blizzard_path.mkdir(parents=True)
+    (blizzard_path / "Test.lua").write_text(
+        'frame:SetAtlas("UI-Discovered-Atlas")',
+        encoding="utf-8",
+    )
+    config = SimpleNamespace(data_dir=tmp_path, dev_path=None, wow_ui_source=None)
+
+    server = get_server()
+    with (
+        patch(
+            "mechanic.commands.atlas._get_wow_ui_source_candidates",
+            return_value=[source_root],
+        ),
+        patch("mechanic.commands.atlas.get_config", return_value=config),
+    ):
+        result = await server.execute("atlas.scan", {})
+
+    data = assert_success(result)
+    assert data.atlas_count == 1
+    assert Path(data.output_file).exists()
+
+
+@pytest.mark.asyncio
+async def test_atlas_scan_accepts_root_and_interface_addons_path(tmp_path):
+    """Explicit wow-ui-source root and Interface/AddOns paths remain valid."""
+    addons_path = tmp_path / "Interface" / "AddOns"
+    blizzard_path = addons_path / "Blizzard_ActionBar"
+    blizzard_path.mkdir(parents=True)
+    (blizzard_path / "Test.xml").write_text(
+        '<Texture atlas="UI-Test-Atlas" />',
+        encoding="utf-8",
+    )
+    output_path = tmp_path / "atlas_index.json"
+
+    server = get_server()
+    root_result = await server.execute(
+        "atlas.scan",
+        {"source_path": str(tmp_path), "output_path": str(tmp_path / "root_index.json")},
+    )
+    root_data = assert_success(root_result)
+    assert root_data.atlas_count == 1
+
+    result = await server.execute(
+        "atlas.scan",
+        {"source_path": str(addons_path), "output_path": str(output_path)},
+    )
+
+    data = assert_success(result)
+    assert data.atlas_count == 1
+    assert output_path.exists()
+
+
+@pytest.mark.asyncio
 async def test_atlas_search_no_index():
     """Test atlas.search handles missing index gracefully."""
     server = get_server()
-    # This will fail if no index exists, which is expected in test env
-    result = await server.execute("atlas.search", {"query": "sword"})
+    with patch("mechanic.commands.atlas._find_atlas_index", return_value=None):
+        result = await server.execute("atlas.search", {"query": "sword"})
 
-    # Either succeeds (if index exists) or errors
-    assert result is not None
+    err = assert_error(result, "INDEX_NOT_FOUND")
+    assert "mech call atlas.scan" in err.suggestion
+    assert "source_path" in err.suggestion
+    assert "C:/path/to/wow-ui-source" in err.suggestion
+    from mechanic.commands.atlas import DEFAULT_WOW_UI_SOURCE
+
+    assert str(DEFAULT_WOW_UI_SOURCE).replace("\\", "/") not in err.suggestion
+
+
+def test_mcp_atlas_examples_match_current_schema():
+    """MCP examples use current atlas field names."""
+    from mechanic.mcp_server import TOOL_EXAMPLES
+
+    assert TOOL_EXAMPLES["atlas.scan"] == "{}"
+    assert '"query"' in TOOL_EXAMPLES["atlas.search"]
+    assert '"pattern"' not in TOOL_EXAMPLES["atlas.search"]
 
 
 def test_all_commands_registered():

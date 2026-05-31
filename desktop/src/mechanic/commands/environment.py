@@ -464,7 +464,7 @@ def register_commands(server):
         name: str
         configured_version: Optional[str] = None
         installed_version: Optional[str] = None
-        status: str = "ok"  # ok, missing, extra, outdated
+        status: str = "ok"  # ok, missing, incomplete, extra, outdated
         path: Optional[str] = None
 
     class LibsCheckResult(BaseModel):
@@ -501,6 +501,37 @@ def register_commands(server):
                 pass
         return None
 
+    LOADABLE_LIBRARY_SUFFIXES = (".lua", ".xml", ".toc")
+
+    def _inspect_library_install(
+        lib_path: Path, lib_name: str
+    ) -> tuple[bool, Optional[str], Optional[str]]:
+        """Check whether a library directory has a root-level loadable file."""
+        if not lib_path.exists():
+            return False, "directory is missing", None
+        if not lib_path.is_dir():
+            return False, "path is not a directory", None
+
+        try:
+            root_entries = list(lib_path.iterdir())
+        except OSError as exc:
+            return False, f"cannot inspect directory: {exc}", None
+
+        if any(
+            entry.is_file() and entry.suffix.lower() in LOADABLE_LIBRARY_SUFFIXES
+            for entry in root_entries
+        ):
+            return True, None, _extract_lib_version(lib_path)
+
+        expected_text = "root-level .lua, .xml, or .toc file"
+        if not root_entries:
+            return False, f"empty directory; expected {expected_text}", None
+        return (
+            False,
+            f"missing loadable file; expected {expected_text}",
+            _extract_lib_version(lib_path),
+        )
+
     @server.command(
         name="libs.check",
         description="Check addon library status against libs.json config",
@@ -536,7 +567,14 @@ def register_commands(server):
         installed_libs = {}
         for item in libs_path.iterdir():
             if item.is_dir() and item.name != "__pycache__":
-                installed_libs[item.name] = _extract_lib_version(item)
+                complete, incomplete_reason, installed_version = (
+                    _inspect_library_install(item, item.name)
+                )
+                installed_libs[item.name] = {
+                    "complete": complete,
+                    "incomplete_reason": incomplete_reason,
+                    "installed_version": installed_version,
+                }
 
         libraries = []
         issues = []
@@ -544,33 +582,50 @@ def register_commands(server):
         if has_config and config_mode == "include":
             # Check for missing configured libs
             for lib_name, configured_version in configured_libs.items():
+                configured_version_label = _get_lib_version_config(configured_version)
                 if lib_name in installed_libs:
+                    lib_info = installed_libs[lib_name]
+                    if lib_info["complete"]:
+                        libraries.append(
+                            LibStatus(
+                                name=lib_name,
+                                configured_version=configured_version_label,
+                                installed_version=lib_info["installed_version"],
+                                status="ok",
+                                path=str(libs_path / lib_name),
+                            )
+                        )
+                        continue
+
                     libraries.append(
                         LibStatus(
                             name=lib_name,
-                            configured_version=configured_version,
-                            installed_version=installed_libs[lib_name],
-                            status="ok",
+                            configured_version=configured_version_label,
+                            installed_version=lib_info["installed_version"],
+                            status="incomplete",
                             path=str(libs_path / lib_name),
                         )
+                    )
+                    issues.append(
+                        f"Incomplete: {lib_name} ({lib_info['incomplete_reason']})"
                     )
                 else:
                     libraries.append(
                         LibStatus(
                             name=lib_name,
-                            configured_version=configured_version,
+                            configured_version=configured_version_label,
                             status="missing",
                         )
                     )
                     issues.append(f"Missing: {lib_name}")
 
             # Check for extra libs not in config
-            for lib_name, installed_version in installed_libs.items():
+            for lib_name, lib_info in installed_libs.items():
                 if lib_name not in configured_libs and lib_name != "libs.json":
                     libraries.append(
                         LibStatus(
                             name=lib_name,
-                            installed_version=installed_version,
+                            installed_version=lib_info["installed_version"],
                             status="extra",
                             path=str(libs_path / lib_name),
                         )
@@ -578,12 +633,12 @@ def register_commands(server):
                     issues.append(f"Extra (not in config): {lib_name}")
         else:
             # No config - just report what's installed
-            for lib_name, installed_version in installed_libs.items():
+            for lib_name, lib_info in installed_libs.items():
                 libraries.append(
                     LibStatus(
                         name=lib_name,
-                        installed_version=installed_version,
-                        status="ok",
+                        installed_version=lib_info["installed_version"],
+                        status="ok" if lib_info["complete"] else "incomplete",
                         path=str(libs_path / lib_name),
                     )
                 )
@@ -737,6 +792,7 @@ def register_commands(server):
         lib_config,
         default_source: Optional[Path],
         dev_path: Optional[Path],
+        exclude_path: Optional[Path] = None,
     ) -> Optional[Path]:
         """Find the source path for a library.
 
@@ -745,24 +801,33 @@ def register_commands(server):
         2. Default source path (from command input or auto-detected)
         3. Standalone repo in dev_path (e.g., _dev_/FenUI)
         """
+        excluded = exclude_path.resolve() if exclude_path else None
+
+        def is_usable_source(path: Path) -> bool:
+            if excluded and path.resolve() == excluded:
+                return False
+            return _inspect_library_install(path, lib_name)[0]
+
         # 1. Check per-library source config
         if isinstance(lib_config, dict) and lib_config.get("source"):
             custom_source = Path(lib_config["source"])
             # Handle relative paths (relative to dev_path)
             if not custom_source.is_absolute() and dev_path:
                 custom_source = dev_path / custom_source
-            if custom_source.exists():
+            if is_usable_source(custom_source):
                 return custom_source
+            return None
 
         # 2. Check default source path
-        if default_source and (default_source / lib_name).exists():
-            return default_source / lib_name
+        if default_source:
+            source_path = default_source / lib_name
+            if is_usable_source(source_path):
+                return source_path
 
         # 3. Check for standalone repo in dev_path (e.g., FenUI as its own folder)
         if dev_path and (dev_path / lib_name).exists():
             standalone = dev_path / lib_name
-            # Verify it looks like a library (has .lua files or .toc)
-            if any(standalone.glob("*.lua")) or any(standalone.glob("*.toc")):
+            if is_usable_source(standalone):
                 return standalone
 
         return None
@@ -863,17 +928,6 @@ def register_commands(server):
         actions = []
         copied = updated = skipped = removed = errors = 0
 
-        # Debug: Track source resolution
-        debug_info = {
-            "default_source": str(default_source) if default_source else None,
-            "dev_path": str(config.dev_path) if config.dev_path else None,
-        }
-        # Write debug info to file for troubleshooting
-        import json
-
-        with open(config.data_dir / "libs_sync_debug.json", "w") as f:
-            json.dump(debug_info, f, indent=2)
-
         # Get currently installed
         installed = {item.name for item in libs_path.iterdir() if item.is_dir()}
 
@@ -885,7 +939,11 @@ def register_commands(server):
 
                 # Find source for this library
                 src_lib = _find_library_source(
-                    lib_name, lib_config, default_source, config.dev_path
+                    lib_name,
+                    lib_config,
+                    default_source,
+                    config.dev_path,
+                    exclude_path=target_path,
                 )
 
                 # Handle "local" libs - sync from shared Libs folder
@@ -906,8 +964,22 @@ def register_commands(server):
 
                 # Check if already installed
                 if target_path.exists():
-                    if input.force and src_lib:
-                        # Force update: remove and re-copy
+                    target_complete, incomplete_reason, _installed_version = (
+                        _inspect_library_install(target_path, lib_name)
+                    )
+                    should_update = input.force or not target_complete
+
+                    if should_update and src_lib:
+                        reason_prefix = (
+                            "Force updated"
+                            if input.force and target_complete
+                            else "Repaired incomplete install"
+                        )
+                        dry_run_prefix = (
+                            "Would force update"
+                            if input.force and target_complete
+                            else "Would repair incomplete install"
+                        )
                         if not input.dry_run:
                             try:
                                 _remove_tree_robust(target_path)
@@ -918,7 +990,7 @@ def register_commands(server):
                                         action="update",
                                         source=str(src_lib),
                                         target=str(target_path),
-                                        reason=f"Force updated from {src_lib.name}",
+                                        reason=f"{reason_prefix} from {src_lib.name}",
                                     )
                                 )
                                 updated += 1
@@ -936,10 +1008,27 @@ def register_commands(server):
                                     action="update",
                                     source=str(src_lib),
                                     target=str(target_path),
-                                    reason=f"Would update from {src_lib.name}",
+                                    reason=f"{dry_run_prefix} from {src_lib.name}",
                                 )
                             )
                             updated += 1
+                    elif should_update:
+                        if input.force and target_complete:
+                            reason = "force=true requested but source not found"
+                        else:
+                            reason = (
+                                "Existing library is incomplete "
+                                f"({incomplete_reason}); source not found"
+                            )
+                        actions.append(
+                            SyncAction(
+                                library=lib_name,
+                                action="error",
+                                target=str(target_path),
+                                reason=reason,
+                            )
+                        )
+                        errors += 1
                     else:
                         actions.append(
                             SyncAction(
@@ -1045,7 +1134,6 @@ def register_commands(server):
                 skipped=skipped,
                 removed=removed,
                 errors=errors,
-                _debug=debug_info,
             ),
             reasoning=f"{'Preview: ' if input.dry_run else ''}{copied} copied, {updated} updated, {skipped} skipped, {removed} removed, {errors} errors",
             sources=[src],

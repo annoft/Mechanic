@@ -6,6 +6,7 @@ Migrated from ADDON_DEV/Tools/AtlasScanner.
 """
 
 import json
+import os
 import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -23,7 +24,14 @@ from ..config import get_config
 
 
 class AtlasScanInput(BaseModel):
-    source_path: str = Field(..., description="Path to wow-ui-source repository root")
+    source_path: Optional[str] = Field(
+        default=None,
+        description=(
+            "Optional path to wow-ui-source repository root or Interface/AddOns. "
+            "If omitted, Mechanic tries MECHANIC_WOW_UI_SOURCE, config wow_ui_source, "
+            "and common local source paths."
+        ),
+    )
     output_path: Optional[str] = Field(
         default=None,
         description="Output path for atlas_index.json (defaults to data_dir)",
@@ -70,6 +78,16 @@ class AtlasSearchOutput(BaseModel):
 
 XML_ATLAS_RE = re.compile(r'atlas\s*=\s*"([^"]+)"', re.IGNORECASE)
 LUA_ATLAS_RE = re.compile(r'SetAtlas\s*\(\s*"([^"]+)"', re.IGNORECASE)
+DEFAULT_WOW_UI_SOURCE = Path(
+    "F:/Tools/wow-dev-wiki/raw/01-blizzard-source/wow-ui-source"
+)
+EXAMPLE_WOW_UI_SOURCE = "C:/path/to/wow-ui-source"
+ATLAS_SCAN_HINT = (
+    "Run `mech call atlas.scan '{}'` to auto-discover wow-ui-source, or pass an "
+    'explicit path such as `mech call atlas.scan \'{"source_path": "'
+    + EXAMPLE_WOW_UI_SOURCE
+    + '"}\'`. You can also set MECHANIC_WOW_UI_SOURCE or config wow_ui_source.'
+)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -115,6 +133,86 @@ def _find_atlas_index() -> Optional[Path]:
     return None
 
 
+def _looks_like_blizzard_addons_dir(path: Path) -> bool:
+    """Return whether a path looks like Interface/AddOns from wow-ui-source."""
+    return (path / "Blizzard_ActionBar").exists() or (
+        path / "Blizzard_UIWidgets"
+    ).exists()
+
+
+def _resolve_addons_path(source_path: Path) -> Optional[Path]:
+    """Resolve a wow-ui-source root or Interface/AddOns path to AddOns."""
+    candidates = [
+        source_path / "Interface" / "AddOns",
+        source_path,
+        source_path / "Interface",
+    ]
+
+    for candidate in candidates:
+        if candidate.exists() and _looks_like_blizzard_addons_dir(candidate):
+            return candidate
+
+    return None
+
+
+def _append_source_candidate(candidates: List[Path], path: Optional[Path]) -> None:
+    if path and path not in candidates:
+        candidates.append(path)
+
+
+def _get_wow_ui_source_candidates() -> List[Path]:
+    """Return bounded wow-ui-source discovery candidates, without broad scans."""
+    candidates: List[Path] = []
+
+    env_path = os.environ.get("MECHANIC_WOW_UI_SOURCE")
+    if env_path:
+        _append_source_candidate(candidates, Path(env_path).expanduser())
+
+    config = get_config()
+    configured_path = getattr(config, "wow_ui_source", None)
+    if configured_path:
+        _append_source_candidate(candidates, Path(configured_path).expanduser())
+
+    _append_source_candidate(candidates, DEFAULT_WOW_UI_SOURCE)
+
+    dev_path = getattr(config, "dev_path", None)
+    if dev_path:
+        for base in [Path(dev_path), Path(dev_path).parent]:
+            _append_source_candidate(candidates, base / "wow-ui-source")
+            _append_source_candidate(
+                candidates,
+                base
+                / "wow-dev-wiki"
+                / "raw"
+                / "01-blizzard-source"
+                / "wow-ui-source",
+            )
+
+    cwd = Path.cwd()
+    for base in [cwd, *cwd.parents]:
+        if base.name.lower() == "wow-ui-source":
+            _append_source_candidate(candidates, base)
+        _append_source_candidate(candidates, base / "wow-ui-source")
+        _append_source_candidate(
+            candidates,
+            base
+            / "wow-dev-wiki"
+            / "raw"
+            / "01-blizzard-source"
+            / "wow-ui-source",
+        )
+
+    return candidates
+
+
+def _discover_wow_ui_source() -> Optional[Path]:
+    for candidate in _get_wow_ui_source_candidates():
+        if candidate.exists() and _resolve_addons_path(candidate):
+            return candidate
+
+    return None
+
+
 def _wildcard_to_regex(pattern: str) -> re.Pattern:
     """Convert a wildcard pattern to regex."""
     # Escape special regex chars except *
@@ -135,31 +233,40 @@ async def _atlas_scan(
 
     Searches XML and Lua files for atlas references and builds a searchable index.
     """
-    source_path = Path(input.source_path)
+    if input.source_path:
+        source_path = Path(input.source_path).expanduser()
+    else:
+        source_path = _discover_wow_ui_source()
+        if not source_path:
+            checked_paths = [str(path) for path in _get_wow_ui_source_candidates()]
+            return error(
+                code="SOURCE_NOT_DISCOVERED",
+                message="Could not auto-discover wow-ui-source for atlas.scan",
+                suggestion=ATLAS_SCAN_HINT,
+                details={
+                    "accepted_source_path": [
+                        "wow-ui-source repository root",
+                        "Interface/AddOns directory",
+                    ],
+                    "checked_paths": checked_paths,
+                },
+            )
+
     if not source_path.exists():
         return error(
             code="SOURCE_NOT_FOUND",
             message=f"Source path not found: {source_path}",
-            suggestion="Clone wow-ui-source: git clone https://github.com/Gethe/wow-ui-source",
+            suggestion=ATLAS_SCAN_HINT,
         )
 
-    # Find the Interface/AddOns directory
-    addons_path = source_path / "Interface" / "AddOns"
-    if not addons_path.exists():
-        # Try alternate structures
-        for alt in ["", "Interface"]:
-            test_path = source_path / alt if alt else source_path
-            if (test_path / "Blizzard_ActionBar").exists() or (
-                test_path / "Blizzard_UIWidgets"
-            ).exists():
-                addons_path = test_path
-                break
-        else:
-            return error(
-                code="INVALID_SOURCE",
-                message="Could not find Blizzard addons in source path",
-                suggestion="Ensure source_path points to wow-ui-source root or Interface/AddOns",
-            )
+    addons_path = _resolve_addons_path(source_path)
+    if not addons_path:
+        return error(
+            code="INVALID_SOURCE",
+            message="Could not find Blizzard addons in source path",
+            suggestion="Ensure source_path points to wow-ui-source root or Interface/AddOns. "
+            + ATLAS_SCAN_HINT,
+        )
 
     # Output path
     output_file = (
@@ -255,7 +362,9 @@ async def _atlas_search(
         return error(
             code="INDEX_NOT_FOUND",
             message="Atlas index not found",
-            suggestion="Run atlas.scan first to generate the index",
+            suggestion="Run `mech call atlas.scan '{}'` first to generate the index, "
+            f"or pass `mech call atlas.scan '{{\"source_path\": \"{EXAMPLE_WOW_UI_SOURCE}\"}}'` "
+            "if auto-discovery cannot find wow-ui-source.",
         )
 
     # Load index

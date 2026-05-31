@@ -163,6 +163,7 @@ TOOL_INTENTS = {
     "api.search": "Use this when looking for a WoW API by name pattern.",
     "api.info": "Use this to get detailed documentation for a specific API.",
     "api.list": "Use this to browse all APIs in a namespace like C_Spell.",
+    "atlas.scan": "Use this before atlas.search when the atlas index is missing or stale. It can auto-discover wow-ui-source, or you can pass source_path explicitly.",
     "atlas.search": "Use this to find Blizzard UI atlas icons by name pattern.",
     "locale.validate": "Use this to check if all locale files have complete translations.",
     "locale.extract": "Use this to find strings in code that need localization.",
@@ -201,7 +202,7 @@ TOOL_EXAMPLES = {
     "libs.sync": '{"addon": "Weekly"}',
     "libs.init": '{"addon": "Weekly"}',
     # API Reference
-    "api.search": '{"pattern": "GetSpellInfo"}',
+    "api.search": '{"query": "GetSpellInfo"}',
     "api.info": '{"api_name": "C_Spell.GetSpellInfo"}',
     "api.list": '{"namespace": "C_Spell"}',
     "api.stats": "{}",
@@ -211,7 +212,7 @@ TOOL_EXAMPLES = {
     "api.refresh": "{}",
     # Atlas Icons
     "atlas.scan": "{}",
-    "atlas.search": '{"pattern": "raid*"}',
+    "atlas.search": '{"query": "raid*"}',
     # Localization
     "locale.validate": '{"addon": "Weekly"}',
     "locale.extract": '{"addon": "Weekly"}',

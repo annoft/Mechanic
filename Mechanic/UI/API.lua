@@ -333,16 +333,14 @@ function APIModule:BuildLayout(parent)
 	impactDropdown:SetPoint("LEFT", 0, 0)
 	self.impactDropdown = impactDropdown
 
-	-- Namespace filter (searchable picker)
-	local nsPicker = FenUI:CreateSearchablePicker(filterRow, {
+	-- Namespace filter dropdown
+	local nsPicker = FenUI:CreateDropdown(filterRow, {
 		width = 120,
 		height = 22,
-		popupWidth = 240,
-		popupHeight = 320,
 		defaultText = "All Namespaces",
 		items = {},
-		onSelect = function(value, item)
-			APIModule.namespaceFilter = value
+		onSelect = function(value)
+			APIModule.namespaceFilter = value or nil
 			APIModule:ApplyFilters()
 		end,
 	})
@@ -490,7 +488,7 @@ function APIModule:BuildLayout(parent)
 end
 
 function APIModule:BuildNamespaceList()
-	local items = { { key = "all", text = "All Namespaces", value = nil } }
+	local items = { { key = "all", text = "All Namespaces", value = false } }
 	for _, nsKey in ipairs(ns.APINamespaces or {}) do
 		local cat = ns.APICategoryLookup[nsKey]
 		local displayText = nsKey
@@ -502,7 +500,7 @@ function APIModule:BuildNamespaceList()
 		end
 		table.insert(items, { key = nsKey, text = displayText, value = nsKey })
 	end
-	-- Update the SearchablePicker with items
+	-- Update the namespace dropdown with items
 	if self.nsPicker and self.nsPicker.SetItems then
 		self.nsPicker:SetItems(items)
 	end

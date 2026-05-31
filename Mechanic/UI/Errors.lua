@@ -200,11 +200,27 @@ function ErrorsModule:OnEnable()
 		return
 	end
 
-	-- BugGrabber uses CallbackHandler
-	_G.BugGrabber.RegisterCallback(self, "BugGrabber_BugGrabbed", "OnBugGrabbed")
+	local bugGrabber = _G.BugGrabber
+	if type(bugGrabber.RegisterCallback) == "function" then
+		-- Older BugGrabber versions expose CallbackHandler directly.
+		bugGrabber.RegisterCallback(self, "BugGrabber_BugGrabbed", "OnBugGrabbed")
+	else
+		local eventRegistry = _G.EventRegistry
+		if not eventRegistry or type(eventRegistry.RegisterCallback) ~= "function" then
+			return
+		end
+
+		eventRegistry:RegisterCallback("BugGrabber.BugGrabbed", function(owner, tableID)
+			owner:OnBugGrabbed("BugGrabber.BugGrabbed", tableID)
+		end, self)
+
+		if type(eventRegistry.TriggerEvent) == "function" then
+			eventRegistry:TriggerEvent("BugGrabber.DisplayRegistered")
+		end
+	end
 
 	-- Get current session
-	self.currentSession = _G.BugGrabber:GetSessionId()
+	self.currentSession = bugGrabber:GetSessionId()
 	if self.sessionDropdown then
 		self:UpdateSessionList()
 	end

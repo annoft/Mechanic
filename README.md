@@ -78,11 +78,11 @@ mech addon.output
 # Validate, lint, format, test — all in one command
 mech call addon.validate '{"addon": "MyAddon"}'
 
-# Execute Lua code in-game and get results (round-trip)
+# Execute Lua code in-game and get persisted results (round-trip)
 mech call lua.queue '{"code": ["GetMoney()/10000"], "labels": ["gold"]}'
 # PowerShell-friendly form for array payloads:
 mech call lua.queue '@payload.json'
-# Then /reload in WoW, and read results:
+# First /reload executes; second /reload or game exit writes results to SavedVariables on disk:
 mech call lua.results
 
 # Search WoW APIs offline
@@ -177,7 +177,7 @@ Beyond the live development loop, Mechanic includes a full suite of quality tool
 | `mech call libs.init` | Create libs.json from installed libraries |
 | `mech call libs.sync` | Sync libraries based on libs.json |
 | `mech call lua.queue` | Queue Lua code for in-game execution |
-| `mech call lua.results` | Read results from last Lua queue |
+| `mech call lua.results` | Read persisted results from last Lua queue |
 | `mech call api.search` | Search WoW APIs by pattern (offline) |
 | `mech call api.queue` | Queue API tests for in-game execution |
 | `mech call sandbox.exec` | Execute Lua in sandbox with API stubs |
@@ -206,6 +206,7 @@ mech call changelog.add '{"addon": "MyAddon", "version": "1.2.0", "message": "Ad
 |---------|-------------|
 | `mech call locale.validate` | Check translation coverage |
 | `mech call locale.extract` | Extract localizable strings |
+| `mech call atlas.scan '{}'` | Build the Blizzard UI atlas index |
 | `mech call atlas.search` | Search Blizzard UI icons/atlases |
 
 ---
@@ -240,6 +241,8 @@ Mechanic is built with a structured command architecture where every feature is 
 4. **Watcher** → Desktop detects file change, parses the consolidated Hub data.
 5. **Dashboard** → WebSocket pushes modular updates to browser.
 6. **CLI** → Same data available via `mech addon.output`.
+
+For `lua.queue`, the first `/reload` executes queued snippets in the new UI; a second `/reload` or game exit writes those results to SavedVariables on disk for `lua.results`.
 
 ---
 

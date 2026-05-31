@@ -2,14 +2,14 @@
 Lua Eval Queue Commands for Mechanic Desktop.
 
 Provides round-trip Lua execution:
-- lua.queue: Queue Lua code for in-game execution
-- lua.results: Read results from last eval (via addon.output)
+- lua.queue: Write Lua code to the file-backed queue for in-game execution
+- lua.results: Read persisted results from SavedVariables
 
 Workflow:
-1. Agent calls `lua.queue` with code snippets
-2. User does /reload in WoW
-3. Addon executes code and stores results
-4. Agent reads results via `addon.output` or `lua.results`
+1. Agent calls `lua.queue`; it writes snippets to the queue file
+2. First /reload in WoW loads the queue and executes snippets
+3. Second /reload or game exit persists results to SavedVariables on disk
+4. Agent calls `lua.results` to read the already-persisted results
 """
 
 from pathlib import Path
@@ -168,7 +168,7 @@ def register_commands(server):
 
     @server.command(
         name="lua.queue",
-        description="Queue Lua code snippets for in-game execution. After running this, /reload in WoW to execute.",
+        description="Queue Lua snippets. First /reload executes them; second /reload or game exit persists results to SavedVariables for lua.results.",
         input_schema=LuaQueueInput,
         output_schema=LuaQueueResult,
     )
@@ -212,14 +212,22 @@ def register_commands(server):
                 queued=len(input.code),
                 queue_file=str(queue_path),
                 snippets=previews,
-                message=f"Queued {len(input.code)} Lua snippet(s). /reload in WoW to execute.",
+                message=(
+                    f"Queued {len(input.code)} Lua snippet(s). First /reload executes "
+                    "the queue; second /reload or game exit writes results to disk "
+                    "for lua.results."
+                ),
             ),
-            reasoning=f"Wrote {len(input.code)} Lua snippets to {queue_path.name}",
+            reasoning=(
+                f"Wrote {len(input.code)} Lua snippets to {queue_path.name}; "
+                "results are only readable after a second /reload or game exit "
+                "persists SavedVariables."
+            ),
         )
 
     @server.command(
         name="lua.results",
-        description="Get results from the last Lua eval queue execution",
+        description="Read Lua eval results already persisted to SavedVariables",
         input_schema=LuaResultsInput,
         output_schema=LuaResultsResult,
     )
@@ -231,7 +239,11 @@ def register_commands(server):
         if not results_data:
             return success(
                 data=LuaResultsResult(results=[], total=0, last_run=None),
-                reasoning="No Lua eval results found. Queue some code with lua.queue, then /reload in WoW.",
+                reasoning=(
+                    "No Lua eval results found. After lua.queue writes the queue, "
+                    "first /reload executes snippets; second /reload or game exit "
+                    "persists SavedVariables for lua.results."
+                ),
             )
 
         results = results_data.get("results", [])

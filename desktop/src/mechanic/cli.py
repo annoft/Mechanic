@@ -355,6 +355,8 @@ def call(ctx, command_name, args):
       mechanic call libs.check '{"addon": "!Mechanic"}'
       mechanic call libs.check '{\"addon\": \"!Mechanic\"}'  # PowerShell
       mechanic call lua.queue '@payload.json'
+      # lua.queue: first /reload executes; second /reload or game exit/logout writes
+      # results to SavedVariables on disk for lua.results
       mechanic --json call addon.validate '{"addon": "Weekly"}'
     """
     from .commands.core import get_server

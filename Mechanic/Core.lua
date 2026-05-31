@@ -25,6 +25,7 @@ if BootstrapMechanic then
 	-- Preserve bootstrap data
 	Mechanic.isBootstrap = false
 	Mechanic.pendingAPIQueue = BootstrapMechanic.pendingAPIQueue or _G.MechanicNS and _G.MechanicNS.pendingAPIQueue
+	Mechanic.pendingLuaQueue = BootstrapMechanic.pendingLuaQueue or _G.MechanicNS and _G.MechanicNS.pendingLuaQueue
 end
 
 -- Replace global with main addon
@@ -112,14 +113,15 @@ function Mechanic:OnInitialize()
 		self:ProcessAPITestQueue()
 	end
 	
-	-- Lua eval queue is processed by bootstrap (results already in SavedVariables)
-	-- We just need to handle fresh queues if bootstrap missed them
-	self:ProcessLuaEvalQueue()
+	-- Capture Lua eval queue now; execution waits until PLAYER_LOGIN/OnEnable.
+	self:CaptureLuaEvalQueue()
 
 	-- Notify bootstrap we're loaded (transfers pending registrations)
 	if BootstrapMechanic and BootstrapMechanic.OnMainAddonLoaded then
 		BootstrapMechanic:OnMainAddonLoaded(self)
 	end
+
+	self:RegisterLuaEvalLoginHandler()
 
 	-- Register slash commands
 	self:RegisterSlashCommands()
@@ -206,7 +208,7 @@ end
 -- Lua Eval Queue Processing (CLI-driven automation)
 --------------------------------------------------------------------------------
 
-function Mechanic:ProcessLuaEvalQueue()
+function Mechanic:CaptureLuaEvalQueue()
 	-- Read from MECHANIC_LUA_QUEUE global (set by MechanicQueue.lua)
 	local queue = _G.MECHANIC_LUA_QUEUE
 	
@@ -214,10 +216,43 @@ function Mechanic:ProcessLuaEvalQueue()
 		return
 	end
 	
-	-- Clear the global immediately so it doesn't re-run
+	-- Clear the global immediately after capture so it doesn't re-run
 	_G.MECHANIC_LUA_QUEUE = nil
 	
-	-- Defer execution slightly to ensure everything is loaded
+	self.pendingLuaQueue = queue
+end
+
+function Mechanic:RegisterLuaEvalLoginHandler()
+	local queue = self.pendingLuaQueue or _G.MECHANIC_LUA_QUEUE
+	if self.luaEvalLoginHandlerRegistered or not queue or #queue == 0 then
+		return
+	end
+
+	self.luaEvalLoginHandlerRegistered = true
+	self:RegisterEvent("PLAYER_LOGIN", "OnLuaEvalPlayerLogin")
+end
+
+function Mechanic:OnLuaEvalPlayerLogin()
+	self:UnregisterEvent("PLAYER_LOGIN")
+	self.luaEvalLoginHandlerRegistered = nil
+	self:ProcessLuaEvalQueue()
+end
+
+function Mechanic:ProcessLuaEvalQueue()
+	self:CaptureLuaEvalQueue()
+
+	local queue = self.pendingLuaQueue
+	if not queue or #queue == 0 then
+		return
+	end
+
+	self.pendingLuaQueue = nil
+	if self.luaEvalLoginHandlerRegistered then
+		self:UnregisterEvent("PLAYER_LOGIN")
+		self.luaEvalLoginHandlerRegistered = nil
+	end
+
+	-- Defer execution slightly to let other PLAYER_LOGIN handlers finish.
 	C_Timer.After(0.5, function()
 		self:ExecuteLuaEvalQueue(queue)
 	end)
@@ -416,6 +451,10 @@ function Mechanic:OnEnable()
 	if self.db.profile.trackEventFrequency and self.Perf then
 		self.Perf:EnableEventTracking()
 	end
+
+	-- Execute CLI Lua eval queue after PLAYER_LOGIN, or as the fallback if
+	-- PLAYER_LOGIN already fired before the handler above was registered.
+	self:ProcessLuaEvalQueue()
 end
 
 --- Sync all registered addon data into the central !Mechanic hub.

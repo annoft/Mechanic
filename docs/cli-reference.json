@@ -536,8 +536,8 @@
       {
         "name": "source_path",
         "type": "string",
-        "required": true,
-        "description": "Path to wow-ui-source repository root",
+        "required": false,
+        "description": "Optional path to wow-ui-source repository root or Interface/AddOns. If omitted, Mechanic tries MECHANIC_WOW_UI_SOURCE, config wow_ui_source, and common local source paths.",
         "default": null
       },
       {
@@ -849,7 +849,7 @@
   },
   {
     "name": "lua.queue",
-    "description": "Queue Lua code snippets for in-game execution. After running this, /reload in WoW to execute.",
+    "description": "Queue Lua snippets. First /reload executes them; second /reload or game exit persists results to SavedVariables for lua.results.",
     "parameters": [
       {
         "name": "code",
@@ -869,7 +869,7 @@
   },
   {
     "name": "lua.results",
-    "description": "Get results from the last Lua eval queue execution",
+    "description": "Read Lua eval results already persisted to SavedVariables",
     "parameters": []
   },
   {

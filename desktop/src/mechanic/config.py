@@ -118,6 +118,7 @@ class MechanicConfig:
         self._config: Dict[str, Any] = {}
         self._wow_root: Optional[Path] = None
         self._dev_path: Optional[Path] = None
+        self._wow_ui_source: Optional[Path] = None
         self._loaded = False
 
     @classmethod
@@ -152,6 +153,8 @@ class MechanicConfig:
             self._config["wow_root"] = os.environ["MECHANIC_WOW_ROOT"]
         if "MECHANIC_DEV_PATH" in os.environ:
             self._config["dev_path"] = os.environ["MECHANIC_DEV_PATH"]
+        if "MECHANIC_WOW_UI_SOURCE" in os.environ:
+            self._config["wow_ui_source"] = os.environ["MECHANIC_WOW_UI_SOURCE"]
 
         self._loaded = True
 
@@ -207,6 +210,18 @@ class MechanicConfig:
             if dev.exists():
                 self._dev_path = dev
                 return self._dev_path
+
+        return None
+
+    @property
+    def wow_ui_source(self) -> Optional[Path]:
+        """Get the configured wow-ui-source path, if one is set."""
+        if self._wow_ui_source is not None:
+            return self._wow_ui_source
+
+        if "wow_ui_source" in self._config:
+            self._wow_ui_source = Path(self._config["wow_ui_source"])
+            return self._wow_ui_source
 
         return None
 
@@ -270,6 +285,7 @@ class MechanicConfig:
         return {
             "wow_root": str(self.wow_root) if self.wow_root else None,
             "dev_path": str(self.dev_path) if self.dev_path else None,
+            "wow_ui_source": str(self.wow_ui_source) if self.wow_ui_source else None,
             "template_path": str(self.template_path) if self.template_path else None,
             "flavors": self.flavors,
             "data_dir": str(self.data_dir),
@@ -286,6 +302,7 @@ class MechanicConfig:
         self._loaded = False
         self._wow_root = None
         self._dev_path = None
+        self._wow_ui_source = None
         self._load()
 
 

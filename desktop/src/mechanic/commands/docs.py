@@ -120,6 +120,34 @@ def append_command_example(lines: List[str], cmd: dict) -> None:
                 "```powershell",
                 "mech call lua.queue '@payload.json'",
                 "```",
+                "",
+                "Then in WoW: first `/reload` executes the queue; a second `/reload` or game exit/logout writes results to SavedVariables on disk for `mech call lua.results`.",
+            ]
+        )
+        return
+
+    if cmd["name"] == "atlas.scan":
+        explicit_payload = {"source_path": "C:/path/to/wow-ui-source"}
+        lines.extend(
+            [
+                "Auto-discover:",
+                "",
+                "```bash",
+                "mech call atlas.scan '{}'",
+                "```",
+                "",
+                "Explicit source path:",
+                "",
+                "```bash",
+                f"mech call atlas.scan '{json.dumps(explicit_payload)}'",
+                "```",
+                "",
+                "PowerShell:",
+                "",
+                "```powershell",
+                "mech call atlas.scan '{}'",
+                f"mech call atlas.scan {powershell_json_argument(explicit_payload)}",
+                "```",
             ]
         )
         return
@@ -278,6 +306,7 @@ def generate_markdown(
             "```bash",
             "# File payloads are recommended for array inputs such as lua.queue",
             "mech call lua.queue @payload.json",
+            "# First /reload executes; second /reload or game exit/logout writes results to SavedVariables on disk for lua.results",
             "",
             "# Shorthand for common commands",
             "mech addon.output  # Direct command shortcut",

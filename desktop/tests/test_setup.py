@@ -52,8 +52,9 @@ def test_download_tool_windows_extracts_archive_without_zip_url(monkeypatch, tmp
     assert (tmp_path / "tool.dll").read_bytes() == b"extra-binary"
 
 
-def test_download_tool_windows_manual_tool_does_not_download(monkeypatch):
+def test_download_tool_windows_manual_tool_does_not_download(monkeypatch, tmp_path):
     """Manual tools such as busted should not try to download a null URL."""
+    monkeypatch.setattr(setup, "BIN_DIR", tmp_path)
     monkeypatch.setattr(setup, "find_tool", lambda _name: None)
 
     success, message = setup.download_tool_windows(

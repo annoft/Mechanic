@@ -96,8 +96,8 @@ frame:SetScript("OnEvent", function(self, event, arg1)
             end
         end
         
-        -- Process queues immediately (before main addon loads)
-        Mechanic:ProcessLuaEvalQueue()
+        -- Capture queues for the main addon to process after normal addon startup.
+        Mechanic:CaptureLuaEvalQueue()
         Mechanic:ProcessAPITestQueue()
         
         -- Fire event for any listeners
@@ -110,11 +110,11 @@ frame:SetScript("OnEvent", function(self, event, arg1)
 end)
 
 --------------------------------------------------------------------------------
--- Lua Eval Queue Processing
+-- Lua Eval Queue Capture
 --------------------------------------------------------------------------------
 --
--- SECURITY NOTE: This feature uses loadstring() to execute arbitrary Lua code.
--- This is an INTENTIONAL DEVELOPMENT TOOL for addon developers to:
+-- SECURITY NOTE: This feature queues arbitrary Lua code for the main Mechanic
+-- addon to execute later. This is an INTENTIONAL DEVELOPMENT TOOL for addon developers to:
 --   - Test API calls in-game via the Mechanic CLI (lua.queue command)
 --   - Inspect runtime values during development
 --   - Debug addon behavior without modifying source files
@@ -128,62 +128,20 @@ end)
 -- by removing or commenting out this function.
 --------------------------------------------------------------------------------
 
-function Mechanic:ProcessLuaEvalQueue()
+function Mechanic:CaptureLuaEvalQueue()
     local queue = _G.MECHANIC_LUA_QUEUE
     
     if not queue or #queue == 0 then
         return
     end
     
-    -- Clear global immediately
+    -- Clear global immediately after capture so reloads do not re-run it.
     _G.MECHANIC_LUA_QUEUE = nil
     
-    local results = {}
+    ns.pendingLuaQueue = queue
+    self.pendingLuaQueue = queue
     
-    for i, item in ipairs(queue) do
-        local code = item.code
-        local label = item.label or ("snippet_" .. i)
-        
-        -- Execute the code
-        local fn, loadErr = loadstring("return " .. code)
-        if not fn then
-            -- Try without return wrapper
-            fn, loadErr = loadstring(code)
-        end
-        
-        if fn then
-            local success, result = pcall(fn)
-            if success then
-                results[label] = {
-                    success = true,
-                    value = result,
-                    code = code,
-                }
-            else
-                results[label] = {
-                    success = false,
-                    error = tostring(result),
-                    code = code,
-                }
-            end
-        else
-            results[label] = {
-                success = false,
-                error = "Load error: " .. tostring(loadErr),
-                code = code,
-            }
-        end
-    end
-    
-    -- Store results in SavedVariables for desktop to read
-    ns.rawDB.luaEvalResults = results
-    
-    -- Print summary
-    local passed, failed = 0, 0
-    for _, r in pairs(results) do
-        if r.success then passed = passed + 1 else failed = failed + 1 end
-    end
-    print(string.format("|cFF00FFFF[!Mechanic] Lua Eval: %d passed, %d failed|r", passed, failed))
+    print(string.format("|cFF00FFFF[!Mechanic] Lua Eval: %d snippet(s) queued for main addon|r", #queue))
 end
 
 --------------------------------------------------------------------------------
@@ -257,6 +215,13 @@ function Mechanic:OnMainAddonLoaded(mainAddon)
         ns.pendingAPIQueue = nil
     end
     
+    -- Transfer pending Lua eval queue
+    if ns.pendingLuaQueue then
+        mainAddon.pendingLuaQueue = ns.pendingLuaQueue
+        ns.pendingLuaQueue = nil
+        self.pendingLuaQueue = nil
+    end
+
     -- Mark bootstrap complete
     Mechanic.isBootstrap = false
     

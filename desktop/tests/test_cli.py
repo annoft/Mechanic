@@ -55,6 +55,7 @@ def test_cli_call_help_quotes_file_payload_example():
 
     assert result.exit_code == 0
     assert "mechanic call lua.queue '@payload.json'" in result.output
+    assert "SavedVariables on disk for lua.results" in result.output
     assert "PowerShell" in result.output
 
 

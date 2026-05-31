@@ -530,7 +530,8 @@
                 <div class="sidebar-title">Quality</div>
                 <button class="cmd-btn" data-cmd="locale.validate"><span class="cmd-icon">🗣️</span> Validate Locale</button>
                 <button class="cmd-btn" data-cmd="locale.extract"><span class="cmd-icon">📤</span> Extract Locals</button>
-                <button class="cmd-btn" data-cmd="atlas.search"><span class="cmd-icon">🎨</span> Atlas</button>
+                <button class="cmd-btn" data-cmd="atlas.scan"><span class="cmd-icon">🎨</span> Scan Atlas</button>
+                <button class="cmd-btn" data-cmd="atlas.search"><span class="cmd-icon">🔎</span> Search Atlas</button>
             </div>
 
             <!-- Libraries -->
@@ -948,27 +949,43 @@
             'git.tag': { version: '1.2.3' },
             'addon.create': { name: 'MyAddon', title: 'My Addon', author: 'Name', addon: null },
             'addon.sync': { flavors: null }, // Uses selected addon
+            'atlas.scan': {},
             'atlas.search': { query: 'inv_sword' }
         };
+
+        const addonIndependentCommands = new Set(['atlas.scan', 'atlas.search']);
+
+        function buildCommandInput(command, input = {}) {
+            if (addonIndependentCommands.has(command)) {
+                return { ...input };
+            }
+            return { addon: selectedAddon, ...input };
+        }
 
         // { "MyAddon": "C:/Path/To/MyAddon" }
         let knownAddons = JSON.parse(localStorage.getItem('mechanic.addons') || '{}');
 
+        function refreshGetStartedOverlay(viewName = localStorage.getItem('mechanic.activeView') || 'mechanic') {
+            const overlay = document.getElementById('get-started-overlay');
+            const hasAddons = Object.keys(knownAddons).length > 0;
+            const commandCanRunWithoutAddon = viewName === 'command' && addonIndependentCommands.has(currentCommand);
+            overlay.classList.toggle('hidden', hasAddons || commandCanRunWithoutAddon);
+        }
+
         // Update addon dropdown from known addons (discovered + user-added)
         function updateAddonList() {
             const allAddons = Object.keys(knownAddons).sort();
-            const overlay = document.getElementById('get-started-overlay');
             
             if (allAddons.length === 0) {
                 addonSelect.innerHTML = '<option value="">Add an addon...</option>';
                 addonStatus.textContent = 'Click + to add an addon';
                 addonStatus.title = '';
                 selectedAddon = '';
-                overlay.classList.remove('hidden');
+                refreshGetStartedOverlay();
                 return;
             }
             
-            overlay.classList.add('hidden');
+            refreshGetStartedOverlay();
             addonSelect.innerHTML = allAddons.map(a => `<option value="${a}">${a}</option>`).join('');
             
             if (selectedAddon && allAddons.includes(selectedAddon)) {
@@ -1005,8 +1022,8 @@
             
             // Update input with path if known
             const defaults = commandDefaults[currentCommand] || {};
-            const payload = { addon: selectedAddon, ...defaults };
-            if (addonPath) {
+            const payload = buildCommandInput(currentCommand, defaults);
+            if (addonPath && !addonIndependentCommands.has(currentCommand)) {
                 payload.path = addonPath;
             }
             consoleInput.value = JSON.stringify(payload);
@@ -1026,7 +1043,8 @@
             'release.all': 'Runs the full release flow: Bump -> Changelog -> Commit -> Tag.',
             'locale.validate': 'Checks if other locales match the enUS baseline keys.',
             'locale.extract': 'Scans Lua files for potential localizable strings.',
-            'atlas.search': 'Searches the Blizzard Atlas for icons/textures.',
+            'atlas.scan': 'Scans wow-ui-source and generates the local atlas index.',
+            'atlas.search': 'Searches the Blizzard Atlas index for icons/textures.',
             'addon.create': 'Generates a new empty addon from a template.',
             'addon.sync': 'Syncs addon folder to game client directories.',
             'libs.check': 'Checks status of embedded libraries against libs.json config.',
@@ -1125,6 +1143,7 @@
             if (viewBtn) viewBtn.classList.add('active');
 
             localStorage.setItem('mechanic.activeView', viewName);
+            refreshGetStartedOverlay(viewName);
             
             // Auto-refresh data for specific views
             if (viewName === 'libraries') refreshLibraries();
@@ -1139,7 +1158,7 @@
             consoleCmd.value = cmd;
             
             const defaults = commandDefaults[cmd] || {};
-            consoleInput.value = JSON.stringify({addon: selectedAddon, ...defaults});
+            consoleInput.value = JSON.stringify(buildCommandInput(cmd, defaults));
             
             showView('command');
             displayCurrentResult();
@@ -1330,15 +1349,22 @@
         async function removeAddon(addonName) {
             if (!confirm(`Remove "${addonName}" from registered addons?`)) return;
             
-            const result = await executeCommand('addon.remove', { addon: addonName });
-            if (result.success) {
-                delete knownAddons[addonName];
-                populateAddonSelector();
-                refreshSettings();
-                showToast('Addon Removed', `${addonName} has been removed`, 'success');
-            } else {
-                showToast('Error', result.error?.message || 'Failed to remove addon', 'error');
+            delete knownAddons[addonName];
+            localStorage.setItem('mechanic.addons', JSON.stringify(knownAddons));
+
+            const remainingAddons = Object.keys(knownAddons).sort();
+            if (selectedAddon === addonName || !remainingAddons.includes(selectedAddon)) {
+                selectedAddon = remainingAddons[0] || '';
+                if (selectedAddon) {
+                    localStorage.setItem('mechanic.selectedAddon', selectedAddon);
+                } else {
+                    localStorage.removeItem('mechanic.selectedAddon');
+                }
             }
+
+            updateAddonList();
+            refreshSettings();
+            showToast('Addon Removed', `${addonName} has been removed`, 'success');
         }
 
         // ═══════════════════════════════════════════════════════════════════════════
@@ -1428,7 +1454,7 @@
         // COMMAND EXECUTION
         // ═══════════════════════════════════════════════════════════════════════════
         async function executeCommand(command, input = {}) {
-            const finalInput = { addon: selectedAddon, ...input };
+            const finalInput = buildCommandInput(command, input);
             
             try {
                 const res = await fetch('/api/execute', {

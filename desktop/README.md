@@ -113,6 +113,7 @@ Create `~/.mechanic/config.json` (or copy from `desktop/config.json.example`):
 {
   "wow_root": "C:/Program Files (x86)/World of Warcraft",
   "dev_path": "C:/Program Files (x86)/World of Warcraft/_dev_",
+  "wow_ui_source": "C:/path/to/wow-ui-source",
   "flavors": ["_retail_", "_beta_", "_ptr_"],
   "addon_search_paths": []
 }
@@ -153,7 +154,7 @@ mech call addon.format '{"addon": "MyAddon"}'
 # Run tests
 mech call addon.test '{"addon": "MyAddon"}'
 
-# Queue Lua with a file payload (useful in PowerShell)
+# Queue Lua with a file payload; first /reload executes, second /reload or game exit/logout writes results to SavedVariables on disk for lua.results
 mech call lua.queue '@payload.json'
 
 # Scan for deprecated APIs
@@ -211,6 +212,7 @@ mech mcp --transport sse
 | `changelog.add` | Add changelog entry |
 | `locale.validate` | Check locale coverage |
 | `locale.extract` | Extract localizable strings |
+| `atlas.scan` | Build the Blizzard UI Atlas index |
 | `atlas.search` | Search Blizzard UI Atlas |
 | `libs.check` | Check library sync status |
 | `sv.parse` | Parse SavedVariables file |
