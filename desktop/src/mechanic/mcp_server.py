@@ -217,7 +217,7 @@ TOOL_EXAMPLES = {
     "locale.validate": '{"addon": "Weekly"}',
     "locale.extract": '{"addon": "Weekly"}',
     # Lua Execution
-    "lua.queue": '{"snippets": ["print(GetTime())", "print(UnitName(\\"player\\"))"]}',
+    "lua.queue": '{"code": ["return GetTime()", "return UnitName(\\"player\\")"], "labels": ["time", "player"]}',
     "lua.results": "{}",
     # Sandbox Testing
     "sandbox.generate": "{}",

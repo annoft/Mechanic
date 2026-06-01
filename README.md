@@ -79,7 +79,7 @@ mech addon.output
 mech call addon.validate '{"addon": "MyAddon"}'
 
 # Execute Lua code in-game and get persisted results (round-trip)
-mech call lua.queue '{"code": ["GetMoney()/10000"], "labels": ["gold"]}'
+mech call lua.queue '{"code": ["return GetMoney()/10000"], "labels": ["gold"]}'
 # PowerShell-friendly form for array payloads:
 mech call lua.queue '@payload.json'
 # First /reload executes; second /reload or game exit writes results to SavedVariables on disk:

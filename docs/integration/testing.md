@@ -135,13 +135,14 @@ Tests: 42 total, 41 passed, 1 failed
 
 ### How It Works
 
-1. `sandbox.generate` parses WoW's APIDefs and generates Lua stubs (~5000+ APIs)
+1. `sandbox.generate` parses WoW's APIDefs and generates Lua stubs plus `test_framework.lua`
 2. `sandbox.test` builds a test script with:
    - WoW API stubs
    - Test framework
-   - All `*.lua` files from `Core/` (source files)
+   - Top-level `*.lua` files from `Core/` (source files)
    - All `*_spec.lua` files from `Core/` and `Tests/` (test files)
-3. Tests run in plain Lua 5.1 with mocked WoW environment
+3. It does not load the addon's `.toc`. Root-level files such as `Core.lua` must be loaded explicitly by the test spec.
+4. Tests run in plain Lua 5.1 with mocked WoW environment
 
 ---
 

@@ -290,6 +290,251 @@ def generate_stubs_file(
     return {"protected": protected_count, "normal": normal_count}
 
 
+TEST_FRAMEWORK_LUA = r'''-- Mechanic Sandbox Test Framework
+-- Provides Busted-compatible test runner and basic WoW FrameXML stubs.
+-- Loaded by sandbox.test after API stubs, before addon source and spec files.
+
+if not DEFAULT_CHAT_FRAME then
+    DEFAULT_CHAT_FRAME = {
+        AddMessage = function(self, msg) end,
+    }
+end
+
+if not SlashCmdList then
+    SlashCmdList = {}
+end
+
+if not strtrim then strtrim = function(s) return (s or ""):match("^%s*(.-)%s*$") end end
+if not strlower then strlower = function(s) return (s or ""):lower() end end
+if not strupper then strupper = function(s) return (s or ""):upper() end end
+
+if not CreateFrame then
+    CreateFrame = function(frameType)
+        local frame = {
+            _scripts = {},
+            _events = {},
+        }
+
+        function frame:RegisterEvent(event)
+            self._events[event] = true
+        end
+
+        function frame:UnregisterEvent(event)
+            self._events[event] = nil
+        end
+
+        function frame:SetScript(scriptType, handler)
+            self._scripts[scriptType] = handler
+        end
+
+        function frame:GetScript(scriptType)
+            return self._scripts[scriptType]
+        end
+
+        function frame:RegisterUnitEvent(event)
+            self:RegisterEvent(event)
+        end
+
+        function frame:SetPoint() end
+        function frame:ClearAllPoints() end
+        function frame:Show() end
+        function frame:Hide() end
+        function frame:SetSize() end
+        function frame:SetWidth() end
+        function frame:SetHeight() end
+
+        return frame
+    end
+end
+
+local tests = {}
+local describeStack = {}
+local currentBeforeEach = nil
+local currentAfterEach = nil
+
+local function currentDescribe()
+    return table.concat(describeStack, " > ")
+end
+
+local function report(passed, failed, total)
+    print(string.format("SANDBOX_TESTS:%d:%d:%d", passed, failed, total))
+end
+
+function describe(name, fn)
+    table.insert(describeStack, name)
+    local previousBeforeEach = currentBeforeEach
+    local previousAfterEach = currentAfterEach
+    currentBeforeEach = nil
+    currentAfterEach = nil
+    fn()
+    currentBeforeEach = previousBeforeEach
+    currentAfterEach = previousAfterEach
+    table.remove(describeStack)
+end
+
+function it(name, fn)
+    table.insert(tests, {
+        describe = currentDescribe(),
+        name = name,
+        fn = fn,
+        beforeEach = currentBeforeEach,
+        afterEach = currentAfterEach,
+    })
+end
+
+function before_each(fn)
+    currentBeforeEach = fn
+end
+
+function after_each(fn)
+    currentAfterEach = fn
+end
+
+local origAssert = assert
+assert = setmetatable({}, {
+    __call = function(_, condition, message)
+        return origAssert(condition, message)
+    end,
+})
+
+assert.is_true = function(val)
+    if val ~= true then error(string.format("Expected true, got %s", tostring(val)), 2) end
+end
+
+assert.is_false = function(val)
+    if val ~= false then error(string.format("Expected false, got %s", tostring(val)), 2) end
+end
+
+assert.truthy = function(val)
+    if not val then error(string.format("Expected truthy, got %s", tostring(val)), 2) end
+end
+
+assert.falsy = function(val)
+    if val then error(string.format("Expected falsy, got %s", tostring(val)), 2) end
+end
+
+assert.is_nil = function(val)
+    if val ~= nil then error(string.format("Expected nil, got %s", tostring(val)), 2) end
+end
+
+assert.is_not_nil = function(val)
+    if val == nil then error("Expected non-nil, got nil", 2) end
+end
+
+assert.equals = function(expected, actual)
+    if expected ~= actual then
+        error(string.format("Expected %s, got %s", tostring(expected), tostring(actual)), 2)
+    end
+end
+
+assert.are_equal = function(expected, actual)
+    assert.equals(expected, actual)
+end
+
+assert.not_equals = function(a, b)
+    if a == b then
+        error(string.format("Expected different values, both are %s", tostring(a)), 2)
+    end
+end
+
+assert.is_near = function(expected, actual, tolerance)
+    if math.abs(expected - actual) > (tolerance or 0.001) then
+        error(string.format("Expected ~%s, got %s (tolerance: %s)", tostring(expected), tostring(actual), tostring(tolerance)), 2)
+    end
+end
+
+assert.match = function(pattern, str)
+    if not string.find(str, pattern) then
+        error(string.format("Expected '%s' to match pattern '%s'", tostring(str), tostring(pattern)), 2)
+    end
+end
+
+assert.same = function(expected, actual)
+    local function deepCompare(a, b)
+        if type(a) ~= type(b) then return false end
+        if type(a) ~= "table" then return a == b end
+        for k, v in pairs(a) do
+            if not deepCompare(v, b[k]) then return false end
+        end
+        for k, _ in pairs(b) do
+            if a[k] == nil then return false end
+        end
+        return true
+    end
+    if not deepCompare(expected, actual) then error("Deep comparison failed", 2) end
+end
+
+assert.has_error = function(fn, pattern)
+    local ok, err = pcall(fn)
+    if ok then error("Expected error but none occurred", 2) end
+    if pattern and not string.find(tostring(err), pattern) then
+        error(string.format("Error '%s' does not match pattern '%s'", tostring(err), tostring(pattern)), 2)
+    end
+end
+
+assert.has_no_errors = function(fn)
+    local ok, err = pcall(fn)
+    if not ok then error(string.format("Unexpected error: %s", tostring(err)), 2) end
+end
+
+assert.is_string = function(val)
+    if type(val) ~= "string" then error(string.format("Expected string, got %s", type(val)), 2) end
+end
+
+assert.is_number = function(val)
+    if type(val) ~= "number" then error(string.format("Expected number, got %s", type(val)), 2) end
+end
+
+assert.is_table = function(val)
+    if type(val) ~= "table" then error(string.format("Expected table, got %s", type(val)), 2) end
+end
+
+assert.is_function = function(val)
+    if type(val) ~= "function" then error(string.format("Expected function, got %s", type(val)), 2) end
+end
+
+assert.is_boolean = function(val)
+    if type(val) ~= "boolean" then error(string.format("Expected boolean, got %s", type(val)), 2) end
+end
+
+function _SANDBOX_AUTO_RUN()
+    local passed = 0
+    local failed = 0
+    local total = #tests
+
+    for _, t in ipairs(tests) do
+        local fullName = (t.describe and t.describe ~= "" and t.describe .. " > " or "") .. t.name
+        local ok, err = pcall(function()
+            if t.beforeEach then t.beforeEach() end
+            t.fn()
+            if t.afterEach then t.afterEach() end
+        end)
+
+        if ok then
+            passed = passed + 1
+            print("PASS: " .. fullName)
+        else
+            failed = failed + 1
+            print("FAIL: " .. fullName .. " | " .. tostring(err))
+        end
+    end
+
+    tests = {}
+    report(passed, failed, total)
+end
+'''
+
+
+def write_test_framework(framework_path: Path, force: bool = False) -> bool:
+    """Ensure the sandbox Busted-compatible test framework exists."""
+    if framework_path.exists() and not force:
+        return False
+
+    framework_path.parent.mkdir(parents=True, exist_ok=True)
+    framework_path.write_text(TEST_FRAMEWORK_LUA, encoding="utf-8")
+    return True
+
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # COMMANDS
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -347,11 +592,13 @@ def register_commands(server):
             apis = parse_apidef_file(lua_file)
             all_apis.extend(apis)
 
-        # Generate stubs file
+        # Generate stubs and the sandbox test framework.
         sandbox_folder = find_sandbox_folder()
         output_path = sandbox_folder / "generated" / "wow_stubs.lua"
+        framework_path = sandbox_folder / "generated" / "test_framework.lua"
 
         stats = generate_stubs_file(all_apis, output_path)
+        framework_written = write_test_framework(framework_path, force=input.force)
 
         src = create_source(
             type="file",
@@ -368,7 +615,11 @@ def register_commands(server):
                 protected_count=stats["protected"],
                 normal_count=stats["normal"],
             ),
-            reasoning=f"Generated {len(all_apis)} API stubs from {len(namespaces)} namespaces. {stats['protected']} protected (will error), {stats['normal']} normal (mocked).",
+            reasoning=(
+                f"Generated {len(all_apis)} API stubs from {len(namespaces)} namespaces. "
+                f"{stats['protected']} protected (will error), {stats['normal']} normal (mocked). "
+                f"Sandbox test framework {'written' if framework_written else 'already present'} at {framework_path}."
+            ),
             sources=[src],
             confidence=1.0,
         )
@@ -610,6 +861,7 @@ end
         sandbox_folder = find_sandbox_folder()
         stubs_path = sandbox_folder / "generated" / "wow_stubs.lua"
         framework_path = sandbox_folder / "generated" / "test_framework.lua"
+        write_test_framework(framework_path)
 
         # Build Lua script
         lua_parts = []
